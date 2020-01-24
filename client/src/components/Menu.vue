@@ -120,7 +120,7 @@ export default {
             async fetchMenu() {      
                 return axios({        
                     method: 'get',
-                    url: 'http://localhost:8081/api/Menu',      
+                    url: 'http://localhost:8081/Menu',      
                 })        
                 .then((response) => {          
                     this.menus = response.data.menus;        

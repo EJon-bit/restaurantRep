@@ -1,11 +1,13 @@
 var mongoose = require('mongoose')
 
 var Reservation = require("../models/Reservation");
+var Menu = require('../models/Menu');
+var Table = require('../models/Table')
 
 module.exports.controller = (app) => {
     
     //fetch all reservations
-    app.get('/reservation', function(req,res){
+    app.get('/reservation', (req,res) => {
         
         Reservation.find({}, 'customerName numOrders orders specialRequests orderCost tableNo dateReserved onSite', (error, reservations) => {      
                                             
@@ -16,39 +18,25 @@ module.exports.controller = (app) => {
         })
         .populate('orders', 'name') // only return the name of the order
         .populate('orderCost', 'cost')
-        .populate('tableNo', 'seatNum')
+        .populate('tableNo', 'tableNum')//only returns number of persons in reservation
  
-        .exec((err, reservation) => {
-        if (err) throw err;
-
-            console.log('The order is %s', reservation.orders.name);
-            console.log('The cost is %s', reservation.orderCost.cost);
-            console.log('The order is %s', reservation.tableNo.seatNum); 
         
-        });
     });
 
     //add a reservation    
-    app.post('/reservation', function(req,res){
+    app.post('/reservation', async(req,res) => {
         
-        var reservation = new Reservation({      
-            customerName: req.body.customerName,    
-            seatsReserved:req.body.seatsReserved,  
-            numOrders: req.body.numOrders,     
-            orders: req.body.orders,      
-            specialRequests: req.body.specialRequests, 
-            orderCost:req.body.orderCost,
-            dateReserved:req.body.dateReserved,
-            tableNo:req.body.tableNo,
-            onSite:req.body.onSite
+        var reservation = new Reservation(req.body);
 
-        });
-        
-        
-        reservation.save((error, reservation) => {      
-            if (error) { console.log(error); }      
-            res.send(reservation);    
-        });  
+        var order = await Menu.find({"name":"Fried Brie"});        
+        var orderCost = await Menu.find({"name":"Fried Brie"});
+        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
+
+        reservation.orders = order;
+        reservation.orderCost = orderCost;
+        reservation.tableNo = tableNo;
+
+        await reservation.save();  
     }); 
      
     

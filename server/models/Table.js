@@ -4,6 +4,10 @@ var Schema=mongoose.Schema;
 
 var tableSchema = new Schema({
     
+    tableNum:{
+        type:Number,
+    },
+    
     seatNum:{
         type:Number,
         required:true

@@ -17,13 +17,7 @@ module.exports.controller = (app) => {
 
     // add a new menu item  
     app.post('/addmenu', (req, res) => {    
-        var menu = new Menu({      
-            name: req.body.name,    
-            category:req.body.category,  
-            description: req.body.description,     
-            cost: req.body.cost,      
-            image_url: req.body.genre,    
-        });
+        var menu = new Menu(req.body);
         
         menu.save((error, menu) => {      
             if (error) { console.log(error); }      
