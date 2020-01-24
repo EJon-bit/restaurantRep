@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //connect to mongodb
-mongoose.connect('mongodb+srv://restaurant:restaurantdb1@cluster0-cclil.azure.mongodb.net/test?retryWrites=true&w=majority' , {useUnifiedTopology: true, useNewUrlParser: true}, function() {
+mongoose.connect('mongodb+srv://restaurant:restaurantdb1@cluster0-cclil.azure.mongodb.net/restaurant?retryWrites=true&w=majority' , {useUnifiedTopology: true, useNewUrlParser: true}, function() {
 console.log('Connection has been made');
 }) 
  .catch(err => { 

@@ -6,7 +6,7 @@ module.exports.controller = (app) => {
    
     // fetch all menu items 
     app.get('/menu',(req, res) => {    
-        Menu.find({}, 'name', (error, menus) => {      
+        Menu.find({}, 'name category description cost image_url', (error, menus) => {      
             
             if (error) { console.log(error);}      
             res.send({        
@@ -16,7 +16,7 @@ module.exports.controller = (app) => {
     });
 
     // add a new menu item  
-    app.post('/menu', (req, res) => {    
+    app.post('/addmenu', (req, res) => {    
         var menu = new Menu({      
             name: req.body.name,    
             category:req.body.category,  

@@ -1,5 +1,6 @@
 var mongoose = require('mongoose')
-
+require("../models/Menu")
+require("../models/Table")
 var Reservation = require("../models/Reservation");
 
 module.exports.controller = (app) => {
@@ -7,7 +8,7 @@ module.exports.controller = (app) => {
     //fetch all reservations
     app.get('/reservation', function(req,res){
         
-        Reservation.find({}, 'customerName seatsReserved numOrders specialRequests dateReserved onSite', (error, reservations) => {      
+        Reservation.find({}, 'customerName numOrders orders specialRequests orderCost tableNo dateReserved onSite', (error, reservations) => {      
                                             
             if (error) { console.log(error); }      
             res.send({        
