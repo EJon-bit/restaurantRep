@@ -1,6 +1,5 @@
 var mongoose = require('mongoose')
-require("../models/Menu")
-require("../models/Table")
+
 var Reservation = require("../models/Reservation");
 
 module.exports.controller = (app) => {
@@ -44,6 +43,7 @@ module.exports.controller = (app) => {
             onSite:req.body.onSite
 
         });
+        
         
         reservation.save((error, reservation) => {      
             if (error) { console.log(error); }      

@@ -6,7 +6,7 @@ module.exports.controller = (app) => {
    
     // fetch all menu items 
     app.get('/menu',(req, res) => {    
-        Menu.find({}, 'name category description cost image_url', (error, menus) => {      
+        Menu.find({}, (error, menus) => {      
             
             if (error) { console.log(error);}      
             res.send({        
