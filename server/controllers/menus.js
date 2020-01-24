@@ -16,7 +16,7 @@ module.exports.controller = (app) => {
     });
 
     // add a new menu item  
-    app.post('/addmenu', (req, res) => {    
+    app.post('/editmenu/add', (req, res) => {    
         var menu = new Menu(req.body);
         
         menu.save((error, menu) => {      
@@ -25,7 +25,7 @@ module.exports.controller = (app) => {
         });  
     }); 
 
-    app.put('/menu/:id', (req, res) => {   
+    app.put('editmenu/update/:id', (req, res) => {   
         
         Menu.findById(req.params.id, 'name category description cost image_url', function (error, menu) { 
             if (error) { console.error(error); }
@@ -44,7 +44,7 @@ module.exports.controller = (app) => {
         });  
     }); 
 
-    app.delete('/menu/:id', (req, res) => {    
+    app.delete('/editmenu/delete/:id', (req, res) => {    
         Menu.remove({ _id: req.params.id }, function(error, menu){      
             if (error) { console.error(error); }      
             res.send({ success: true })    
