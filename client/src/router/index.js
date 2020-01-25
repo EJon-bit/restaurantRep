@@ -11,34 +11,36 @@ import EditMenu from '@/components/EditMenu'
 Vue.use(Router)
 
 export default new Router({
- //defines the path for each page/component(i.e. for each .vue file in components folder)
- mode:'history',
- routes: [
-    {
-      path: '/',
-      name: 'Home',
-      component: Home,
-    },
+  
+  // defines the path for each page/component(i.e. for each .vue file in components folder)
 
-    {     
-      path: '/Menu',     
-      name: 'Menu',     
-      component: Menu,    
-    },
-    {     
-      path: '/ReserveList',     
-      name: 'ReserveList',     
-      component: ReserveList,    
-    },
-    {     
-      path: '/AddReserve',     
-      name: 'AddReserve',     
-      component: AddReserve,    
-    },
-    {     
-      path: '/EditMenu',     
-      name: 'EditMenu',     
-      component: EditMenu,    
-    },
-  ],
+  mode:'history',
+  routes: [
+      {
+        path: '/',
+        name: 'Home',
+        component: Home
+      },
+
+      {     
+        path: '/Menu',     
+        name: 'Menu',     
+        component: Menu    
+      },
+      {     
+        path: '/ReserveList',     
+        name: 'ReserveList',     
+        component: ReserveList    
+      },
+      {     
+        path: '/AddReserve',     
+        name: 'AddReserve',     
+        component: AddReserve    
+      },
+      {     
+        path: '/EditMenu',     
+        name: 'EditMenu',     
+        component: EditMenu    
+      }
+    ],
 });

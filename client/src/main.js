@@ -11,16 +11,14 @@ import Buefy from 'buefy'
 import Vue from 'vue'
 import Vuetify from 'vuetify';
 import VueSwal from 'vue-swal';  
-import App from './App'
+import App from './App.vue'
 import router from './router'  
-
     
-//PS:REMEMBER TO npm install all of these
-Vue.use(Buefy);
-Vue.use(BootstrapVue); 
-Vue.use(Vuetify);
-Vue.use(VueSwal);
-
+// PS:REMEMBER TO npm install all of these
+Vue.use(Buefy)
+Vue.use(BootstrapVue) 
+Vue.use(Vuetify)
+Vue.use(VueSwal)
 
 Vue.config.productionTip = false
 

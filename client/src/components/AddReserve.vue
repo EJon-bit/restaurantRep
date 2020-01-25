@@ -1,5 +1,5 @@
 <template> 
-    <div id="app" class="container">
+    <div class="container">
    <b-form @submit.stop.prevent="onSubmit">
     <b-field label="Name" >
       <b-input 

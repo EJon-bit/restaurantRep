@@ -1,5 +1,5 @@
 <template>  
-    <div id="Menu" class="container">
+    <div class="container">
     
         <b-card no-body>
             <b-tabs card vertical justified type="is-boxed">
