@@ -3,11 +3,11 @@
   <b-container>
     <div v-for="reservation in reservations" :key="reservation._id">
 
-      <b-card bg-variant="dark" text-variant="white" :title="reservations.tableNo">
+      <b-card bg-variant="dark" text-variant="white" :title="reservation.tableNo">
         <b-card-text>
-          {{reservations.orders}} 
+          {{reservation.orders}} 
           <br>
-          No of. Orders: {{reservations.numOrders}}
+          No of. Orders: {{reservation.numOrders}}
         </b-card-text>
         
         <b-button href="#" variant="primary">Close</b-button>
@@ -35,7 +35,7 @@ export default {
             async fetchReservations() {      
                 return axios({        
                     method: 'get',
-                    url: 'http://localhost:8081/api/Menu',      
+                    url: 'http://localhost:8081/Menu',      
                 })        
                 .then((response) => {          
                     this.reservations = response.data.reservations;        

@@ -1,8 +1,7 @@
 <template>
     
-    <div id="app" class="container">
-        
-        <section>               
+    <div class="container">       
+                       
         <b-table
             :data="data"
             :columns="columns"
@@ -16,22 +15,20 @@
             </template>
             
         </b-table>      
-        <button class="button field is-danger" @click="checkedRows = []"
-                    >
-                    <b-icon icon="delete"></b-icon>
-                    <span>Delete</span>
-                </button>
-        <button class="button field is-link" @click="checkedRows = []"
-                    >
-                    <b-icon icon="pencil"></b-icon>
-                    <span>Update</span>
-                </button> 
-        <button class="button field is-dark" @click="add" :disabled="!valid">
-                    
-                    <b-icon icon="plus"></b-icon>
-                    <span>Add</span>
-                </button> 
-        </section>
+        <button class="button field is-danger" @click="checkedRows = []">
+            <b-icon icon="delete"></b-icon>
+            <span>Delete</span>
+        </button>
+
+        <button class="button field is-link" @click="checkedRows = []">
+            <b-icon icon="pencil"></b-icon>
+            <span>Update</span>
+        </button> 
+
+        <button class="button field is-dark" @click="add" :disabled="!valid">                    
+            <b-icon icon="plus"></b-icon>
+            <span>Add</span>
+        </button>         
 
     </div>
 </template>

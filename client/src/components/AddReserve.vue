@@ -1,53 +1,58 @@
 <template> 
-    <div class="container">
-   <b-form @submit.stop.prevent="onSubmit">
-    <b-field label="Name" >
-      <b-input 
-        placeholder="John Doe"
-        v-model="$v.form.name.$model"
-        :state="$v.form.name.$dirty ? !$v.form.name.$error : null" 
-        aria-describedby="input-1-live-feedback">  <!--checks if value entered in name field is valid..passes an error if invalid and nothing if valid-->
-      </b-input>
-      <b-form-invalid-feedback id="input-1-live-feedback">
-          This is a required field
-      </b-form-invalid-feedback>
-    </b-field>
-
-    <b-field label="No. of Persons">
-            <b-select v-model="$v.form.seatsReserved.$model" :state="$v.form.seatsReserved.$dirty ? !$v.form.seatsReserved.$error : null" aria-describedby="input-2-live-feedback" placeholder="1">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>                
-            </b-select>
-            <b-form-invalid-feedback id="input-2-live-feedback">
+    <div class="col-sm-4">
+        <b-form @submit.stop.prevent="onSubmit">
+            <b-field label="Name" >
+            <b-input 
+                placeholder="John Doe"
+                v-model="$v.form.name.$model"
+                :state="$v.form.name.$dirty ? !$v.form.name.$error : null" 
+                aria-describedby="input-1-live-feedback">  <!--checks if value entered in name field is valid..passes an error if invalid and nothing if valid-->
+            </b-input>
+            <b-form-invalid-feedback id="input-1-live-feedback">
                 This is a required field
             </b-form-invalid-feedback>
-    </b-field>
+            </b-field> 
+            <br>
 
-    <b-field label="Arrival Date and Time">
-        <b-datetimepicker
-            placeholder="Click to select..."
-            :min-datetime="minDatetime"
-            :max-datetime="maxDatetime">
-        </b-datetimepicker>
-    </b-field>
+            <b-field label="No. of Persons"> <br>
+                    <b-select v-model="$v.form.seatsReserved.$model" :state="$v.form.seatsReserved.$dirty ? !$v.form.seatsReserved.$error : null" aria-describedby="input-2-live-feedback" placeholder="1">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>                
+                    </b-select>
+                    <b-form-invalid-feedback id="input-2-live-feedback">
+                        This is a required field
+                    </b-form-invalid-feedback>
+            </b-field> 
+            <br>
 
-    <b-button type="submit" variant="primary" :disabled="$v.form.$invalid">
-        Submit
-    </b-button>
-   </b-form>
-</div>
-    
+            <b-field label="Arrival Date and Time"><br>
+                <b-datetimepicker
+                    placeholder="Click to select..."
+                    :min-datetime="minDatetime"
+                    :max-datetime="maxDatetime">
+                </b-datetimepicker>
+            </b-field>
+            <br>
+
+            <b-button type="submit" variant="primary" :disabled="$v.form.$invalid">
+                Submit
+            </b-button>
+        </b-form>
+    </div>    
 </template> 
+
 <script>  
     import axios from 'axios';
     import { validationMixin } from 'vuelidate'
     import { required } from 'vuelidate/lib/validators'
 
-    export default {    
+    export default {  
+        
+        name: 'AddReserve',
          //look up form validations
         mixins: [validationMixin],
         data () {
