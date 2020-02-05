@@ -6,44 +6,61 @@ var Table = require('../models/Table')
 
 module.exports.controller = (app) => {
     
-    //fetch all reservations
+    //add a reservation
+    app.post('/reservation', async(req,res) => {
+        
+       
+        var passCode = randomstring.generate({length: 6,  charset: 'numeric'});
+
+        var reservation = new Reservation(req.body);
+
+        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
+        
+        //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
+        
+        reservation.tableNo = tableNo;
+        reservation.password = passCode;
+
+        await reservation.save();  
+    });     
+    
+     //fetch all reservations
     app.get('/reservation', (req,res) => {
         
-        Reservation.find({}, 'customerName numOrders orders specialRequests orderCost tableNo dateReserved onSite', (error, reservations) => {      
+        Reservation.find({}, 'numOrders orders specialRequests tableNo dateReserved onSite', (error, reservations) => {      
                                             
             if (error) { console.log(error); }      
             res.send({        
                 reservations: reservations,      
             });    
-        })
-        .populate('orders', 'name') // only return the name of the order
-        .populate('orderCost', 'cost')
-        .populate('tableNo', 'tableNum')//only returns number of persons in reservation
+        })       
+        .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
  
         
     });
 
-    //add a reservation    
-    app.post('/reservation', async(req,res) => {
+    //add get method for to display a customers reservation details at their table
+    //this method should be executed when the onSite field changes to True.
+    app.get('/reservation/user', (req,res) => {
         
-        var reservation = new Reservation(req.body);
-
-        var order = await Menu.find({"name":"Fried Brie"});        
-        var orderCost = await Menu.find({"name":"Fried Brie"});
-        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
-
-        reservation.orders = order;
-        reservation.orderCost = orderCost;
-        reservation.tableNo = tableNo;
-
-        await reservation.save();  
-    }); 
-     
+        Reservation.findOne(password, 'customerName orders specialRequests orderCost dateReserved password', (error, reservations) => {      
+                                            
+            if (error) { console.log(error); }      
+            res.send({        
+                user: user,      
+            }); 
+        })
+        // .populate('orders', 'name') // only return the name of the order
+        // .populate('orderCost', 'cost')
+        .populate('tableNo', 'tableNum')
+    });
+       
+        
     
-    // update a reservation  
-    app.put('/reservation/:id', (req, res) => {   
+    // update a reservation  for user on webpage if they want to make changes due to circumstance
+    app.put('/reservation/user',(req, res) => {   
         
-        Reservation.findById(req.params.id, 'customerName seatsReserved numOrders orders specialRequests orderCost dateReserved tableNo onSite', function (error, reservation) {      
+        Reservation.findOne(passCode, 'customerName seatsReserved numOrders orders specialRequests orderCost dateReserved tableNo', function(error, reservation) {      
             
             if (error) { console.error(error); }
             
@@ -54,8 +71,7 @@ module.exports.controller = (app) => {
             reservation.specialRequests = req.body.specialRequests 
             reservation.orderCost = req.body.orderCost
             reservation.dateReserved = req.body.dateReserved
-            reservation.tableNo = req.body.tableNo
-            reservation.onSite = req.body.onSite
+            reservation.tableNo = Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
                   
             user.save(function (error, reservation) {        
                 if (error) { console.log(error); }        
@@ -64,9 +80,17 @@ module.exports.controller = (app) => {
         });  
     }); 
 
-    // delete a reservation  
+    // delete a reservation  from kitchen reservation list
     app.delete('/reservations/:id', (req, res) => {    
         Reservation.remove({ _id: req.params.id }, function(error, reservation){      
+            if (error) { console.error(error); }      
+            res.send({ success: true })    
+        });  
+    });
+
+    //delete a reservation for a user if they decide to cancel because of circumstance
+    app.delete('/reservations/user', (req, res) => {    
+        Reservation.remove(passCode, function(error, reservation){      
             if (error) { console.error(error); }      
             res.send({ success: true })    
         });  

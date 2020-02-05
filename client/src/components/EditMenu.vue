@@ -1,20 +1,23 @@
 <template>
     
     <div class="container">       
-                       
-        <b-table
-            :data="data"
-            :columns="columns"
-            :checked-rows.sync="checkedRows"
-            :is-row-checkable="(row) => row.id !== 3"
-            checkable
-            :checkbox-position="checkboxPosition">
-
-            <template slot="bottom-left">
-                <b>Total checked</b>: {{ checkedRows.length }}
-            </template>
+        <br/> 
+        <p class="title is-4">Edit Menu</p>             
+        
+            <b-table
+                class="box"
+                :data="menus"
+                :columns="columns"                    
+                checkable
+                :checkbox-position="checkboxPosition">
+                
+                
+                <template slot="bottom-left">
+                    <b>Total checked</b>: {{ checkedRows.length }}
+                </template>
+                   
+            </b-table>       
             
-        </b-table>      
         <button class="button field is-danger" @click="checkedRows = []">
             <b-icon icon="delete"></b-icon>
             <span>Delete</span>
@@ -32,19 +35,20 @@
 
     </div>
 </template>
+
 <script>
+import axios from 'axios';
+
 export default {
+    name: 'EditMenu',
+
     data() {
-        const data = [
-            {  },
-            {  },
-            {  },
-            {  },
-            {  }
-        ]
+        
 
         return {
-            data,
+
+            menus:[],
+
             checkboxPosition: 'left',
             checkedRows: [],
             columns: [
@@ -54,17 +58,43 @@ export default {
                     label: 'Menu Item',
                     searchable: true,
                 },
-              {
+                {
                     field: 'category',
                     label: 'Food Category',
                     searchable: true,
                 },
+                {
+                    field: 'cost',
+                    label: 'Item Price',
+                    searchable: true,
+                }
                 
                 
             ]
         }
-    }
+    },
+    mounted() {    
+            this.fetchMenu(); //fetches menu using axios request 
+    },  
+
+    methods: {    
+        async fetchMenu() {      
+            return axios({        
+                method: 'get',
+                url: 'http://localhost:5000/menu',      
+            })        
+            .then((response) => {          
+                this.menus = response.data.menus;        
+            })        
+            .catch(() => {        
+
+            });    
+        },  
+    },
+   
 }
-
-
 </script>
+
+<style scoped>
+
+</style>

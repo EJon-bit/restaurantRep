@@ -6,6 +6,8 @@ var morgan = require('morgan');
 var fs = require('fs');
 var app = express(); 
 var router = express.Router();
+var serveStatic = require('serve-static');
+
 
 app.use(morgan('combined')); 
 app.use(bodyParser.json()); 
@@ -29,11 +31,9 @@ fs.readdirSync("controllers").forEach(function (file) {
     } 
 })
 
-router.get('/', function(req, res) {
-    res.json({ message: 'API Initialized!'});
-});
+//
 
-var port = process.env.API_PORT || 8081; 
+var port = process.env.API_PORT || 5000; 
 
 app.use('/', router); 
 

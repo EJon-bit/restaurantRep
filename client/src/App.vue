@@ -1,21 +1,24 @@
 <template>
-  <div id="app">
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand">
-          <router-link to="/" class="nav-link">Top Tier Cuisine Ja</router-link>
-        </a>
-        <ul class="navbar-nav">
-          
-          <li class="nav-item">
-            <router-link to="/Menu" class="nav-link">Menu</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/AddReserve" class="nav-link">Make Reservation</router-link>
-          </li>
-        </ul>
-    </nav>  
-      
-    
+  <div id="app">        
+    <b-navbar class="navbar is-dark">
+      <template slot="brand">
+          <b-navbar-item tag="router-link" :to="{ path: '/' }">
+              <img src="https://icons-for-free.com/iconfiles/png/512/restaurant-131979029122603130.png">Top Tier Cuisine JA
+          </b-navbar-item>
+      </template>
+
+      <template slot="start">
+          <b-navbar-item>
+            <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link>
+          </b-navbar-item>
+
+          <b-navbar-item>
+            <router-link to="/AddReserve" class="nav-link">Edit Reservation</router-link>
+          </b-navbar-item> 
+                   
+      </template>        
+        
+    </b-navbar>       
     
     <transition name="fade">
       <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
@@ -37,11 +40,10 @@ export default {
 
 <style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  text-align: center;  
   margin-top: 0px;
 }
 </style>

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
-require("./Menu")
+//require("./Menu")
 require("./Table")
+//require("./Customer")
 
 var Schema=mongoose.Schema;
 
@@ -15,18 +16,17 @@ var reservationSchema = new Schema({
     seatsReserved:{
         type: Number,
         required:true
-    },// insert type validation
+    },// insert type validatio
     numOrders:{
     	
     	type: Number,
         required:true
 
     },
-    orders:[{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref:'Menu'
-        
-    }],
+    orders:{
+        type: String, 
+        required:true        
+    },
 
     specialRequests:{ //example:birthdays, allergy notification
     	type: String,
@@ -34,10 +34,10 @@ var reservationSchema = new Schema({
 
     },
 
-    orderCost:[{
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Menu'        
-    }],
+    orderCost:{
+        type: Array,
+        required:true                
+    },
 
     dateReserved:{
         type:Date,
@@ -49,10 +49,17 @@ var reservationSchema = new Schema({
         ref: 'Table'        
     }],
     onSite:{
-        type:Boolean,
-        
-    }
+        type:Boolean
+
+    },
+    password:{
+        type:String,
+        required:true
+
+    },
+
     
+   
 });
 
 var Reservation = module.exports = mongoose.model('Reservation', reservationSchema);

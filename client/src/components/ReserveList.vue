@@ -1,19 +1,17 @@
 
 <template>
-  <b-container>
+  <div class="container is-fluid">
+    <br/>
     <div v-for="reservation in reservations" :key="reservation._id">
-
-      <b-card bg-variant="dark" text-variant="white" :title="reservation.tableNo">
-        <b-card-text>
-          {{reservation.orders}} 
-          <br>
-          No of. Orders: {{reservation.numOrders}}
-        </b-card-text>
-        
-        <b-button href="#" variant="primary">Close</b-button>
-      </b-card>
+       <b-message :title="filteredRes" type="is-success" aria-close-label="Close message">
+            
+            <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
+            <br/><br/>
+            <strong> Orders: {{reservation.orders}}</strong>
+        </b-message>
+      
     </div>
-  </b-container>
+  </div>
  
 </template>
 
@@ -35,7 +33,7 @@ export default {
             async fetchReservations() {      
                 return axios({        
                     method: 'get',
-                    url: 'http://localhost:8081/Menu',      
+                    url: 'http://localhost:5000/reservation',      
                 })        
                 .then((response) => {          
                     this.reservations = response.data.reservations;        
@@ -45,6 +43,13 @@ export default {
                 });    
             },  
         }, 
+        computed:{
+                       
+            filteredRes: function(){
+              return this.reservations.filter(reservation => reservation.tableNo).map(tableNo=>(tableNo.tableNum))                                 
+                
+            }
+        }    
 
 }
 </script>
