@@ -1,32 +1,38 @@
 <template> 
-    <div class="container">
-        
-        <b-field label="Name" label-position='on-border'>
-            <b-input placeholder="John Doe"></b-input>
-        </b-field>
-        <br/>
-        <b-field label="No. of Persons" label-position='on-border'>
-                <b-select placeholder="Select a number">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>                
-                </b-select>
-        </b-field><br/>
-        <b-field label="Arrival Date and Time" label-position='on-border'>
-            <b-datetimepicker
-                placeholder="Click to select..."
-                :min-datetime="minDatetime"
-                :max-datetime="maxDatetime">
-            </b-datetimepicker>
-        </b-field><br/>        
-        
-        <b-button type="is-primary">Submit Reservation</b-button>
+    <form-wrapper :validator="$v.form">
+        <div class="container">        
+            <b-field :custom-class="customClass"
+                    :type="type" 
+                    name="customerName" 
+                    label="Name" 
+                    label-position='on-border'
+                    :message="firstErrorMessage">
+                    <slot/>
+                <b-input v-model="form.customerName" @input="$v.form.customerName.$touch()" placeholder="John Doe"></b-input>
+            </b-field>
+            <br/>
+            <b-field label="No. of Persons" label-position='on-border'>
+                    <b-select placeholder="Select a number">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>                
+                    </b-select>
+            </b-field><br/>
+            <b-field label="Arrival Date and Time" label-position='on-border'>
+                <b-datetimepicker
+                    placeholder="Click to select..."
+                    :min-datetime="minDatetime"
+                    :max-datetime="maxDatetime">
+                </b-datetimepicker>
+            </b-field><br/>        
+            
+            <b-button type="is-primary">Submit Reservation</b-button>
 
-    </div>
-    
+        </div>
+    </form-wrapper>
     <!-- <div class="col-sm-4">
         <br/>
         <b-form @submit.stop.prevent="onSubmit">
@@ -76,8 +82,9 @@
 
 <script>  
     import axios from 'axios';
-    // import { validationMixin } from 'vuelidate'
-    // import { required } from 'vuelidate/lib/validators'
+    //import { validationMixin } from 'vuelidate'
+    import { required } from 'vuelidate/lib/validators'
+    import { singleErrorExtractorMixin } from "vuelidate-error-extractor";
     
     export default {  
         
@@ -100,6 +107,11 @@
                 minDatetime: min,
                 maxDatetime: max,
                 
+                form: {
+                    customerName: "",
+                    seatsReserved:"",
+                    dateReserved:""
+                }
                 // formResponses:{
                 //     customerName: '',
                 //     seatsReserved:'',
@@ -108,6 +120,27 @@
                 
             }
         },
+        validations: {
+            form: {
+                customerName: { required },
+                seatsReserved: { required },
+                dateReserved: { required }
+            }
+        },
+        extends: singleErrorExtractorMixin,
+        computed: {
+            type() {
+            return this.hasErrors ? "is-danger" : this.isValid ? "is-success" : null;
+            },
+            customClass() {
+            return this.hasErrors
+                ? "has-text-danger"
+                : this.isValid
+                ? "has-text-success"
+                : null;
+            }
+        }
+
         // validations: {
         //     formResponses: {
         //         customerName: {

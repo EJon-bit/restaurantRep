@@ -15,6 +15,16 @@ module.exports.controller = (app) => {
         }); 
     });
 
+    app.get('/editmenu',(req, res) => {    
+        Menu.find({}, (error, menus) => {      
+            
+            if (error) { console.log(error);}      
+            res.send({        
+                menus: menus,      
+            });    
+        }); 
+    });
+
     // add a new menu item  
     app.post('/editmenu/add', (req, res) => {    
         var menu = new Menu(req.body);

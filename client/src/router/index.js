@@ -3,10 +3,10 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Menu from '@/components/Menu'//add any other pages like this
 import ReserveList from '@/components/ReserveList'
-import AddReserve from '@/components/AddReserve'
+//import AddReserve from '@/components/AddReserve'
 import EditMenu from '@/components/EditMenu'
-import Login from '@components/Login'
-import UserReservePage from '@components/UserReservePage'
+import Login from '@/components/Login'
+import UserReservePage from '@/components/UserReservePage'
 //import { HotModuleReplacementPlugin } from 'webpack';
 
 Vue.use(Router)
@@ -33,11 +33,11 @@ export default new Router({
         name: 'ReserveList',     
         component: ReserveList    
       },
-      {     
-        path: '/AddReserve',     
-        name: 'AddReserve',     
-        component: AddReserve    
-      },
+      // {     
+      //   path: '/AddReserve',     
+      //   name: 'AddReserve',     
+      //   component: AddReserve    
+      // },
       {     
         path: '/EditMenu',     
         name: 'EditMenu',     

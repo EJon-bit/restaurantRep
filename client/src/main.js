@@ -14,6 +14,8 @@ import VueSwal from 'vue-swal';
 import App from './App.vue'
 import router from './router'  
 import { CardPlugin } from 'bootstrap-vue'
+import Vuelidate from "vuelidate";
+import VuelidateErrorExtractor, { templates } from "vuelidate-error-extractor";
 
 Vue.use(CardPlugin)    
 // PS:REMEMBER TO npm install all of these
@@ -21,6 +23,24 @@ Vue.use(Buefy)
 //Vue.use(BootstrapVue) 
 Vue.use(Vuetify)
 Vue.use(VueSwal)
+
+Vue.use(Vuelidate);
+
+var messages = {
+  required: "Field {attribute} is required",
+  
+};
+
+Vue.use(VuelidateErrorExtractor, {
+  messages,
+  attributes: {
+    customerName: "Customer Name",
+    seatsReserved: "Seats Reserved",
+    dateReserved: "Date Reserved"
+  }
+});
+
+Vue.component("formWrapper", templates.FormWrapper);
 
 Vue.config.productionTip = false
 

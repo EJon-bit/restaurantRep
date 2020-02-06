@@ -8,12 +8,12 @@
       </template>
 
       <template slot="start">
-          <b-navbar-item>
-            <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link>
+          <b-navbar-item tag="router-link" :to="{ path: '/Menu' }"> Menu & Reservations
+            <!-- <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link> -->
           </b-navbar-item>
 
-          <b-navbar-item>
-            <router-link to="/AddReserve" class="nav-link">Edit Reservation</router-link>
+          <b-navbar-item tag="router-link" :to="{ path: '/Reservation/User' }"> Edit Reservation
+            <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
           </b-navbar-item> 
                    
       </template>        

@@ -3,12 +3,12 @@
   <div class="container is-fluid">
     <br/>
     <div v-for="reservation in reservations" :key="reservation._id">
-       <b-message :title="filteredRes" type="is-success" aria-close-label="Close message">
+       <b-message :title="reservation.tableNo[0].tableNum" type="is-success" aria-close-label="Close message">
             
             <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
             <br/><br/>
             <strong> Orders: {{reservation.orders}}</strong>
-        </b-message>
+        </b-message><br/><br/>
       
     </div>
   </div>
@@ -42,14 +42,8 @@ export default {
 
                 });    
             },  
-        }, 
-        computed:{
-                       
-            filteredRes: function(){
-              return this.reservations.filter(reservation => reservation.tableNo).map(tableNo=>(tableNo.tableNum))                                 
-                
-            }
-        }    
+        }
+        
 
 }
 </script>

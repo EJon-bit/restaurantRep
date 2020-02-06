@@ -18,7 +18,7 @@
                    
             </b-table>       
             
-        <button class="button field is-danger" @click="checkedRows = []">
+        <!-- <button class="button field is-danger" @click="checkedRows = []">
             <b-icon icon="delete"></b-icon>
             <span>Delete</span>
         </button>
@@ -31,7 +31,7 @@
         <button class="button field is-dark" @click="add" :disabled="!valid">                    
             <b-icon icon="plus"></b-icon>
             <span>Add</span>
-        </button>         
+        </button>          -->
 
     </div>
 </template>
@@ -73,24 +73,35 @@ export default {
             ]
         }
     },
-    mounted() {    
-            this.fetchMenu(); //fetches menu using axios request 
-    },  
-
-    methods: {    
-        async fetchMenu() {      
-            return axios({        
+    created: function () {
+        axios({        
                 method: 'get',
                 url: 'http://localhost:5000/menu',      
             })        
             .then((response) => {          
                 this.menus = response.data.menus;        
             })        
-            .catch(() => {        
+            .catch(() => {})
+    }
+    
+    // mounted() {    
+    //         this.fetchMenu(); //fetches menu using axios request 
+    // },  
 
-            });    
-        },  
-    },
+    // methods: {    
+    //     async fetchMenu() {      
+    //         return axios({        
+    //             method: 'get',
+    //             url: 'http://localhost:5000/menu',      
+    //         })        
+    //         .then((response) => {          
+    //             this.menus = response.data.menus;        
+    //         })        
+    //         .catch(() => {        
+
+    //         });    
+    //     },  
+    // },
    
 }
 </script>

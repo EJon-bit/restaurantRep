@@ -1,4 +1,5 @@
 var mongoose = require('mongoose')
+var randomstring= require('randomstring');
 
 var Reservation = require("../models/Reservation");
 var Menu = require('../models/Menu');
@@ -18,10 +19,14 @@ module.exports.controller = (app) => {
         
         //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
         
-        reservation.tableNo = tableNo;
+        reservation.tableNo = tableNo[0];
         reservation.password = passCode;
 
-        await reservation.save();  
+        await reservation.save(); 
+
+        res.json({        
+            reservation,      
+        });  
     });     
     
      //fetch all reservations
@@ -30,8 +35,8 @@ module.exports.controller = (app) => {
         Reservation.find({}, 'numOrders orders specialRequests tableNo dateReserved onSite', (error, reservations) => {      
                                             
             if (error) { console.log(error); }      
-            res.send({        
-                reservations: reservations,      
+            res.json({        
+                reservations,      
             });    
         })       
         .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
@@ -41,19 +46,19 @@ module.exports.controller = (app) => {
 
     //add get method for to display a customers reservation details at their table
     //this method should be executed when the onSite field changes to True.
-    app.get('/reservation/user', (req,res) => {
+    // app.get('/reservation/user', (req,res) => {
         
-        Reservation.findOne(password, 'customerName orders specialRequests orderCost dateReserved password', (error, reservations) => {      
+    //     Reservation.findOne(password, 'customerName orders specialRequests orderCost dateReserved password', (error, reservations) => {      
                                             
-            if (error) { console.log(error); }      
-            res.send({        
-                user: user,      
-            }); 
-        })
-        // .populate('orders', 'name') // only return the name of the order
-        // .populate('orderCost', 'cost')
-        .populate('tableNo', 'tableNum')
-    });
+    //         if (error) { console.log(error); }      
+    //         res.send({        
+    //             user: user,      
+    //         }); 
+    //     })
+    //     // .populate('orders', 'name') // only return the name of the order
+    //     // .populate('orderCost', 'cost')
+    //     .populate('tableNo', 'tableNum')
+    // });
        
         
     

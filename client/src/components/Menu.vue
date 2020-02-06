@@ -17,18 +17,19 @@
                                         class="box">
                                         
                                         <b-text class="title is-4">{{menu.name}}</b-text>
-                                        
-                                        <b-card-text style="margin-top: 10px">
-                                            {{menu.description}} <br/>                                            
-                                        </b-card-text>
-                                           
+
                                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                                         
                                         <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
                                         </div>
-                                                                  
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                                     
+                                                                              
+                                                                                                          
                                     </b-card>
                                 </div>
                                 <br/>
@@ -55,15 +56,16 @@
                                         
                                         <p class="title is-4">{{menu.name}}</p>
                                         
-                                        <b-card-text>
-                                            {{menu.description}} <br/><br/>
-                                             <strong> Cost: ${{menu.cost}}</strong>
-                                        </b-card-text>
-                                        <br/><br/>
-                                        <div class="field">
+                                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                        
+                                        <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
-                                        </div>                            
+                                        </div>
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                        
                                     </b-card>
                                 </div>
                                 <br/>
@@ -90,15 +92,16 @@
                                         
                                         <p class="title is-4">{{menu.name}}</p>
                                         
-                                        <b-card-text>
-                                            {{menu.description}} <br/><br/>
-                                            <strong> Cost: ${{menu.cost}}</strong>
-                                        </b-card-text>
-                                        <br/><br/>
-                                        <div class="field">
+                                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                        
+                                        <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
-                                        </div>                           
+                                        </div>
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                     
                                     </b-card>
                                 </div>
                                 <br/>
@@ -126,15 +129,16 @@
                                         
                                         <p class="title is-4">{{menu.name}}</p>
                                         
-                                        <b-card-text>
-                                            {{menu.description}} <br/><br/>
-                                            <strong> Cost: ${{menu.cost}}</strong>
-                                        </b-card-text>
-                                        <br/><br/>
-                                        <div class="field">
+                                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                        
+                                        <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
-                                        </div>                           
+                                        </div>
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                         
                                     </b-card>
                                 </div>
                                 <br/>
@@ -161,15 +165,16 @@
                                         
                                         <p class="title is-4">{{menu.name}}</p>
                                         
-                                        <b-card-text>
-                                            {{menu.description}} <br/><br/>
-                                            <strong> Cost: ${{menu.cost}}</strong>
-                                        </b-card-text>
-                                        <br/><br/>
-                                        <div class="field">
+                                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                        
+                                        <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
-                                        </div>                            
+                                        </div>
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                          
                                     </b-card>
                                 </div>
                                 <br/>
@@ -196,15 +201,16 @@
                                         
                                         <p class="title is-4">{{menu.name}}</p>
                                         
-                                        <b-card-text>
-                                            {{menu.description}} <br/><br/>
-                                            <strong> Cost: ${{menu.cost}}</strong>
-                                        </b-card-text>
-                                        <br/><br/>
-                                        <div class="field">
+                                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                        
+                                        <div class="field" style="margin-bottom: 30px">
                                             <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
                                             <strong>Check to Add</strong>
-                                        </div>                            
+                                        </div>
+
+                                        <b-card-text style="margin-top: 10px">
+                                            {{menu.description}} <br/>                                            
+                                        </b-card-text>                           
                                     </b-card>
                                 </div>
                                 <br/>
@@ -224,7 +230,7 @@
                 <div class="box">
                     <h1 class="title is-4">Enter Reservation Details Here</h1><br/>
                     <b-field label="Orders" label-position='on-border'>
-                        <b-input :value="checkboxGroup" type="textarea"></b-input>
+                        <b-input :value="checkboxGroup" type="textarea" disabled></b-input>
                     </b-field><br/>
                                     
                     <addreserve></addreserve>
