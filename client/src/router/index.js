@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Menu from '@/components/Menu'//add any other pages like this
 import ReserveList from '@/components/ReserveList'
-//import AddReserve from '@/components/AddReserve'
+import AvailTables from '@/components/AvailTables'
 import EditMenu from '@/components/EditMenu'
 import Login from '@/components/Login'
 import UserReservePage from '@/components/UserReservePage'
@@ -33,11 +33,11 @@ export default new Router({
         name: 'ReserveList',     
         component: ReserveList    
       },
-      // {     
-      //   path: '/AddReserve',     
-      //   name: 'AddReserve',     
-      //   component: AddReserve    
-      // },
+      {     
+        path: '/AvailableTables',     
+        name: 'AvailTables',     
+        component: AvailTables    
+      },
       {     
         path: '/EditMenu',     
         name: 'EditMenu',     

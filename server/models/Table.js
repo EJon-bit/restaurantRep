@@ -20,6 +20,9 @@ var tableSchema = new Schema({
     occupied:{
         type:Boolean,
         
+    },
+    reserved:{
+        type:Boolean,        
     }
 
 });

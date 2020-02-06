@@ -5,10 +5,10 @@ var Table = require("../models/Table");
 module.exports.controller = (app) =>{ 
     
         app.get('/table', (req, res) => {    
-            Table.find({}, (error, tables) => {      
+            Table.find({"reserved":false}, (error, tables) => {      
                 if (error) { console.log(error); }      
-                res.send({        
-                    tables: tables,      
+                res.json({        
+                    tables,      
                 });    
             }); 
         }); 

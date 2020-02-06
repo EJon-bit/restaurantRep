@@ -25,6 +25,18 @@ module.exports.controller = (app) => {
         }); 
     });
 
+    app.get('/menu/user/orders', (req,res) => {
+        
+        Reservation.findOne({orders:req.params.orders}, (error, reservation) => {      
+                                            
+            if (error) { console.log(error); }      
+            res.json({        
+                reservation,      
+            });    
+        })                
+        
+    });
+
     // add a new menu item  
     app.post('/editmenu/add', (req, res) => {    
         var menu = new Menu(req.body);

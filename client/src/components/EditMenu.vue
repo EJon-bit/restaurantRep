@@ -18,20 +18,20 @@
                    
             </b-table>       
             
-        <!-- <button class="button field is-danger" @click="checkedRows = []">
+        <button class="button field is-danger" >
             <b-icon icon="delete"></b-icon>
             <span>Delete</span>
         </button>
 
-        <button class="button field is-link" @click="checkedRows = []">
+        <button class="button field is-link">
             <b-icon icon="pencil"></b-icon>
             <span>Update</span>
         </button> 
 
-        <button class="button field is-dark" @click="add" :disabled="!valid">                    
+        <button class="button field is-dark">                    
             <b-icon icon="plus"></b-icon>
             <span>Add</span>
-        </button>          -->
+        </button>         
 
     </div>
 </template>
