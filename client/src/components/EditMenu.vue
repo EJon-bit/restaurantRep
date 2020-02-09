@@ -1,15 +1,16 @@
 <template>
-    
-    <div class="container">       
+ <div :style="backImage">   
+    <div class="container is-fluid">       
         <br/> 
-        <p class="title is-4">Edit Menu</p>             
-        
-            <b-table
+        <div class="box" :style="myStyle"> 
+            <p class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Edit Menu</p>             
+        </div>
+            <b-table 
                 class="box"
                 :data="menus"
                 :columns="columns"                    
                 checkable
-                :checkbox-position="checkboxPosition">
+                :checkbox-position="checkboxPosition" :style="cardStyle">
                 
                 
                 <template slot="bottom-left">
@@ -17,23 +18,24 @@
                 </template>
                    
             </b-table>       
-            
-        <button class="button field is-danger" >
-            <b-icon icon="delete"></b-icon>
-            <span>Delete</span>
-        </button>
+        <div class="box" :style="myStyle">    
+            <button class="button field is-danger" >
+                <b-icon icon="delete"></b-icon>
+                <span>Delete</span>
+            </button>
 
-        <button class="button field is-link">
-            <b-icon icon="pencil"></b-icon>
-            <span>Update</span>
-        </button> 
+            <button class="button field is-link">
+                <b-icon icon="pencil"></b-icon>
+                <span>Update</span>
+            </button> 
 
-        <button class="button field is-dark">                    
-            <b-icon icon="plus"></b-icon>
-            <span>Add</span>
-        </button>         
-
+            <button class="button field is-dark">                    
+                <b-icon icon="plus"></b-icon>
+                <span>Add</span>
+            </button>         
+        </div>
     </div>
+ </div>
 </template>
 
 <script>
@@ -46,6 +48,18 @@ export default {
         
 
         return {
+
+             myStyle:{
+                backgroundColor: 'rgba(63,63,63,.95)'
+                
+            },
+            cardStyle:{
+                backgroundColor:"#a9d3cd"
+            },
+
+            backImage: { 
+                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
+            },
 
             menus:[],
 

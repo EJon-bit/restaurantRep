@@ -10,11 +10,11 @@ var tableSchema = new Schema({
     
     seatNum:{
         type:Number,
-        required:true
+       
     },
     ipAddress:{
         type:String,
-        required:true
+        
 
     },
     occupied:{

@@ -1,43 +1,53 @@
 <template>
-    <div class="container is-fluid">        
-        
-        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:25px" >  
-            <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile">
-                <div id="good" class="box"> 
-                    <h1 class="title is-4">Enter Password Here</h1><br/>
-                    <b-form>
-                        <b-field label="Password" label-position='on-border' style="margin-left:100px"><br>
-                            <b-input v-model="password">  
-                            </b-input>
-                        
-                        </b-field>
-                    </b-form>
+    <div :style="backImage">
+        <div class="container is-fluid">        
+            
+            <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:25px" >  
+                <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile">
+                    <div id="good" class="box" :style="myStyle"> 
+                        <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
+                        <b-form>
+                            <b-field 
+                                label="Password"                                  
+                                custom-class="is-small has-text-warning" 
+                                type="is-primary">
+                                <b-input v-model="password">  
+                                </b-input>
+                            
+                            </b-field>
+                        </b-form>
+                    </div>
                 </div>
-            </div>
-            <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
-                <div class="box">
-                    <p class="title is-4">Your Ordered Items</p>
-                </div>
-                <div id="nice" class="box" style="margin-top:35px">   
-                    <b-card 
-                        :img-src="itemsOrdered.image_url"
-                        img-alt="Image"
-                        img-top
-                        tag="article"
-                        style="max-width: 25rem;"
-                        class="box">
-                        
-                        <b-text class="title is-4">{{itemsOrdered.name}}</b-text>
-                        
-                        <b-card-text style="margin-top: 10px">
-                            {{itemsOrdered.description}} <br/>                                            
-                        </b-card-text>
-                                                                    
-                    </b-card>
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                    <div class="box" :style="myStyle">
+                        <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Ordered Items</p>
+                    </div>
+                    <div id="nice" class="box" style="margin-top:15px" :style="tabStyle"> 
+                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                            <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile" v-for="item in items" :key="item.name">   
+                                <b-card v-once
+                                    :img-src="item.image_url"
+                                    img-alt="Image"
+                                    img-top
+                                    tag="article"
+                                    :style="cardStyle"                                   
+                                    class="box">
+                                    
+                                    <b-text v-once class="title is-4">{{item.name}}</b-text>
+                                    
+                                    <b-card-text v-once style="margin-top: 10px">
+                                        {{item.description}} <br/>                                            
+                                    </b-card-text>
+                                                                                
+                                </b-card>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </template>
 
 <script>
@@ -49,73 +59,88 @@ export default {
     data() {    
         return { 
             
-            orders:[],
+            backImage: { 
+                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
+                
+            },
+           // orders:[],
             password:'',
             reservations: [], 
-            reserves:[],
-            itemsOrdered:[],   
-            };  
-        },  
-        mounted() {    
-            this.fetchReservations(); //fetches menu using axios request 
-            this.fetchMenuItems();
-        },  
-        methods: {    
-            async fetchReservations() {      
+           // reserves:[],
+            items:[],  
+            
+            myStyle:{
+                backgroundColor: 'rgba(63,63,63,.95)'
+                
+            },
+            cardStyle:{
+                backgroundColor:"#a9d3cd"
+            },
+            tabStyle:{
+                backgroundColor: 'rgba(52,103,96,.89)'
+            },
+        };  
+    },  
+    // mounted() {    
+    //     this.fetchReservations(); //fetches menu using axios request 
+    //     this.fetchMenuItems();
+    // },  
+    computed: {    
+        async fetchReservations() {      
+            return axios({        
+                method: 'get',
+                url: 'http://localhost:5000/reservation',      
+            })        
+            .then((response) => {          
+                this.reservations = response.data.reservations;        
+            })        
+            .catch(() => {        
+
+            });    
+        },
+        async fetchMenuItems() {      
+            
+            var menuOrdered= this.getOrders.map(order=>{
+
                 return axios({        
                     method: 'get',
-                    url: 'http://localhost:5000/reservation',      
+                    url: 'http://localhost:5000/menu/user/${order}',      
                 })        
                 .then((response) => {          
-                    this.reservations = response.data.reservations;        
+                    this.items.push = response.data.menu;        
                 })        
                 .catch(() => {        
 
-                });    
-            },
-            async fetchMenuItems() {      
+                });   
+
+            })
                 
-                var menuStuff= this.orders.map(order=>{
-
-                    return axios({        
-                        method: 'get',
-                        url: 'http://localhost:5000/menu/user/${order}',      
-                    })        
-                    .then((response) => {          
-                        this.itemsOrdered.push = response.data.menu;        
-                    })        
-                    .catch(() => {        
-
-                    });   
-
-                })
-                 
-            }, 
+        }, 
+    },
+    watch:{
+    
+        filteredReservation: function(){
+            return this.reservations.filter((reservation)=>{                        
+                    return reservation.password.match(this.password)
+            })                     
+            
         },
-        computed:{
-        
-            filteredReservation: function(){
-                return this.reservations.filter((reservation)=>{                        
-                        return reservation.password.match(this.password)
-                })                     
-                
-            },
-            getOrders: function(){                    
-                                    
-                this.orders= filteredReservation.orders.split(",");
-                
-            }
+        getOrders: function(){                    
+                                
+            var orders= filteredReservation.orders.split(",");
+            return orders
         }
+    }
 
 
-            // async fetchOrderInfo(){
+        // async fetchOrderInfo(){
 
-            //     this.reservations.map(function(reservation.password){
+        //     this.reservations.map(function(reservation.password){
 
-            //     })
+        //     })
 
-            // }
-        
+        // }
+    
 
 }
 </script>

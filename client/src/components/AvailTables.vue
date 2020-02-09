@@ -7,9 +7,7 @@
             <b-table
                 class="box"
                 :data="tables"
-                :columns="columns">           
-                               
-                   
+                :columns="columns">                      
             </b-table>     
           
     </div>

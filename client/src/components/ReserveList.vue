@@ -1,18 +1,19 @@
 
 <template>
-  <div class="container is-fluid">
-    <br/>
-    <div v-for="reservation in reservations" :key="reservation._id">
-       <b-message :title="reservation.tableNo[0].tableNum" type="is-success" aria-close-label="Close message">
+    <div :style="backImage">
+        <div class="container is-fluid">
+            <br/>
+            <div v-for="reservation in reservations" :key="reservation._id">
+            <b-message :title="reservation.tableNo[0].tableNum" type="is-success" aria-close-label="Close message">
+                    
+                    <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
+                    <br/><br/>
+                    <strong> Orders: {{reservation.orders}}</strong>
+                </b-message><br/><br/>
             
-            <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
-            <br/><br/>
-            <strong> Orders: {{reservation.orders}}</strong>
-        </b-message><br/><br/>
-      
+            </div>
+        </div>
     </div>
-  </div>
- 
 </template>
 
 <script>
@@ -23,7 +24,11 @@ export default {
     
     data() {    
         return {      
-            reservations: [],    
+            reservations: [],  
+
+            backImage: { 
+                backgroundImage: "url(https://image.freepik.com/free-photo/grunge-wooden-cutting-board-with-copy-space-design-make-food-background_3249-3466.jpg)" 
+            }  
             };  
         },  
         mounted() {    

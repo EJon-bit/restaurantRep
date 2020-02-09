@@ -1,17 +1,20 @@
 <template> 
-    <form-wrapper :validator="$v.form">
-        <div class="container">        
-            <b-field :custom-class="customClass"
-                    :type="type" 
+    <div>
+        <div id="heading">
+            <h1 class="title is-4" style="font-family:Gabriola;color:gold;font-size:30px;">Enter Reservation Details Here</h1><br/>
+        </div>
+        <div class="container">                  
+            
+            <b-field 
+                    custom-class="is-small has-text-warning" 
+                    type="is-primary"
                     name="customerName" 
-                    label="Name" 
-                    label-position='on-border'
-                    :message="firstErrorMessage">
-                    <slot/>
-                <b-input v-model="form.customerName" @input="$v.form.customerName.$touch()" placeholder="John Doe"></b-input>
+                    label="Name" >
+                    
+                <b-input placeholder="John Doe" :style="myStyle"></b-input>
             </b-field>
             <br/>
-            <b-field label="No. of Persons" label-position='on-border'>
+            <b-field label="No. of Persons" custom-class="is-small has-text-warning" type="is-primary">
                     <b-select placeholder="Select a number">
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -21,76 +24,41 @@
                         <option value="6">6</option>                
                     </b-select>
             </b-field><br/>
-            <b-field label="Arrival Date and Time" label-position='on-border'>
+            <b-field label="Arrival Date and Time" custom-class="is-small has-text-warning" type="is-primary">
                 <b-datetimepicker
                     placeholder="Click to select..."
                     :min-datetime="minDatetime"
                     :max-datetime="maxDatetime">
                 </b-datetimepicker>
+            </b-field><br/> 
+  
+            
+            <b-field label="Orders" custom-class="is-small has-text-warning" type="is-primary">
+                <b-input :value="msg" type="textarea" disabled></b-input>
             </b-field><br/>        
             
-            <b-button type="is-primary">Submit Reservation</b-button>
-
+            <div id="button">
+                <b-button type="is-primary">Submit Reservation</b-button>
+            </div>
         </div>
-    </form-wrapper>
-    <!-- <div class="col-sm-4">
-        <br/>
-        <b-form @submit.stop.prevent="onSubmit">
-            <b-field label="Name"><br>
-            <b-input 
-                placeholder="John Doe"
-                v-model="$v.formResponses.customerName.$model"
-                :state="$v.formResponses.customerName.$dirty ? !$v.formResponses.customerName.$error : null" 
-                aria-describedby="input-1-live-feedback">   checks if value entered in name field is valid..passes an error if invalid and nothing if valid-->
-            <!-- </b-input>
-            <b-form-invalid-feedback id="input-1-live-feedback">
-                This is a required field
-            </b-form-invalid-feedback>
-            </b-field> 
-            <br>
-
-            <b-field label="No. of Persons"> <br>
-                    <b-select v-model="$v.formResponses.seatsReserved.$model" :state="$v.formResponses.seatsReserved.$dirty ? !$v.formResponses.seatsReserved.$error : null" aria-describedby="input-2-live-feedback" placeholder="1">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>                
-                    </b-select>
-                    <b-form-invalid-feedback id="input-2-live-feedback">
-                        This is a required field
-                    </b-form-invalid-feedback>
-            </b-field> 
-            <br>
-
-            <b-field label="Arrival Date and Time"><br>
-                <b-datetimepicker
-                    placeholder="Click to select..."
-                    :min-datetime="minDatetime"
-                    :max-datetime="maxDatetime">
-                </b-datetimepicker>
-            </b-field>
-            <br>
-
-            <b-button type="submit" variant="primary" :disabled="$v.formResponses.$invalid">
-                Submit
-            </b-button>
-        </b-form> -->
-    <!-- </div>     --> 
+    </div>   
 </template> 
 
 <script>  
     import axios from 'axios';
-    //import { validationMixin } from 'vuelidate'
-    import { required } from 'vuelidate/lib/validators'
-    import { singleErrorExtractorMixin } from "vuelidate-error-extractor";
-    
+        
     export default {  
         
         name: 'AddReserve',
          //look up form validations
         //mixins: [validationMixin],
+        props:['msg'],
+
+        myStyle:{
+                backgroundColor: 'rgba(37,37,37,.95)'
+                
+        },
+
         data () {
             
             const min = new Date()
@@ -112,90 +80,22 @@
                     seatsReserved:"",
                     dateReserved:""
                 }
-                // formResponses:{
-                //     customerName: '',
-                //     seatsReserved:'',
-                //     dateReserved:''
-                // }   
-                
+                               
             }
-        },
-        validations: {
-            form: {
-                customerName: { required },
-                seatsReserved: { required },
-                dateReserved: { required }
-            }
-        },
-        extends: singleErrorExtractorMixin,
-        computed: {
-            type() {
-            return this.hasErrors ? "is-danger" : this.isValid ? "is-success" : null;
-            },
-            customClass() {
-            return this.hasErrors
-                ? "has-text-danger"
-                : this.isValid
-                ? "has-text-success"
-                : null;
-            }
-        }
-
-        // validations: {
-        //     formResponses: {
-        //         customerName: {
-        //         required
-        //         },
-        //         seatsReserved: {
-        //         required,                
-        //         },
-        //         dateReserved: {
-        //         required,                
-        //         }
-        //     }
-        // },
-        // methods: {      
-        //     onsubmit () {
-        //         if (this.$v.$invalid) {
-        //             this.submitStatus = 'ERROR'
-        //         } 
-        //         else {
-        //             // do your submit logic here
-        //             return axios({            
-        //                 method: 'post',            
-        //                 data: {              
-        //                     customerName: this.customerName,              
-        //                     seatsReserved: this.seatsReserved,              
-        //                     dateReserved: this.dateReserved,              
-                                        
-        //                 },            
-        //                 url: 'http://localhost:8081/reservation',            
-        //                 headers: {              
-        //                     'Content-Type': 'application/json'            
-        //                 }          
-        //             })          
-        //             this.submitStatus = 'PENDING'
-        //             setTimeout(() => {
-        //             this.submitStatus = 'OK'
-        //             }, 500) 
-
-        //             .then((response) => {
-        //                 //displays flash message to indicate that data was successfully added to DB
-        //                     this.$swal(            
-        //                     'Great!',            
-        //                     'Reservation added successfully!',            
-        //                     'success',          
-        //                     ); 
-                        
-        //                 this.$router.push({ name: 'Menu' });  //redirects back to home          
-        //                 this.$refs.form.reset();          
-        //             })        
-        //         }
-        //     }  
-        // } 
+        },  
+               
     }
 </script>
 
 <style scoped>
+.container{
+     text-align: left;
+}
+#heading{
+     text-align: center;
+}
+#button{
+     text-align: center;
+}
 
 </style>

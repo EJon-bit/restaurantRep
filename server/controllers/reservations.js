@@ -61,6 +61,29 @@ module.exports.controller = (app) => {
         
     
     // update a reservation  for user on webpage if they want to make changes due to circumstance
+    // app.put('/reservation/user/password',(req, res) => {   
+        
+        
+    //     Reservation.findOne(req.params.password, 'customerName seatsReserved numOrders orders specialRequests orderCost dateReserved tableNo', function(error, reservation) {      
+            
+    //         if (error) { console.error(error); }
+            
+    //         reservation.customerName = req.body.customerName    
+    //         reservation.seatsReserved = req.body.seatsReserved  
+    //         reservation.numOrders = req.body.numOrders   
+    //         reservation.orders = req.body.orders      
+    //         reservation.specialRequests = req.body.specialRequests 
+    //         reservation.orderCost = req.body.orderCost
+    //         reservation.dateReserved = req.body.dateReserved
+    //         reservation.tableNo = Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
+                  
+    //         user.save(function (error, reservation) {        
+    //             if (error) { console.log(error); }        
+    //             res.send(reservation)      
+    //         });    
+    //     });  
+    // }); 
+
     app.put('/reservation/user/password',(req, res) => {   
         
         
@@ -68,14 +91,8 @@ module.exports.controller = (app) => {
             
             if (error) { console.error(error); }
             
-            reservation.customerName = req.body.customerName    
-            reservation.seatsReserved = req.body.seatsReserved  
-            reservation.numOrders = req.body.numOrders   
-            reservation.orders = req.body.orders      
-            reservation.specialRequests = req.body.specialRequests 
-            reservation.orderCost = req.body.orderCost
-            reservation.dateReserved = req.body.dateReserved
-            reservation.tableNo = Table.find({"seatNum":reservation.seatsReserved, "occupied":false});
+            reservation.onSite = true;    
+            
                   
             user.save(function (error, reservation) {        
                 if (error) { console.log(error); }        
