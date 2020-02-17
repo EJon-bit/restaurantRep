@@ -29,7 +29,7 @@
                 <span>Update</span>
             </button> 
 
-            <button class="button field is-dark">                    
+            <button class="button field is-warning">                    
                 <b-icon icon="plus"></b-icon>
                 <span>Add</span>
             </button>         

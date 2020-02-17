@@ -6,7 +6,7 @@ var morgan = require('morgan');
 var fs = require('fs');
 var app = express(); 
 var router = express.Router();
-var serveStatic = require('serve-static');
+//var serveStatic = require('serve-static');
 
 
 app.use(morgan('combined')); 

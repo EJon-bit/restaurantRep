@@ -15,9 +15,11 @@
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.2.0",
     "buefy": "^0.8.9",
+    "vee-validate": "^3.2.4",
     "vue": "^2.6.11",
     "vue-router": "^3.0.1",
     "vue-swal": "^1.0.0",
+    "vue2-flip-countdown": "^0.9.3",
     "vuelidate": "^0.7.4",
     "vuelidate-error-extractor": "^2.4.1",
     "vuetify": "^2.2.3"

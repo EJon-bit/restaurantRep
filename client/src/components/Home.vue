@@ -1,6 +1,6 @@
 <!-- for home page-->
 <template>
-  <div style="margin-top:0px">
+  <div :style="myStyle">
     <!-- <div class="column is-12"> -->
       <b-carousel            
             :indicator="indicator"
@@ -74,6 +74,11 @@
             indicatorMode: 'hover',
             indicatorPosition: 'is-bottom',
             indicatorStyle: 'is-lines',
+
+            myStyle:{
+                backgroundColor: 'rgba(89,124,134)'
+                
+            },
         
       }
     }

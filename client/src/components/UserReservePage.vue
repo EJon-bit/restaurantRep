@@ -37,12 +37,38 @@
                                     
                                     <b-card-text v-once style="margin-top: 10px">
                                         {{item.description}} <br/>                                            
-                                    </b-card-text>
-                                                                                
+                                    </b-card-text>                                                                                
                                 </b-card>
+                            </div>
+                            <div class="column is-variable is-11-desktop is-12-tablet is-12-mobile" style="margin-top:365px">
+                                <button class="button field is-danger">                                    
+                                    <span>Pay Now</span>
+                                </button>
+
+                                <button class="button field is-link">                                    
+                                    <span>Add Order</span>
+                                </button>
                             </div>
                         </div>
 
+                    </div>
+                    
+                            
+                    <div class="box" :style="myStyle">    
+                        <button class="button field is-danger" >
+                            <b-icon icon="delete"></b-icon>
+                            <span>Delete</span>
+                        </button>
+
+                        <button class="button field is-link">
+                            <b-icon icon="pencil"></b-icon>
+                            <span>Update</span>
+                        </button> 
+
+                        <button class="button field is-warning">                    
+                            <b-icon icon="plus"></b-icon>
+                            <span>Add</span>
+                        </button>         
                     </div>
                 </div>
             </div>
@@ -85,12 +111,13 @@ export default {
     //     this.fetchReservations(); //fetches menu using axios request 
     //     this.fetchMenuItems();
     // },  
-    computed: {    
+
+    methods: {    
         async fetchReservations() {      
             return axios({        
                 method: 'get',
                 url: 'http://localhost:5000/reservation',      
-            })        
+            })      
             .then((response) => {          
                 this.reservations = response.data.reservations;        
             })        
@@ -100,13 +127,14 @@ export default {
         },
         async fetchMenuItems() {      
             
-            var menuOrdered= this.getOrders.map(order=>{
+            return this.filteredReservations.map(order=>{
 
                 return axios({        
                     method: 'get',
                     url: 'http://localhost:5000/menu/user/${order}',      
                 })        
-                .then((response) => {          
+                .then((response) => { 
+                            
                     this.items.push = response.data.menu;        
                 })        
                 .catch(() => {        
@@ -117,30 +145,16 @@ export default {
                 
         }, 
     },
-    watch:{
+    computed:{
     
-        filteredReservation: function(){
+        filteredReservations: function(){
             return this.reservations.filter((reservation)=>{                        
                     return reservation.password.match(this.password)
             })                     
             
         },
-        getOrders: function(){                    
-                                
-            var orders= filteredReservation.orders.split(",");
-            return orders
-        }
+       
     }
-
-
-        // async fetchOrderInfo(){
-
-        //     this.reservations.map(function(reservation.password){
-
-        //     })
-
-        // }
-    
 
 }
 </script>
@@ -152,7 +166,7 @@ export default {
     }
     #good{
         width: 100%;
-        height: 37.5vw;
+        height: 45vw;
         object-fit: cover;
     }
     .card{

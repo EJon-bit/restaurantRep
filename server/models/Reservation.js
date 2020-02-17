@@ -14,29 +14,29 @@ var reservationSchema = new Schema({
         required:true //ensures data type entered for the field defined ..is correct
     },
     seatsReserved:{
+
         type: Number,
         required:true
     },// insert type validatio
     numOrders:{
     	
     	type: Number,
-        required:true
+        // required:true
 
     },
     orders:{
-        type: String, 
-        required:true        
+        type: Array, 
+               
     },
 
     specialRequests:{ //example:birthdays, allergy notification
-    	type: String,
-    	required:true
+        
+        type: String,	
 
     },
 
     orderCost:{
-        type: Array,
-        required:true                
+        type: Array,                        
     },
 
     dateReserved:{
@@ -49,7 +49,9 @@ var reservationSchema = new Schema({
         ref: 'Table'        
     }],
     onSite:{
-        type:Boolean
+        
+        type:Boolean,
+        required:true
 
     },
     password:{

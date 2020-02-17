@@ -14,9 +14,11 @@ module.exports.controller = (app) =>{
             }); 
         }); 
 
-        app.put('/table/update',(req, res) => {   
-                
-            Table.findOne({"tableNum":reservation.tableNo[0]}, function(error, table) {      
+        app.put('/table/update/:tableNo',(req, res) => {   
+            
+            var tableId=req.params.tableNo;
+            
+            Table.findOne({tableNum:tableId}, function(error, table) {      
                 
                 if (error) { console.error(error); }
                 

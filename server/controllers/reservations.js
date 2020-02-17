@@ -21,6 +21,7 @@ module.exports.controller = (app) => {
         
         reservation.tableNo = tableNo[0];
         reservation.password = passCode;
+        reservation.onSite=false;
 
         await reservation.save(); 
 
@@ -46,9 +47,11 @@ module.exports.controller = (app) => {
 
     //add get method for to display a customers reservation orders
     
-    app.get('/reservation/user/password', (req,res) => {
+    app.get('/reservation/user/:password', (req,res) => {
            
-         Reservation.findOne({password:req.params.password}, 'customerName numOrders orders orderCost', (error, reservation) => {      
+        var userId= req.params.password;
+
+         Reservation.findOne({password:userId}, 'customerName numOrders orders orderCost', (error, reservation) => {      
                                             
             if (error) { console.log(error); }      
             res.json({        
@@ -84,17 +87,18 @@ module.exports.controller = (app) => {
     //     });  
     // }); 
 
-    app.put('/reservation/user/password',(req, res) => {   
+    app.put('/reservation/user/:password',(req, res) => {  
         
-        
-        Reservation.findOne(req.params.password, 'customerName seatsReserved numOrders orders specialRequests orderCost dateReserved tableNo', function(error, reservation) {      
+       var reservePass=req.params.password 
+                
+        Reservation.findOne({password:reservePass}, function(error, reservation) {      
             
             if (error) { console.error(error); }
             
-            reservation.onSite = true;    
+            reservation.onSite = true;  
             
                   
-            user.save(function (error, reservation) {        
+            reservation.save(function (error, reservation) {        
                 if (error) { console.log(error); }        
                 res.send(reservation)      
             });    
