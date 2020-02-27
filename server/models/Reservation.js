@@ -5,6 +5,8 @@ require("./Table")
 
 var Schema=mongoose.Schema;
 
+var mongooseDateFormat = require('mongoose-date-format');
+
 
 //Reservation Schema
 var reservationSchema = new Schema({
@@ -31,7 +33,7 @@ var reservationSchema = new Schema({
 
     specialRequests:{ //example:birthdays, allergy notification
         
-        type: String,	
+        type: Boolean,	
 
     },
 
@@ -46,7 +48,8 @@ var reservationSchema = new Schema({
     },
     tableNo:[{
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Table'        
+        ref: 'Table' ,
+        required:true      
     }],
     onSite:{
         
@@ -59,10 +62,14 @@ var reservationSchema = new Schema({
         required:true
 
     },
-
-    
-   
+    atTable:{
+        type:Boolean,
+        
+    }
+       
 });
+
+reservationSchema.plugin(mongooseDateFormat);
 
 var Reservation = module.exports = mongoose.model('Reservation', reservationSchema);
  //makes reservation model accessable from anywhere else

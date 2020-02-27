@@ -14,7 +14,26 @@ module.exports.controller = (app) =>{
             }); 
         }); 
 
-        app.put('/table/update/:tableNo',(req, res) => {   
+        //finds out if table is still unoccupied after set time 
+        //to determine if reserved field should be changed
+        app.get('/table/:tableNum', (req, res) => { 
+            
+            TableId= req.params.tableNum;
+
+            Table.findOne({"tableNum":TableId},'occupied ipAddress', (error, table) => {      
+                if (error) { console.log(error); }      
+                res.json({        
+                    table,      
+                });    
+            }); 
+        }); 
+
+        /*updates table document by changing reserved field when 
+        customer makes reservation on web App*/
+        
+
+        //update table reserved field in database based on PIR sensors
+        app.put('/tableavailability/:tableNo',(req, res) => {   
             
             var tableId=req.params.tableNo;
             
@@ -22,7 +41,7 @@ module.exports.controller = (app) =>{
                 
                 if (error) { console.error(error); }
                 
-                table.reserved = true;
+                table.reserved = false;
                 
                       
                 table.save(function (error, table) {        
@@ -31,6 +50,8 @@ module.exports.controller = (app) =>{
                 });    
             });  
         }); 
+
+
            
      
 }

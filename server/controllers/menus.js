@@ -25,9 +25,9 @@ module.exports.controller = (app) => {
         }); 
     });
 
-    app.get('/menu/user/orders', (req,res) => {
+    app.get('/menu/user/:order', (req,res) => {
         
-        Reservation.findOne({orders:req.params.orders}, (error, reservation) => {      
+        Reservation.findOne({orders:req.params.order}, (error, reservation) => {      
                                             
             if (error) { console.log(error); }      
             res.json({        
