@@ -27,11 +27,11 @@ module.exports.controller = (app) => {
 
     app.get('/menu/user/:order', (req,res) => {
         
-        Reservation.findOne({orders:req.params.order}, (error, reservation) => {      
+        Menu.findOne({name:req.params.order}, (error, menu) => {      
                                             
             if (error) { console.log(error); }      
             res.json({        
-                reservation,      
+                menu,      
             });    
         })                
         

@@ -37,6 +37,31 @@ module.exports.controller = (app) => {
 
         
     });     
+
+    app.post('/reservation/importQueued', async(req,res) => {
+        
+       
+        var reservation = new Reservation(req.body);
+
+        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "reserved":false});
+        
+        //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
+        if(tableNo){
+
+            tableNo[0].reserved= true;
+            await tableNo[0].save();
+            reservation.atTable= false;
+            reservation.tableNo = tableNo[0];
+            
+            await reservation.save(); 
+
+            res.json({        
+                reservation,      
+            });  
+        }
+
+        
+    });     
     
      //fetch all reservations
     app.get('/reservation', (req,res) => {

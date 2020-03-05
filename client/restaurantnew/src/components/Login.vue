@@ -49,21 +49,21 @@ export default{
     // },
     methods:{
         login() {      
-        return axios({        
-            method: 'put',
-            
-            url: `http://localhost:5000/reservation/user/${this.password}`,      
-
-        })        
-        .then(() => {              
+            return axios({        
+                method: 'put',
                 
-                this.$swal(            
-                    'Great!',            
-                    'Reservation was successfully added!',            
-                    'success',          
-                );            
-                        
-                //this.$refs.form.reset();          
+                url: `http://localhost:5000/reservation/user/${this.password}`,      
+
+            })        
+            .then(() => {              
+                    
+                    this.$swal(            
+                        'Great!',            
+                        'Reservation was successfully added!',            
+                        'success',          
+                    );            
+                            
+                    //this.$refs.form.reset();          
             })
             .catch(() => {
 

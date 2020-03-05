@@ -9,11 +9,12 @@
                         <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
                         
                         <b-field 
+                            
                             label="Password"    
                             :name=password                              
                             custom-class="is-small has-text-warning" 
                             type="is-primary">
-                            <b-input type="number" v-model.lazy.number="password">  
+                            <b-input v-model.lazy="password">  
                             </b-input>
                         
                         </b-field>
@@ -23,38 +24,64 @@
                     <div id="good" class="box" :style="myStyle"> 
                         <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
                         <div>
-                            <flip-countdown deadline="2020-09-12 00:00:00"></flip-countdown>
+                            <flip-countdown :deadline="filteredRes.dateReserved"></flip-countdown>
                         </div>  
                         
                     </div>
                 </div>
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
                     <div class="box" :style="myStyle">
                         <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Ordered Items</p>
                     </div>
                     <div id="nice" class="box" style="margin-top:15px" :style="tabStyle"> 
+                        
                         <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                            <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile" v-for="item in filteredItems" :key="item.name">   
+                            <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile" v-for="order in orders" :key="order.name">   
                                 <b-card 
                                     
-                                    :img-src="item.image_url"
+                                    :img-src="order.image_url"
                                     img-alt="Image"
                                     img-top
                                     tag="article"
                                     :style="cardStyle"                                   
                                     class="box">
                                     
-                                    <b-card-text  class="title is-4">{{item.name}}</b-card-text>
+                                    <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
                                     
-                                    <b-card-text style="margin-top: 10px">
-                                        {{item.description}} <br/>                                            
+                                    <b-card-text name="description" style="margin-top: 10px">
+                                        {{order.description}} <br/>                                            
                                     </b-card-text>                                                                                
                                 </b-card>
-                            </div>                     
+                            </div>                    
                             
                         </div>
-                    </div>
+                        <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile">
 
+                            <div class="box" :style="myStyle">    
+                                <button class="button field is-danger" >
+                                    <b-icon icon="delete"></b-icon>
+                                    <span>Delete</span>
+                                </button>
+                                
+                                <button class="button field is-link">
+                                    <b-icon icon="pencil"></b-icon>
+                                    <span>Update</span>
+                                </button> 
+
+                                <button class="button field is-info">                    
+                                    <b-icon icon="plus"></b-icon>
+                                    <span>Add</span>
+                                </button>         
+                            </div> 
+
+                        </div> 
+                    </div>                                
+
+                </div> 
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="!orders.length">
+                    <div class="box" :style="myStyle">
+                            <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
+                    </div>
                     <div class="box" :style="tabStyle"> 
                         <b-tabs vertical type="is-boxed">
                             <b-tab-item :label="appetizers">
@@ -68,7 +95,7 @@
                                             :style="cardStyle"
                                             class="box" id="cardOpacity">
                                             
-                                            <b-text class="title is-4">{{menu.name}}</b-text>
+                                            <p class="title is-4">{{menu.name}}<p>
 
                                             <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                                             
@@ -297,27 +324,9 @@
                                 <span>Special Requests</span>
                             </button>
                         </div>  
-                    </div>              
-
+                    </div> 
                 </div>
                     
-                            
-                    <!-- <div class="box" :style="myStyle">    
-                        <button class="button field is-danger" >
-                            <b-icon icon="delete"></b-icon>
-                            <span>Delete</span>
-                        </button>
-                        
-                        <button class="button field is-link">
-                            <b-icon icon="pencil"></b-icon>
-                            <span>Update</span>
-                        </button> 
-
-                        <button class="button field is-info">                    
-                            <b-icon icon="plus"></b-icon>
-                            <span>Add</span>
-                        </button>         
-                    </div> -->
             </div>            
         </div>
         
@@ -327,6 +336,7 @@
 <script>
 import axios from 'axios'
 import FlipCountdown from 'vue2-flip-countdown'
+import _ from 'lodash'
 
 var ModalForm = {
     props: ['orders', 'cost'],
@@ -392,12 +402,11 @@ export default {
                 backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
                 
             },
-           // orders:[],
-            password:651087,
+            filteredRes:[],
+            password:"",
             reservations: [], 
-           // reserves:[],
-            //items:[],  
-            //filRes:[],
+            orders:[],
+           
             myStyle:{
                 backgroundColor: 'rgba(63,63,63,.95)'
                 
@@ -411,14 +420,22 @@ export default {
             },
         };  
     },  
+
+    watch: {
+        // whenever password changes, this function will run
+        password: function (newPassword) {            
+            this.filteredReservations()
+        }
+    },
+
     created() {    
-        this.fetchMenu(); //fetches menu using axios request
-        this.fetchReservations();
+        this.fetchMenu(); //fetches menu from db
+        this.fetchReservations();//fetches reservations from db
     },
                 
      
     methods: {  
-        async fetchMenu() {      
+        fetchMenu() {      
             return axios({        
                 method: 'get',
                 url: 'http://localhost:5000/menu',      
@@ -429,7 +446,7 @@ export default {
             .catch(() => {        
             });    
         },  
-        async fetchReservations() {      
+        fetchReservations() {      
             return axios({        
                 method: 'get',
                 url: 'http://localhost:5000/reservation',      
@@ -441,54 +458,35 @@ export default {
 
             });    
         },
-        // async fetchMenuItems() {                
-        //     return this.filteredReservations.orders.map(order=>{
-
-        //         return axios({        
-        //             method: 'get',
-        //             url: `http://localhost:5000/menu/user/${order}`,      
-        //         })        
-        //         .then((response) => { 
-                            
-        //             this.items.push= response.data.menu;        
-        //         })        
-        //         .catch(() => {        
-
-        //         });   
-
-        //     });            
+        filteredReservations://waits for user to finish typing before function is run
+            function(){
                 
-        // }, 
+                this.filteredRes= this.reservations.filter((reservation)=>{                        
+                    return reservation.password.match(this.password)
+                })                            
+                
+                var orders= this.filteredRes.orders.map(order=>{
+
+                    return axios({        
+                        method: 'get',
+                        url: `http://localhost:5000/menu/user/${order}`,      
+                    })        
+                    .then((response) => { 
+                                
+                        response.data.menu;        
+                    })        
+                    .catch(() => {        
+
+                    });   
+
+                });             
+                
+            },
+               
        
     },
     computed:{
-        
-        filteredReservations: function(){
-            return this.reservations.filter((reservation)=>{                        
-                    return reservation.password.match(this.password)
-            })
-        },
-    
-        filteredItems: function(){
-            
-            var orders= this.filteredReservations.orders.map(order=>{
-
-                return axios({        
-                    method: 'get',
-                    url: `http://localhost:5000/menu/user/${order}`,      
-                })        
-                .then((response) => { 
-                            
-                    response.data.menu;        
-                })        
-                .catch(() => {        
-
-                });   
-
-            });             
-            return orders
-        },
-
+                
         filteredMenus: function(){
             return this.menus.filter((menu)=>{                        
                     return menu.category.match(this.appetizers)

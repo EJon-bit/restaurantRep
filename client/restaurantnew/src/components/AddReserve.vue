@@ -42,8 +42,14 @@
             </b-field><br/>        
          
             <div id="button" >
-                <b-button type="is-primary" :disabled="formIsInDanger" @click="submit" >
+                <b-button type="is-primary" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
                     Submit Reservation
+                </b-button>
+                <b-button type="is-link" :disabled="formIsInDanger" v-if="queued" @click="save" >
+                    Save Reservation
+                </b-button>
+                <b-button type="is-warning" v-if="queued" @click="seeTables" >
+                    See Available Tables
                 </b-button>
             </div>
         </b-form> 
@@ -78,6 +84,8 @@
                 minDatetime: min,
                 maxDatetime: max,
                 
+               // submitfail:true,
+                queued:false,
                 customerName: "",
                 seatsReserved:"",
                 datetime:new Date(),
@@ -109,6 +117,8 @@
                     // },        
                 })          
                 .then(() => { 
+                    //this.submitfail=false,
+
                     this.$router.push({ name: 'UserReservePage' });  
 
                     this.$swal(            
@@ -121,6 +131,8 @@
                 })
                 .catch(() => {
 
+                    this.queued=true;
+
                     this.$swal(            
                         'Sorry! There are NO available tables Right Now',            
                         'Your reservation was NOT sucessfully added! Try again',  
@@ -129,6 +141,50 @@
                     ); 
                 });      
             },
+
+            save() {      
+                        
+                return axios({          
+                    method: 'post',          
+                    data: {            
+                        customerName: this.customerName,            
+                        seatsReserved: this.seatsReserved, 
+                        numOrders:this.msg.length,           
+                        orders:this.msg,
+                        dateReserved:this.datetime          
+                    },          
+                    url: 'http://localhost:5000/reservation',          
+                    // headers: {            
+                    //     'Content-Type': 'application/json',          
+                    // },        
+                })          
+                .then(() => { 
+                    this.$router.push({ name: 'UserReservePage' });  
+
+                    this.$swal(            
+                        'Great!',            
+                        'Reservation was successfully added!',            
+                        'success',          
+                    );            
+                           
+                    //this.$refs.form.reset();          
+                })
+                .catch(() => {
+
+                    this.queued=true;
+
+                    this.$swal(            
+                        'Sorry! There are NO available tables Right Now',            
+                        'Your reservation was NOT sucessfully added! Try again',  
+                        'You can save this reservation. If you choose to your reservation will be automatically added when a Table becomes Available',         
+                        'error',          
+                    ); 
+                });      
+            },
+
+            seeTables(){
+                this.$router.push({ name: 'AvailTables' });
+            }
             
         },
 

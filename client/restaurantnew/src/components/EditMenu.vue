@@ -60,7 +60,7 @@ var AddMenuForm = {
     props: ['name','category','description', 'cost','image_url'],
 
     template: 
-    `   <form action="">
+    `   <form method="post">
             <div class="modal-card" style="width: auto">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Add Menu Item</p>
@@ -103,11 +103,12 @@ var AddMenuForm = {
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Add Item</button>
+                    <button class="button is-primary" @click="submit">Add Item</button>
                 </footer>
             </div>
         </form>
-    `
+    `,    
+    
 }
 var UpdateMenuForm = {
     props: ['name','category','description', 'cost','image_url'],
@@ -141,6 +142,7 @@ var UpdateMenuForm = {
                     </b-field>
                     <b-field label="Cost">
                         <b-input
+                            type="number"
                             :v-model="cost"                            
                             required>
                         </b-input>
@@ -156,11 +158,12 @@ var UpdateMenuForm = {
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Add Item</button>
+                    <button class="button is-primary" type="button">Update Item</button>
                 </footer>
             </div>
         </form>
     `
+    
 }
 
 export default {
@@ -170,8 +173,7 @@ export default {
             UpdateMenuForm
     },
 
-    data() {
-        
+    data() {        
 
         return {
             isComponentModalActive: false,
@@ -187,6 +189,14 @@ export default {
 
             backImage: { 
                 backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
+            },
+
+            formProps: {
+                name: "",
+                category:"",            
+                cost:'',
+                description:"",
+                image_url:"",
             },
 
             menus:[],
@@ -224,12 +234,7 @@ export default {
                 this.menus = response.data.menus;        
             })        
             .catch(() => {})
-    },
-    
-    // mounted() {    
-    //         this.fetchMenu(); //fetches menu using axios request 
-    // },  
-
+    },  
     methods: {    
         submit() {
             return axios({
@@ -239,7 +244,7 @@ export default {
                     category: this.category,                               
                     cost:this.cost,
                     description:this.description,
-                    imageUrl:this.image_url  
+                    image_url:this.image_url  
                 },          
                 url: 'http://localhost:5000/editmenu/add'          
             // headers: {            
@@ -247,13 +252,12 @@ export default {
             // },        
             })          
             .then(() => { 
-                $parent.close();  
-
+                
                 this.$swal(            
                     'Great!',            
                     'Menu Item was successfully added!',            
                     'success',          
-                );            
+                );               
                         
                 //this.$refs.form.reset();          
             })
@@ -265,10 +269,12 @@ export default {
                            
                 ); 
             });      
-        },
-    
+        },    
    
     },
+     
+   
+    
 }
 
 </script>

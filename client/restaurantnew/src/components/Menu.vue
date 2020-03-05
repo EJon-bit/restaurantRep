@@ -305,32 +305,32 @@ export default {
             
             filteredMenus: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.appetizers)
+                    return menu.category.match(this.appetizers)
                 }).sort((a, b) => (a.cost - b.cost))                   
             },
             filteredMenus_two: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.meatLovers)
+                    return menu.category.match(this.meatLovers)
                 }).sort((a, b) => (a.cost - b.cost))                 
             },
             filteredMenus_three: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.vegetarian)
+                    return menu.category.match(this.vegetarian)
                 }).sort((a, b) => (a.cost - b.cost))                 
             },
             filteredMenus_four: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.sides)
+                    return menu.category.match(this.sides)
                 }).sort((a, b) => (a.cost - b.cost))                 
             },
             filteredMenus_five: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.beverages)
+                    return menu.category.match(this.beverages)
                 }).sort((a, b) => (a.cost - b.cost))                 
             },
             filteredMenus_six: function(){
                 return this.menus.filter((menu)=>{                        
-                        return menu.category.match(this.dessert)
+                    return menu.category.match(this.dessert)
                 }).sort((a, b) => (a.cost - b.cost))                 
             },
 
