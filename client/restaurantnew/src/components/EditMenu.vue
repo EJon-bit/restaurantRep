@@ -250,7 +250,7 @@ export default {
                     description:this.description,
                     image_url:this.image_url  
                 },          
-                url: 'http://localhost:5000/editmenu/add'          
+                url: 'http://localhost:5000/menu/editmenu/add'          
             // headers: {            
             //     'Content-Type': 'application/json',          
             // },        

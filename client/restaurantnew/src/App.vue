@@ -26,7 +26,7 @@
       <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
     </transition>
 
-    <footer class="footer">
+    <footer class="footer" style="margin-bottom:0px">
       <div class="content has-text-centered">
         <p>
           <strong>TopTierJA</strong> by <a>E-Jon Thomas</a><br/>

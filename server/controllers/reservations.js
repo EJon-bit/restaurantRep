@@ -1,16 +1,15 @@
 var mongoose = require('mongoose')
 var randomstring= require('randomstring');
-
+var express = require("express")
+var router = express.Router()
 var Reservation = require("../models/Reservation");
 var Menu = require('../models/Menu');
 var Table = require('../models/Table')
 
-module.exports.controller = (app) => {
     
     //add a reservation
-    app.post('/reservation', async(req,res) => {
+    router.post('/', async(req,res) => {
         
-       
         var passCode = randomstring.generate({length: 6,  charset: 'numeric'});
 
         var reservation = new Reservation(req.body);
@@ -18,58 +17,64 @@ module.exports.controller = (app) => {
         var tableNo = await Table.findOne({"seatNum":reservation.seatsReserved, "reserved":false});
         
         //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
-        if(tableNo){
+        try{
+            if(tableNo){
 
-            tableNo[0].reserved= true;
-            await tableNo[0].save();
-            reservation.atTable= false;
-            reservation.tableNo = tableNo[0];
-            reservation.password = passCode;
-            reservation.onSite=false;
+                tableNo.reserved= true;
+                await tableNo.save();
+                reservation.atTable= false;
+                reservation.tableNo = tableNo;
+                reservation.password = passCode;
+                reservation.onSite=false;
+    
+    
+                await reservation.save(); 
+    
+                res.json({        
+                    reservation,      
+                });  
+            }
+            else throw "No tables available"
 
-
-            await reservation.save(); 
-
-            res.json({        
-                reservation,      
-            });  
         }
-
-
-        
-    });     
-
-    app.post('/reservation/importQueued', async(req,res) => {
-        
-       
-        var reservation = new Reservation(req.body);
-
-        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "reserved":false});
-        
-        //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
-        if(tableNo){
-
-            tableNo[0].reserved= true;
-            await tableNo[0].save();
-            reservation.atTable= false;
-            reservation.tableNo = tableNo[0];
+        catch(err) {
+            console.error(err);
+           
+        }     
             
-            await reservation.save(); 
-
-            res.json({        
-                reservation,      
-            });                 
-
-        }
         
+
 
         
     });     
+
+    // router.post('/importQueued', async(req,res) => {        
+       
+    //     var reservation = new Reservation(req.body);
+
+    //     var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "reserved":false});
+        
+    //     //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
+    //     if(tableNo){
+
+    //         tableNo[0].reserved= true;
+    //         await tableNo[0].save();
+    //         reservation.atTable= false;
+    //         reservation.tableNo = tableNo[0];
+            
+    //         await reservation.save(); 
+
+    //         res.json({        
+    //             reservation,      
+    //         });                 
+
+    //     }        
+    // });     
     
      //fetch all reservations
-    app.get('/reservation', (req,res) => {
+     router.get('/', (req,res) => {
         
-        Reservation.find({}, 'numOrders orders specialRequests tableNo dateReserved onSite', (error, reservations) => {      
+        Reservation.find({},(error, reservations) => {      
                                             
             if (error) { console.log(error); }      
             res.json({        
@@ -83,7 +88,7 @@ module.exports.controller = (app) => {
 
     //add get method for to display a customers reservation orders
     
-    app.get('/reservation/user/:password', (req,res) => {
+    router.get('/user/:password', (req,res) => {
            
         var userId= req.params.password;
 
@@ -98,7 +103,7 @@ module.exports.controller = (app) => {
     });
 
     //get method below checks if reserved customer has entered to determine if RGB lights should be turned on
-    app.get('/checkonSite/user', (req,res) => {
+    router.get('/checkonSite/:password', (req,res) => {
            
         var userId= req.params.password;
 
@@ -115,7 +120,7 @@ module.exports.controller = (app) => {
     
       
     //update onSite field when employee enters customer's id at entrance
-    app.put('/reservation/user/:password',(req, res) => {  
+    router.put('/user/:password',(req, res) => {  
         
        var reservePass=req.params.password 
                 
@@ -133,7 +138,7 @@ module.exports.controller = (app) => {
         });  
     }); 
 
-    app.put('/reservation/user/:password',(req, res) => {  
+    router.put('/user/:password',(req, res) => {  
         
         var reservePass=req.params.password 
                  
@@ -153,7 +158,7 @@ module.exports.controller = (app) => {
 
     
     //delete a reservation for a user if they decide to cancel because of circumstance
-    app.delete('/reservations/user/:password', (req, res) => {  
+    router.delete('/user/:password', (req, res) => {  
          
         var deletebyPass=req.params.password;
         Reservation.remove({password:deletebyPass}, function(error, reservation){      
@@ -164,7 +169,7 @@ module.exports.controller = (app) => {
     });
 
     //delete based on pir sensors and python code
-    app.delete('/deletereserve/:tableNo', (req, res) => {  
+    router.delete('/deletereserve/:tableNo', (req, res) => {  
          
         var tableId=req.params.tableNo;
         Reservation.remove({tableNum:tableId}, function(error, reservation){      
@@ -174,4 +179,6 @@ module.exports.controller = (app) => {
 
     });
 
-}
+
+
+module.exports = router

@@ -56,11 +56,6 @@ var miscReserveSchema = new Schema({
         required:true
 
     },
-    phoneNo:{
-
-        type:String
-
-    }
     
        
 });

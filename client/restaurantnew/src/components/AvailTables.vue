@@ -124,13 +124,13 @@ export default {
     },
     created: function () {
         axios({        
-                method: 'get',
-                url: 'http://localhost:5000/table',      
-            })        
-            .then((response) => {          
-                this.tables = response.data.tables;        
-            })        
-            .catch(() => {})
+            method: 'get',
+            url: 'http://localhost:5000/table',      
+        })        
+        .then((response) => {          
+            this.tables = response.data.tables;        
+        })        
+        .catch(() => {})
     },
     computed:{
         //create if statements based on number of persons entered into given form field

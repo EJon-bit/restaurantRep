@@ -47,7 +47,7 @@
                     :type="isEmailLabelDanger"
                     :name="customerEmail" 
                     :message="emailLabelMessage"
-                    label="Eamil">
+                    label="Email">
                     
                 <b-input placeholder="johndoe@gmail.com" :style="myStyle" v-model="customerEmail" ></b-input>
                 
@@ -152,8 +152,8 @@
 
                     this.$swal(            
                         'Sorry! There are NO available tables Right Now',            
-                        'Your reservation was NOT sucessfully added! Try again',  
-                        'You can save this reservation. If you choose to your reservation will be automatically added when a Table becomes Available',         
+                        'You can save this reservation.',
+                        'If you do it will be automatically added when a Table becomes Available',         
                         'error',          
                     ); 
                 });      
@@ -169,9 +169,9 @@
                         numOrders:this.msg.length,           
                         orders:this.msg,
                         dateReserved:this.datetime,
-                        customerEmail:this.customerEmail         
+                        email:this.customerEmail         
                     },          
-                    url: 'http://localhost:5000/reservation/queued',          
+                    url: 'http://localhost:5000/misc/queued',          
                     // headers: {            
                     //     'Content-Type': 'application/json',          
                     // },        
@@ -189,12 +189,10 @@
                 })
                 .catch(() => {
 
-                    this.queued=true;
+                    //this.queued=true;
 
                     this.$swal(            
-                        'Sorry! There are NO available tables Right Now',            
-                        'Your reservation was NOT sucessfully added! Try again',  
-                        'You can save this reservation. If you choose to your reservation will be automatically added when a Table becomes Available',         
+                        'Sorry! Reservation failed to save, try again later',                                
                         'error',          
                     ); 
                 });      

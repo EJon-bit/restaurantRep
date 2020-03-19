@@ -62,7 +62,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -98,7 +98,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -135,7 +135,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -171,7 +171,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -207,7 +207,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">

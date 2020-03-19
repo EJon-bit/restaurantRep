@@ -27,13 +27,19 @@ console.log('Connection has been made');
 });
 
 // Include all 'controllers' files without needing to do it manually
-fs.readdirSync("controllers").forEach(function (file) { 
+// fs.readdirSync("controllers").forEach(function (file) { 
     
-    if(file.substr(-3) == ".js") {
-        var route = require("./controllers/" + file) 
-        route.controller(app)  
-    } 
-})
+//     if(file.substr(-3) == ".js") {
+//         var route = require("./controllers/" + file) 
+//         route.controller(app)  
+//     } 
+// })
+
+app.use("/menu", require("./controllers/menus"));
+app.use("/misc", require("./controllers/miscReserves"));
+app.use("/reservation", require("./controllers/reservations"));
+app.use("/table", require("./controllers/tables"));
+
 
 //
  

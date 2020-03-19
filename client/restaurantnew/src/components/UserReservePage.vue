@@ -5,7 +5,7 @@
             
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
                 <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" style="margin-top:85px">
-                    <div id="best" class="box" :style="myStyle"> 
+                    <div id="best" class="box" :style="myStyle" v-show="password.length!=6 && !filteredRes.length"> 
                         <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
                         
                         <b-field 
@@ -21,7 +21,7 @@
                         
                     </div>
                     <br/>
-                    <div id="good" class="box" :style="myStyle"> 
+                    <div id="good" class="box" :style="myStyle" v-if="filteredRes.length!=0"> 
                         <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
                         <div>
                             <flip-countdown :deadline="filteredRes.dateReserved"></flip-countdown>
@@ -36,7 +36,7 @@
                                 <span>Pay Now</span>
                             </button>
 
-                            <button class="button field is-link" @click="isComponentModalActive = true">                                    
+                            <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
                                 <span>Add Order</span>
                             </button>
                             <b-modal :active.sync="isComponentModalActive"
@@ -54,60 +54,12 @@
                         
                     </div>
                 </div>
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length" style="margin-top:85px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
-                    <div class="box" :style="myStyle">
-                        <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Ordered Items</p>
-                    </div>
-                    <div id="nice" class="box" style="margin-top:15px" :style="tabStyle"> 
-                        
-                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                            <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile" v-for="order in orders" :key="order.name">   
-                                <b-card 
-                                    
-                                    :img-src="order.image_url"
-                                    img-alt="Image"
-                                    img-top
-                                    tag="article"
-                                    :style="cardStyle"                                   
-                                    class="box">
-                                    
-                                    <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
-                                    
-                                    <b-card-text name="description" style="margin-top: 10px">
-                                        {{order.description}} <br/>                                            
-                                    </b-card-text>                                                                                
-                                </b-card>
-                            </div>                    
-                            
-                        </div>
-                        <div class="column is-variable is-half-desktop is-12-tablet is-12-mobile">
 
-                            <div class="box" :style="myStyle">    
-                                <button class="button field is-danger" >
-                                    <b-icon icon="delete"></b-icon>
-                                    <span>Delete</span>
-                                </button>
-                                
-                                <button class="button field is-link">
-                                    <b-icon icon="pencil"></b-icon>
-                                    <span>Update</span>
-                                </button> 
-
-                                <button class="button field is-info" @click="isComponentModalActive=true; orderAdd=true">                    
-                                    <b-icon icon="plus"></b-icon>
-                                    <span>Add Order</span>
-                                </button>         
-                            </div> 
-
-                        </div> 
-                    </div>                                
-
-                </div> 
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="!orders.length||orderAdd" style="margin-top:85px">
-                    <div class="box" :style="myStyle">
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:85px">
+                    <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length">
                             <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
                     </div>
-                    <div class="box" :style="tabStyle"> 
+                    <div class="box" :style="tabStyle" v-if="(password.length==6) && (!orders.length||orderAdd)"> 
                         <b-tabs vertical type="is-boxed">
                             <b-tab-item :label="appetizers">
                                 <div class="columns is-multiline is-variable is-two-thirds-desktop is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
@@ -131,9 +83,7 @@
 
                                             <b-card-text style="margin-top: 10px">
                                                 {{menu.description}} <br/>                                            
-                                            </b-card-text>                                     
-                                                                                
-                                                                                                            
+                                            </b-card-text>                                                                                                        
                                         </b-card>
                                     </div>
                                     <br/>
@@ -216,8 +166,7 @@
                                             :per-page="perPage">
                                         </b-pagination>  
                                     </div>
-                                </div>
-                                
+                                </div>                                
                             </b-tab-item>
 
                             <b-tab-item :label="sides">
@@ -327,12 +276,52 @@
                                     </div>
                                 </div>
                             </b-tab-item>
-                        </b-tabs> 
-                        
-                        
+                        </b-tabs>                        
+                    </div>                     
+                </div>     
+
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length" style="margin-top:85px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                    <div class="box" :style="myStyle">
+                        <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
+                    </div>
+                    <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
+                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                            <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="order in orders" :key="order.name">   
+                                <b-card                                     
+                                    :img-src="order.image_url"
+                                    img-alt="Image"
+                                    img-top
+                                    tag="article"
+                                    :style="cardStyle"                                   
+                                    class="box">
+                                    
+                                    <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
+
+                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
+
+                                    <div class="field" style="margin-bottom: 30px">
+                                        <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
+                                        <p style="font-weight:bold">Check to Add</p>
+                                    </div>
+                                    
+                                    <b-card-text name="description" style="margin-top: 10px">
+                                        {{order.description}} <br/>                                            
+                                    </b-card-text>                                                                                
+                                </b-card>
+                            </div> 
+                            <br/>
+                            <div class="column is-variable is-offset-1-desktop is-offset-2-mobile">                                    
+                                <button class="button field is-danger" >
+                                    <b-icon icon="delete"></b-icon>
+                                    <span>Delete</span>
+                                </button> 
+                                <button class="button field is-link" @click="orderAdd = true">                                    
+                                    <span>See Menu</span>
+                                </button>                     
+                            </div>                      
+                        </div>                        
                     </div> 
-                    
-                </div>                
+                </div>                           
                     
             </div>            
         </div>
@@ -401,6 +390,7 @@ export default {
             beverages:"Beverages",
             dessert:"Dessert",
 
+            checkboxOrders:[],
             checkboxGroup:[],
             menus: [],
             current: 1,
@@ -435,13 +425,15 @@ export default {
 
     watch: {
         // whenever password changes, this function will run
-        password: function (newPassword) {            
-            this.filteredReservations()
+        password: function (newPassword) { 
+            if(this.password.length==6){
+                this.filteredReservations()
+            }           
+            
         }
     },              
      
     methods: { 
-
                 
         kitchenSend(){
            
@@ -473,20 +465,18 @@ export default {
         },
         filteredReservations://waits for user to finish typing before function is run
             function(){
+                // this.filteredRes = [ somthing ][0]
+                this.filteredRes= this.reservations.filter(reservation=> reservation.password.match(this.password))[0]                
                 
-                this.filteredRes= this.reservations.filter(reservation=>{                        
-                    return reservation.password.match(this.password)
-                })                            
-                
-                var orders= this.filteredRes.orders.map(order=>{
+                this.filteredRes.orders.map(order=>{
 
-                    return axios({        
+                    axios({        
                         method: 'get',
                         url: `http://localhost:5000/menu/user/${order}`,      
                     })        
                     .then((response) => { 
                                 
-                        response.data.menu;        
+                        this.orders.push(response.data.menu);        
                     })        
                     .catch(() => {        
 
