@@ -1,15 +1,15 @@
 
 <template>
     <div :style="backImage">
-        <div class="container is-fluid">        
+        <div class="container is-fullscreen">    
             
-            <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:25px" >  
-                <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile">
-                    <div id="good" class="box" :style="myStyle"> 
+            <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
+                <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" style="margin-top:85px">
+                    <div id="best" class="box" :style="myStyle"> 
                         <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
                         
                         <b-field 
-                            
+                          
                             label="Password"    
                             :name=password                              
                             custom-class="is-small has-text-warning" 
@@ -27,9 +27,34 @@
                             <flip-countdown :deadline="filteredRes.dateReserved"></flip-countdown>
                         </div>  
                         
+                        <div v-if="!orders.length||orderAdd">                            
+                            <message></message><br/>
+                        </div>
+                        
+                        <div>
+                            <button class="button field is-danger">                                    
+                                <span>Pay Now</span>
+                            </button>
+
+                            <button class="button field is-link" @click="isComponentModalActive = true">                                    
+                                <span>Add Order</span>
+                            </button>
+                            <b-modal :active.sync="isComponentModalActive"
+                                has-modal-card
+                                trap-focus
+                                aria-role="dialog"
+                                aria-modal>
+                                <modal-form :orders="checkboxGroup"></modal-form>
+                            </b-modal>
+
+                            <button class="button field is-warning" @click="kitchenSend">                                    
+                                <span>Call Waiter</span>
+                            </button>
+                        </div>  
+                        
                     </div>
                 </div>
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length" style="margin-top:85px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
                     <div class="box" :style="myStyle">
                         <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Ordered Items</p>
                     </div>
@@ -68,9 +93,9 @@
                                     <span>Update</span>
                                 </button> 
 
-                                <button class="button field is-info">                    
+                                <button class="button field is-info" @click="isComponentModalActive=true; orderAdd=true">                    
                                     <b-icon icon="plus"></b-icon>
-                                    <span>Add</span>
+                                    <span>Add Order</span>
                                 </button>         
                             </div> 
 
@@ -78,15 +103,15 @@
                     </div>                                
 
                 </div> 
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="!orders.length">
+                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="!orders.length||orderAdd" style="margin-top:85px">
                     <div class="box" :style="myStyle">
                             <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
                     </div>
                     <div class="box" :style="tabStyle"> 
                         <b-tabs vertical type="is-boxed">
                             <b-tab-item :label="appetizers">
-                                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
-                                    <div class="column is-variable is-one-third-desktop is-one-third-tablet is-half-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
+                                <div class="columns is-multiline is-variable is-two-thirds-desktop is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
+                                    <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                                         <b-card
                                             :img-src="menu.image_url"
                                             img-alt="Image"
@@ -101,7 +126,7 @@
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -116,7 +141,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage" >
                                         </b-pagination>  
                                     </div>
                                 </div>  
@@ -152,7 +177,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -188,7 +213,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -225,7 +250,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -261,7 +286,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -297,35 +322,17 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
                             </b-tab-item>
                         </b-tabs> 
                         
-                        <div class="column is-variable is-11-desktop is-12-tablet is-12-mobile" >
-                            <button class="button field is-danger">                                    
-                                <span>Pay Now</span>
-                            </button>
-
-                            <button class="button field is-link" @click="isComponentModalActive = true">                                    
-                                <span>Add Order</span>
-                            </button>
-                            <b-modal :active.sync="isComponentModalActive"
-                                has-modal-card
-                                trap-focus
-                                aria-role="dialog"
-                                aria-modal>
-                                <modal-form :orders="checkboxGroup"></modal-form>
-                            </b-modal>
-
-                            <button class="button field is-warning">                                    
-                                <span>Special Requests</span>
-                            </button>
-                        </div>  
+                        
                     </div> 
-                </div>
+                    
+                </div>                
                     
             </div>            
         </div>
@@ -337,41 +344,43 @@
 import axios from 'axios'
 import FlipCountdown from 'vue2-flip-countdown'
 import _ from 'lodash'
+import Message from'./Message';
+//import {mapActions, mapGetters} from 'vuex'
 
 var ModalForm = {
     props: ['orders', 'cost'],
 
     template: 
-`        <form>
-            <div class="modal-card" style="width: auto">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Add Order</p>
-                </header>
-                <section class="modal-card-body">
-                    <b-field label="Orders">
-                        <b-input
-                            type="textarea"
-                            :value="orders"                            
-                            required disabled>
-                        </b-input>
-                    </b-field>
+        `   <form>
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Add Order</p>
+                    </header>
+                    <section class="modal-card-body">
+                        <b-field custom-class="is-small has-text-warning" label="Orders">
+                            <b-input
+                                type="textarea"
+                                :value="orders"                            
+                                required disabled>
+                            </b-input>
+                        </b-field>
 
-                    <b-field label="Cost">
-                        <b-input
-                            type="textarea"
-                            :value="cost"                            
-                            required disabled>
-                        </b-input>
-                    </b-field>
-                    
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Add Order</button>
-                </footer>
-            </div>
-        </form>
-    `
+                        <b-field custom-class="is-small has-text-warning" label="Cost">
+                            <b-input
+                                type="textarea"
+                                :value="cost"                            
+                                required disabled>
+                            </b-input>
+                        </b-field>
+                        
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button" type="button" @click="$parent.close()">Close</button>
+                        <button class="button is-primary">Add Order</button>
+                    </footer>
+                </div>
+            </form>
+        `
 }
 
 export default {
@@ -379,7 +388,8 @@ export default {
    
    components: {
         ModalForm,
-        FlipCountdown
+        FlipCountdown,
+        'message':Message
     },
 
     data() {    
@@ -396,11 +406,13 @@ export default {
             current: 1,
             perPage: 3,
 
+            //callWait:false,
+            orderAdd:false,
             isComponentModalActive: false,
 
             backImage: { 
-                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
-                
+                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)"
+                         
             },
             filteredRes:[],
             password:"",
@@ -426,15 +438,16 @@ export default {
         password: function (newPassword) {            
             this.filteredReservations()
         }
-    },
-
-    created() {    
-        this.fetchMenu(); //fetches menu from db
-        this.fetchReservations();//fetches reservations from db
-    },
-                
+    },              
      
-    methods: {  
+    methods: { 
+
+                
+        kitchenSend(){
+           
+            this.$store.dispatch('kitchenSend');
+        },
+        
         fetchMenu() {      
             return axios({        
                 method: 'get',
@@ -461,7 +474,7 @@ export default {
         filteredReservations://waits for user to finish typing before function is run
             function(){
                 
-                this.filteredRes= this.reservations.filter((reservation)=>{                        
+                this.filteredRes= this.reservations.filter(reservation=>{                        
                     return reservation.password.match(this.password)
                 })                            
                 
@@ -486,6 +499,9 @@ export default {
        
     },
     computed:{
+        // callWait(){
+        //     return this.$store.state.waiterCall
+        // },
                 
         filteredMenus: function(){
             return this.menus.filter((menu)=>{                        
@@ -560,18 +576,29 @@ export default {
         }            
 
     
-    },   
+    }, 
+
+    created() {    
+        this.fetchMenu(); //fetches menu from db
+        this.fetchReservations();//fetches reservations from db
+    },
     
 
 }
 </script>
 <style scoped>
+   
     #great{
         width: 100%;
         height: 50vw;
         object-fit: cover;
     }
     #good{
+        width: 100%;
+        height: 40vw;
+        object-fit: cover;
+    }
+    #best{
         width: 100%;
         height: 28vw;
         object-fit: cover;

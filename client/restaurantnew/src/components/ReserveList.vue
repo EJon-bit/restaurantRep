@@ -3,18 +3,22 @@
     <div id="reserve">
         <div class="container is-fluid">
             <br/>
-            <div v-for="reservation in sortedReservations" :key="reservation._id">
+            
+            <div v-for="reservation in sortedReservations" :key="reservation._id" style="margin-top:85px">
             <b-message :title="reservation.tableNo[0].tableNum.toString()" type="is-success" aria-close-label="Close message">
                     
                     <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
                     <br/><br/>
                     <strong> Orders: {{reservation.orders}}</strong>
-                    <hr class="featurette-divider">
+                    <div>
+                        <br/><message v-if="checkWait"></message>
+                    </div>
+                    <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
                     <div>
                         <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
                     </div>
 
-                </b-message><br/><br/>
+                </b-message>
             
             </div>
         </div>
@@ -25,12 +29,17 @@
 
 import axios from 'axios'
 import FlipCountdown from 'vue2-flip-countdown'
+import Message from'./Message'
 
 export default {
 
   name: 'ReserveList', 
 
-  components: { FlipCountdown },
+  components: { 
+    FlipCountdown,
+    'message':Message
+
+  },
 
     data() {    
         return {      
@@ -60,9 +69,16 @@ export default {
             },  
         },
         computed:{
-            
+            checkWait(){
+                return this.$store.state.checkWait
+            },
+
             sortedReservations: function(){
-                                   
+                
+                // put in search function for change in onSite field...if person onSite and not served 
+                //sort such that those onSite reservations are placed first
+
+                //if person on site and orderAdded after being served placed them last
                 return this.reservations.sort((a, b) =>{
 
                     return new Date(a.dateReserved) - new Date(b.dateReserved);

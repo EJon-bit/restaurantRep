@@ -11,6 +11,7 @@ import UserReservePage from '@/components/UserReservePage'
 //import { HotModuleReplacementPlugin } from 'webpack';
 
 Vue.use(Router)
+//Vue.use(HotModuleReplacementPlugin)
 
 export default new Router({
   

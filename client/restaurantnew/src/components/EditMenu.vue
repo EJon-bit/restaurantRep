@@ -1,10 +1,13 @@
 <template>
  <div :style="backImage">   
-    <div class="container is-fluid">       
+    <div class="container is-fluid" >        
         <br/> 
-        <div class="box" :style="myStyle"> 
-            <p class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Edit Menu</p>             
+        <div style="margin-top:85px">
+            <div class="box" :style="myStyle"> 
+                <p class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Edit Menu</p>             
+            </div>
         </div>
+        <br/>
             <b-table 
                 class="box"
                 :data="menus"
@@ -66,33 +69,33 @@ var AddMenuForm = {
                     <p class="modal-card-title">Add Menu Item</p>
                 </header>
                 <section class="modal-card-body">
-                    <b-field label="Name of Item">
+                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
                         <b-input                            
                             :v-model="name"                            
                             required>
                         </b-input>
                     </b-field>
 
-                    <b-field label="Category">
+                    <b-field custom-class="is-small has-text-warning" label="Category">
                         <b-input                            
                             :v-model="category"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Description">
+                    <b-field custom-class="is-small has-text-warning" label="Description">
                         <b-input
                             type="textarea"
                             :v-model="description"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Cost">
+                    <b-field custom-class="is-small has-text-warning" label="Cost">
                         <b-input
                             :v-model="cost"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Image URL">
+                    <b-field custom-class="is-small has-text-warning" label="Image URL">
                         <b-input
                             type="textarea"
                             :v-model="image_url"                            
@@ -107,8 +110,8 @@ var AddMenuForm = {
                 </footer>
             </div>
         </form>
-    `,    
-    
+    `,  
+        
 }
 var UpdateMenuForm = {
     props: ['name','category','description', 'cost','image_url'],
@@ -120,34 +123,34 @@ var UpdateMenuForm = {
                     <p class="modal-card-title">Update Menu Item</p>
                 </header>
                 <section class="modal-card-body">
-                    <b-field label="Name of Item">
+                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
                         <b-input                            
                             :v-model="name"                            
                             required>
                         </b-input>
                     </b-field>
 
-                    <b-field label="Category">
+                    <b-field custom-class="is-small has-text-warning" label="Category">
                         <b-input                            
                             :v-model="category"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Description">
+                    <b-field custom-class="is-small has-text-warning" label="Description">
                         <b-input
                             type="textarea"
                             :v-model="description"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Cost">
+                    <b-field custom-class="is-small has-text-warning" label="Cost">
                         <b-input
                             type="number"
                             :v-model="cost"                            
                             required>
                         </b-input>
                     </b-field>
-                    <b-field label="Image URL">
+                    <b-field custom-class="is-small has-text-warning" label="Image URL">
                         <b-input
                             type="textarea"
                             :v-model="image_url"                            
@@ -181,6 +184,7 @@ export default {
 
             myStyle:{
                 backgroundColor: 'rgba(63,63,63,.95)'
+                
                 
             },
             cardStyle:{
@@ -280,5 +284,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>

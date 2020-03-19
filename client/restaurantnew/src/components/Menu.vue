@@ -3,13 +3,13 @@
     <div :style="backImage">
         <br/>
         <div class="container is-fullscreen">
-            <div class="columns is variable is-6-widescreen">        
+            <div class="columns is variable is-6-widescreen" style="margin-top:60px">        
                 <div class="column is-variable is-three-quarters-widescreen is-two-thirds-tablet">
                     <div class="box" :style="tabStyle">                
                         <b-tabs vertical type="is-boxed">
                             <b-tab-item :label="appetizers">
-                                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
-                                    <div class="column is-variable is-one-third-desktop is-half-tablet is-12-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
+                                <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
+                                    <div class="column is-variable is-one-third-desktop is-half-tablet is-8-mobile is-offset-2-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                                         <b-card
                                             :img-src="menu.image_url"
                                             img-alt="Image"
@@ -18,13 +18,13 @@
                                             :style="cardStyle"
                                             class="box" id="cardOpacity">
                                             
-                                            <b-text class="title is-4">{{menu.name}}</b-text>
+                                            <p class="title is-4">{{menu.name}}</p>
 
                                             <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                                             
                                             <div class="field" style="margin-bottom: 30px">
                                                 <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
+                                                <p style="font-weight:bold">Check to Add</p>
                                             </div>
 
                                             <b-card-text style="margin-top: 10px">
@@ -39,7 +39,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>  
@@ -75,7 +75,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>
@@ -220,7 +220,7 @@
                                         <b-pagination
                                             :total="total"
                                             :current.sync="current"
-                                            :per-page="perPage" :style="cardStyle">
+                                            :per-page="perPage">
                                         </b-pagination>  
                                     </div>
                                 </div>

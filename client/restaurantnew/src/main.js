@@ -8,6 +8,7 @@ import VueSwal from 'vue-swal';
 import App from './App.vue'
 import router from './router'  
 import { CardPlugin } from 'bootstrap-vue'
+import {store} from './store/store'
 //import VeeValidate from 'vee-validate';
 
 
@@ -27,6 +28,9 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
+
+  store:store,//uses store plugin as a data store
+
   el: '#app',
   router,
   components: { App },

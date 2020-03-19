@@ -15,7 +15,7 @@ module.exports.controller = (app) => {
 
         var reservation = new Reservation(req.body);
 
-        var tableNo = await Table.find({"seatNum":reservation.seatsReserved, "reserved":false});
+        var tableNo = await Table.findOne({"seatNum":reservation.seatsReserved, "reserved":false});
         
         //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
         if(tableNo){
@@ -34,6 +34,7 @@ module.exports.controller = (app) => {
                 reservation,      
             });  
         }
+
 
         
     });     
@@ -57,8 +58,10 @@ module.exports.controller = (app) => {
 
             res.json({        
                 reservation,      
-            });  
+            });                 
+
         }
+        
 
         
     });     

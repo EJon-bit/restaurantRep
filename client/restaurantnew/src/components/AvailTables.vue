@@ -14,7 +14,7 @@
             :columns="columns"
             :checked-rows.sync="checkedRows"  
             checkable
-            :checkbox-position="checkboxPosition">                      
+            :checkbox-position="checkboxPosition" :style="cardStyle">                      
         </b-table>     
         <div class="box" :style="myStyle">    
             
@@ -48,7 +48,7 @@ var ModalForm = {
                 </header>
                 <section class="modal-card-body">
                     <b-field 
-                    custom-class="is-medium has-text-danger" 
+                    custom-class="has-text-warning" 
                     :type="isNameLabelDanger"
                     :name="customerName" 
                     :message="nameLabelMessage"
@@ -58,11 +58,11 @@ var ModalForm = {
                 
             </b-field>
             <br/>
-            <b-field label="No. of Persons" custom-class="is-medium has-text-danger" :type="ispersonNumLabelDanger" :message="personNumLabelMessage">
+            <b-field label="No. of Persons" custom-class="has-text-warning" :type="ispersonNumLabelDanger" :message="personNumLabelMessage">
                     <b-input :value="seatsReserved" required>
                     </b-input>
             </b-field><br/>
-            <b-field label="Arrival Date and Time" custom-class="is-medium has-text-danger" :type="isdateLabelDanger" :message="dateLabelMessage">
+            <b-field label="Arrival Date and Time" custom-class="has-text-warning" :type="isdateLabelDanger" :message="dateLabelMessage">
                 <b-datetimepicker v-model="datetime"
                     placeholder="Click to select..."
                     :min-datetime="minDatetime"

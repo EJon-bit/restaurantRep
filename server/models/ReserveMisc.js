@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema=mongoose.Schema;
 
 var mongooseDateFormat = require('mongoose-date-format');
-
+require("./Table")
 
 //Schema for queued reservations when no tables are available
 var miscReserveSchema = new Schema({
@@ -28,16 +28,18 @@ var miscReserveSchema = new Schema({
         type: Array, 
                
     },
-
-    specialRequests:{ //example:birthdays, allergy notification
-        
-        type: Boolean,	
-
-    },
+    
 
     orderCost:{
         type: Array,                        
     },
+
+    tableNo:[{
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Table' ,
+              
+    }],
+
     password:{
         type:String,
         required:true
@@ -51,6 +53,7 @@ var miscReserveSchema = new Schema({
     } ,
     email:{
         type:String,
+        required:true
 
     },
     phoneNo:{

@@ -5,7 +5,7 @@
             <h1 class="title is-4" style="font-family:Gabriola;color:gold;font-size:30px;">Enter Reservation Details Here</h1><br/>
         </div>
         <div class="container">                  
-        <b-form>    
+            
             <b-field 
                     custom-class="is-small has-text-warning" 
                     :type="isNameLabelDanger"
@@ -38,8 +38,20 @@
   
             
             <b-field label="Orders" custom-class="is-small has-text-warning" type="is-primary">
-                <b-input :value="msg" type="textarea" disabled ></b-input>
-            </b-field><br/>        
+                <b-input :value="msg.toString()" type="textarea" disabled ></b-input>
+            </b-field><br/> 
+
+            <b-field 
+                    v-if="queued"
+                    custom-class="is-small has-text-warning" 
+                    :type="isEmailLabelDanger"
+                    :name="customerEmail" 
+                    :message="emailLabelMessage"
+                    label="Eamil">
+                    
+                <b-input placeholder="johndoe@gmail.com" :style="myStyle" v-model="customerEmail" ></b-input>
+                
+            </b-field><br/>       
          
             <div id="button" >
                 <b-button type="is-primary" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
@@ -47,12 +59,12 @@
                 </b-button>
                 <b-button type="is-link" :disabled="formIsInDanger" v-if="queued" @click="save" >
                     Save Reservation
-                </b-button>
+                </b-button><br/>
                 <b-button type="is-warning" v-if="queued" @click="seeTables" >
                     See Available Tables
                 </b-button>
             </div>
-        </b-form> 
+         
         </div>
     </div>   
 </template> 
@@ -65,7 +77,12 @@
         name: 'AddReserve',
          //look up form validations
         //mixins: [validationMixin],
-        props:['msg'],
+        props:{
+            msg: {
+                type: Array,
+                required: true
+            }
+        },
 
         
         data () {
@@ -151,9 +168,10 @@
                         seatsReserved: this.seatsReserved, 
                         numOrders:this.msg.length,           
                         orders:this.msg,
-                        dateReserved:this.datetime          
+                        dateReserved:this.datetime,
+                        customerEmail:this.customerEmail         
                     },          
-                    url: 'http://localhost:5000/reservation',          
+                    url: 'http://localhost:5000/reservation/queued',          
                     // headers: {            
                     //     'Content-Type': 'application/json',          
                     // },        
@@ -218,9 +236,24 @@
                 else {
                     return "This field is required";
                 }
-            },                        
+            },   
+            isEmailLabelDanger() {
+                if (this.customerEmail !== "") {
+                    return "is-success";
+                } else {
+                    return "is-danger";
+                }
+            },
+            emailLabelMessage() {
+                if (this.customerEmail !== null) {
+                    return "";
+                } 
+                else {
+                    return "This field is required";
+                }
+            },                     
             formIsInDanger() {
-                if (this.isNameLabelDanger === "is-danger"|| this.ispersonNumLabelDanger === "is-danger") {
+                if (this.isNameLabelDanger === "is-danger"|| this.ispersonNumLabelDanger === "is-danger"|| this.isEmailLabelDanger === "is-danger") {
                     return true;
                 } 
                 else {
@@ -243,6 +276,7 @@
                     return "This field is required";
                 }
             },
+           
         },
                
     }
