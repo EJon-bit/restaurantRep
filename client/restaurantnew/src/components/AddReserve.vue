@@ -177,7 +177,7 @@
                     // },        
                 })          
                 .then(() => { 
-                    this.$router.push({ name: 'UserReservePage' });  
+                    this.$router.push({ name: 'Home' });  
 
                     this.$swal(            
                         'Great!',            

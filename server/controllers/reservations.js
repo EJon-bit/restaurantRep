@@ -15,6 +15,10 @@ var Table = require('../models/Table')
         var reservation = new Reservation(req.body);
 
         var tableNo = await Table.findOne({"seatNum":reservation.seatsReserved, "reserved":false});
+
+        //this finds one reservation similar to the one being posted but with different date
+        var testres= await Reservation.find({"seatReserved":reservation.seatsReserved, "dateReserved":!reservation.dateReserved},'dateReserved')
+        
         
         //to deduce cost take data from orders input field 'req.body.orders' and split it after iver comma into separate arrays the put it in cost
         try{
@@ -33,6 +37,23 @@ var Table = require('../models/Table')
                 res.json({        
                     reservation,      
                 });  
+            }
+            else if(testres){
+
+                reservation.atTable= false;
+                reservation.tableNo = testres.tableNo;
+                reservation.password = passCode;
+                reservation.onSite=false;
+    
+    
+                await reservation.save(); 
+    
+                res.json({        
+                    reservation,      
+                });  
+
+
+
             }
             else throw "No tables available"
 

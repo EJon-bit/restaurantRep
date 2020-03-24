@@ -5,327 +5,338 @@
             
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
                 <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" style="margin-top:85px">
-                    <div id="best" class="box" :style="myStyle" v-show="password.length!=6 && !filteredRes.length"> 
-                        <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
-                        
-                        <b-field 
-                          
-                            label="Password"    
-                            :name=password                              
-                            custom-class="is-small has-text-warning" 
-                            type="is-primary">
-                            <b-input v-model.lazy="password">  
-                            </b-input>
-                        
-                        </b-field>
-                        
-                    </div>
-                    <br/>
-                    <div id="good" class="box" :style="myStyle" v-if="filteredRes.length!=0"> 
-                        <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
-                        <div>
-                            <flip-countdown :deadline="filteredRes.dateReserved"></flip-countdown>
-                        </div>  
-                        
-                        <div v-if="!orders.length||orderAdd">                            
-                            <message></message><br/>
+                    <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                        <div class="column is-variable is-11-desktop is-12-tablet is-12-mobile is-offset-11" style="margin-top:85px" v-if="password.length!=6 && !filteredRes.length">   
+                            <div id="best" class="box" :style="myStyle" > 
+                                <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/><br/>
+                                
+                                <b-field 
+                                
+                                    label="Password"    
+                                    :name=password                              
+                                    custom-class="is-small has-text-warning" 
+                                    type="is-primary">
+                                    <b-input v-model.lazy="password">  
+                                    </b-input>
+                                
+                                </b-field>
+                                
+                            </div>
                         </div>
-                        
-                        <div>
-                            <button class="button field is-danger">                                    
-                                <span>Pay Now</span>
-                            </button>
+                        <div class="column is-variable is-one-11-desktop is-12-tablet is-12-mobile">
+                            <br/>
+                            <div id="good" class="box" :style="myStyle" v-if="filteredRes.length!=0"> 
+                                <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
+                                <div>
+                                    <flip-countdown :deadline="filteredRes.dateReserved"></flip-countdown>
+                                </div>  
 
-                            <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
-                                <span>Add Order</span>
-                            </button>
-                            <b-modal :active.sync="isComponentModalActive"
-                                has-modal-card
-                                trap-focus
-                                aria-role="dialog"
-                                aria-modal>
-                                <modal-form :orders="checkboxGroup"></modal-form>
-                            </b-modal>
+                                <p class="title is-4" style="color:orange;font-size:20px;">Bill Total: ${{orderTotal}}</p>
+                                
+                                <div v-if="!orders.length||orderAdd">                            
+                                    <message></message><br/>
+                                </div>
+                                
+                                <div>
+                                    <button class="button field is-danger">                                    
+                                        <span>Pay Now</span>
+                                    </button>
 
-                            <button class="button field is-warning" @click="kitchenSend">                                    
-                                <span>Call Waiter</span>
-                            </button>
-                        </div>  
-                        
+                                    <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
+                                        <span>Add Order</span>
+                                    </button>
+                                    <b-modal :active.sync="isComponentModalActive"
+                                        has-modal-card
+                                        trap-focus
+                                        aria-role="dialog"
+                                        aria-modal>
+                                        <modal-form :orders="checkboxGroup"></modal-form>
+                                    </b-modal>
+
+                                    <button class="button field is-warning" @click="kitchenSend">                                    
+                                        <span>Call Waiter</span>
+                                    </button>
+                                </div>  
+                                
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
-
                 <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:85px">
-                    <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length">
-                            <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
-                    </div>
-                    <div class="box" :style="tabStyle" v-if="(password.length==6) && (!orders.length||orderAdd)"> 
-                        <b-tabs vertical type="is-boxed">
-                            <b-tab-item :label="appetizers">
-                                <div class="columns is-multiline is-variable is-two-thirds-desktop is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
-                                    <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
-                                        <b-card
-                                            :img-src="menu.image_url"
+                    <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                        <div class="column is-variable is-11-desktop is-12-tablet is-12-mobile">
+                            <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length">
+                                    <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
+                            </div>
+                            <div class="box" :style="tabStyle" v-if="(password.length==6) && (!orders.length||orderAdd)"> 
+                                <b-tabs vertical type="is-boxed">
+                                    <b-tab-item :label="appetizers">
+                                        <div class="columns is-multiline is-variable is-two-thirds-desktop is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
+                                            <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
+                                                <b-card
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box" id="cardOpacity">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}<p>
+
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <p style="font-weight:bold">Check to Add</p>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                                                                                                        
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage" >
+                                                </b-pagination>  
+                                            </div>
+                                        </div>  
+                                    </b-tab-item>
+                                    
+                                    <b-tab-item :label="meatLovers">
+                                        <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                                            <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
+                                                <b-card
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}</p>
+                                                    
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <strong>Check to Add</strong>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                        
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage">
+                                                </b-pagination>  
+                                            </div>
+                                        </div>
+                                    </b-tab-item>
+                                    
+                                    <b-tab-item :label="vegetarian">
+                                        <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                                            <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_two" :key="menu.name">
+                                                <b-card 
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}</p>
+                                                    
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <strong>Check to Add</strong>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                     
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage">
+                                                </b-pagination>  
+                                            </div>
+                                        </div>                                
+                                    </b-tab-item>
+
+                                    <b-tab-item :label="sides">
+                                        <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                                            <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_three" :key="menu.name">
+                                                <b-card
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}</p>
+                                                    
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <strong>Check to Add</strong>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                         
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage">
+                                                </b-pagination>  
+                                            </div>
+                                        </div>
+                                    </b-tab-item>
+
+                                    <b-tab-item :label="beverages" >
+                                        <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                                            <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_four" :key="menu.name">
+                                                <b-card
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}</p>
+                                                    
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <strong>Check to Add</strong>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                          
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage">
+                                                </b-pagination>  
+                                            </div>
+                                        </div>
+                                    </b-tab-item>
+
+                                    <b-tab-item :label="dessert">
+                                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                                            <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_five" :key="menu.name">
+                                                <b-card
+                                                    :img-src="menu.image_url"
+                                                    img-alt="Image"
+                                                    img-top
+                                                    tag="article"
+                                                    :style="cardStyle"
+                                                    class="box">
+                                                    
+                                                    <p class="title is-4">{{menu.name}}</p>
+                                                    
+                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                                                    
+                                                    <div class="field" style="margin-bottom: 30px">
+                                                        <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                        <strong>Check to Add</strong>
+                                                    </div>
+
+                                                    <b-card-text style="margin-top: 10px">
+                                                        {{menu.description}} <br/>                                            
+                                                    </b-card-text>                           
+                                                </b-card>
+                                            </div>
+                                            <br/>
+                                            <div class="column is-variable is-12-desktop is-11-mobile">
+                                                <b-pagination
+                                                    :total="total"
+                                                    :current.sync="current"
+                                                    :per-page="perPage">
+                                                </b-pagination>  
+                                            </div>
+                                        </div>
+                                    </b-tab-item>
+                                </b-tabs>                        
+                            </div>                     
+                        </div>     
+
+                        <div class="column is-variable is-11-desktop is-12-tablet is-12-mobile" v-if="orders.length"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                            <div class="box" :style="myStyle">
+                                <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
+                            </div>
+                            <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
+                                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                                    <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="order in orders" :key="order.name">   
+                                        <b-card                                     
+                                            :img-src="order.image_url"
                                             img-alt="Image"
                                             img-top
                                             tag="article"
-                                            :style="cardStyle"
-                                            class="box" id="cardOpacity">
+                                            :style="cardStyle"                                   
+                                            class="box">
                                             
-                                            <p class="title is-4">{{menu.name}}<p>
+                                            <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
 
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
+                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
+
                                             <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                                                <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
                                                 <p style="font-weight:bold">Check to Add</p>
                                             </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                                                                                                        
+                                            
+                                            <b-card-text name="description" style="margin-top: 10px">
+                                                {{order.description}} <br/>                                            
+                                            </b-card-text>                                                                                
                                         </b-card>
-                                    </div>
+                                    </div> 
                                     <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage" >
-                                        </b-pagination>  
-                                    </div>
-                                </div>  
-                            </b-tab-item>
-                            
-                            <b-tab-item :label="meatLovers">
-                                <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                                    <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
-                                        <b-card
-                                            :img-src="menu.image_url"
-                                            img-alt="Image"
-                                            img-top
-                                            tag="article"
-                                            :style="cardStyle"
-                                            class="box">
-                                            
-                                            <p class="title is-4">{{menu.name}}</p>
-                                            
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
-                                            <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
-                                            </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                        
-                                        </b-card>
-                                    </div>
-                                    <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage">
-                                        </b-pagination>  
-                                    </div>
-                                </div>
-                            </b-tab-item>
-                            
-                            <b-tab-item :label="vegetarian">
-                                <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                                    <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_two" :key="menu.name">
-                                        <b-card 
-                                            :img-src="menu.image_url"
-                                            img-alt="Image"
-                                            img-top
-                                            tag="article"
-                                            :style="cardStyle"
-                                            class="box">
-                                            
-                                            <p class="title is-4">{{menu.name}}</p>
-                                            
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
-                                            <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
-                                            </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                     
-                                        </b-card>
-                                    </div>
-                                    <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage">
-                                        </b-pagination>  
-                                    </div>
-                                </div>                                
-                            </b-tab-item>
-
-                            <b-tab-item :label="sides">
-                                <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                                    <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_three" :key="menu.name">
-                                        <b-card
-                                            :img-src="menu.image_url"
-                                            img-alt="Image"
-                                            img-top
-                                            tag="article"
-                                            :style="cardStyle"
-                                            class="box">
-                                            
-                                            <p class="title is-4">{{menu.name}}</p>
-                                            
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
-                                            <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
-                                            </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                         
-                                        </b-card>
-                                    </div>
-                                    <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage">
-                                        </b-pagination>  
-                                    </div>
-                                </div>
-                            </b-tab-item>
-
-                            <b-tab-item :label="beverages" >
-                                <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                                    <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_four" :key="menu.name">
-                                        <b-card
-                                            :img-src="menu.image_url"
-                                            img-alt="Image"
-                                            img-top
-                                            tag="article"
-                                            :style="cardStyle"
-                                            class="box">
-                                            
-                                            <p class="title is-4">{{menu.name}}</p>
-                                            
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
-                                            <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
-                                            </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                          
-                                        </b-card>
-                                    </div>
-                                    <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage">
-                                        </b-pagination>  
-                                    </div>
-                                </div>
-                            </b-tab-item>
-
-                            <b-tab-item :label="dessert">
-                                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                                    <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_five" :key="menu.name">
-                                        <b-card
-                                            :img-src="menu.image_url"
-                                            img-alt="Image"
-                                            img-top
-                                            tag="article"
-                                            :style="cardStyle"
-                                            class="box">
-                                            
-                                            <p class="title is-4">{{menu.name}}</p>
-                                            
-                                            <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
-                                            
-                                            <div class="field" style="margin-bottom: 30px">
-                                                <b-checkbox size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
-                                                <strong>Check to Add</strong>
-                                            </div>
-
-                                            <b-card-text style="margin-top: 10px">
-                                                {{menu.description}} <br/>                                            
-                                            </b-card-text>                           
-                                        </b-card>
-                                    </div>
-                                    <br/>
-                                    <div class="column is-variable is-12-desktop is-11-mobile">
-                                        <b-pagination
-                                            :total="total"
-                                            :current.sync="current"
-                                            :per-page="perPage">
-                                        </b-pagination>  
-                                    </div>
-                                </div>
-                            </b-tab-item>
-                        </b-tabs>                        
-                    </div>                     
-                </div>     
-
-                <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" v-if="orders.length" style="margin-top:85px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
-                    <div class="box" :style="myStyle">
-                        <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
-                    </div>
-                    <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
-                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                            <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-8-mobile is-offset-2-mobile" v-for="order in orders" :key="order.name">   
-                                <b-card                                     
-                                    :img-src="order.image_url"
-                                    img-alt="Image"
-                                    img-top
-                                    tag="article"
-                                    :style="cardStyle"                                   
-                                    class="box">
-                                    
-                                    <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
-
-                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
-
-                                    <div class="field" style="margin-bottom: 30px">
-                                        <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
-                                        <p style="font-weight:bold">Check to Add</p>
-                                    </div>
-                                    
-                                    <b-card-text name="description" style="margin-top: 10px">
-                                        {{order.description}} <br/>                                            
-                                    </b-card-text>                                                                                
-                                </b-card>
+                                    <div class="column is-variable is-offset-1-desktop is-offset-2-mobile">                                    
+                                        <button class="button field is-danger" >
+                                            <b-icon icon="delete"></b-icon>
+                                            <span>Delete</span>
+                                        </button> 
+                                        <button class="button field is-link" @click="orderAdd = true">                                    
+                                            <span>See Menu</span>
+                                        </button>                     
+                                    </div>                      
+                                </div>                        
                             </div> 
-                            <br/>
-                            <div class="column is-variable is-offset-1-desktop is-offset-2-mobile">                                    
-                                <button class="button field is-danger" >
-                                    <b-icon icon="delete"></b-icon>
-                                    <span>Delete</span>
-                                </button> 
-                                <button class="button field is-link" @click="orderAdd = true">                                    
-                                    <span>See Menu</span>
-                                </button>                     
-                            </div>                      
-                        </div>                        
-                    </div> 
-                </div>                           
-                    
+                        </div> 
+                    </div>
+                </div>    
             </div>            
         </div>
-        
+        <br/><br/>
     </div>
 </template>
 
@@ -408,6 +419,7 @@ export default {
             password:"",
             reservations: [], 
             orders:[],
+            orderTotal:0,
            
             myStyle:{
                 backgroundColor: 'rgba(63,63,63,.95)'
@@ -427,7 +439,8 @@ export default {
         // whenever password changes, this function will run
         password: function (newPassword) { 
             if(this.password.length==6){
-                this.filteredReservations()
+                this.filteredReservations();
+                this.totalCost();
             }           
             
         }
@@ -463,6 +476,14 @@ export default {
 
             });    
         },
+        totalCost:function(){
+            var i=0; 
+            
+            for(i=0;i=this.orders.length;i++){
+                this.orderTotal+=this.orders[i].cost
+
+            }            
+        },
         filteredReservations://waits for user to finish typing before function is run
             function(){
                 // this.filteredRes = [ somthing ][0]
@@ -482,7 +503,8 @@ export default {
 
                     });   
 
-                });             
+                });  
+                         
                 
             },
                
@@ -492,6 +514,7 @@ export default {
         // callWait(){
         //     return this.$store.state.waiterCall
         // },
+        
                 
         filteredMenus: function(){
             return this.menus.filter((menu)=>{                        

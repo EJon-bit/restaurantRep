@@ -25,15 +25,24 @@
     <transition name="fade">
       <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
     </transition>
-
-    <footer class="footer" style="margin-bottom:0px">
-      <div class="content has-text-centered">
-        <p>
-          <strong>TopTierJA</strong> by <a>E-Jon Thomas</a><br/>
-          <a>UWI Final Year Project.</a><br/>
+    
+    <footer class="footer">
+      <div class="columns is-variable is-0-desktop"> 
+        <div class="column is-variable is-one-third-desktop" align="left">        
+          <i style="vertical-align: middle;">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Coat_of_arms_of_the_University_of_the_West_Indies.png/220px-Coat_of_arms_of_the_University_of_the_West_Indies.png" style="width:7%">
+          </i>
+          <a style="vertical-align: middle;">
+            UWI Final Year Project.
+          </a>
+        </div>
+        <div class="column is-variable is-one-third-desktop" align="middle">
+          <strong>TopTierJA</strong> by <a>E-Jon Thomas</a>        
+        </div>
+        <div class="column is-variable is-one-third-desktop" align="right">  
           <a>Restaurant Customer Detection & Management App</a>.
-        </p>
-      </div>
+        </div>  
+      </div>  
     </footer> 
   </div>
    
@@ -63,6 +72,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;  
   margin-top: 0px;
+  justify-content: center;
+  align-items: center;
    
 }
 

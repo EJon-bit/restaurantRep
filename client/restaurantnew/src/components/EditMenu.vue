@@ -53,6 +53,7 @@
             </b-modal>  
         </div>
     </div>
+    <br/><br/>
  </div>
 </template>
 

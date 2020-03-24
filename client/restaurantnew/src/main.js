@@ -1,5 +1,5 @@
 /* eslint-disable */
-import 'buefy/dist/buefy.css';
+import './css/buefyEdited.css';
 
 import Buefy from 'buefy'
 import Vue from 'vue'

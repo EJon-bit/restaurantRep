@@ -91,18 +91,18 @@ router.put('/tableavailability/:tableNo', async(req, res) => {
     
     //finds table that was recently made available and 
     //stores the id of that table in the queued reservation document which requesting a similar table
-    // Reservemisc.findOne({"seatsReserved":seatNo}, function(error, miscReservation){
-    //     if (error) { console.error(error); }
+    Reservemisc.findOne({"seatsReserved":seatNo}, function(error, miscReservation){
+        if (error) { console.error(error); }
         
-    //     miscReservation.tableNo = seatNo[0];
+        miscReservation.tableNo[0] = seatNo[0];
                 
-    //     miscReservation.save(function (error, miscReservation) {        
-    //         if (error) { console.log(error); }        
-    //         res.send(miscReservation)      
-    //     });    
+        miscReservation.save(function (error, miscReservation) {        
+            if (error) { console.log(error); }        
+            res.send(miscReservation)      
+        });    
     
         
-    // })
+    })
 
     //sends email to customer when table becomes available 
     //send mail with defined transport object

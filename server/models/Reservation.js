@@ -65,6 +65,10 @@ var reservationSchema = new Schema({
     atTable:{
         type:Boolean,
         
+    },
+    email:{
+        type:String,
+
     }
        
 });
