@@ -234,7 +234,7 @@
                         <addreserve :msg="checkboxGroup"></addreserve>
                     </div>
                 </div>
-            </div>
+            </div> 
         </div>
         <br/> <br/>
     </div>   

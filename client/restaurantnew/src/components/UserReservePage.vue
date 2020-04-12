@@ -70,6 +70,10 @@
                                     <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
                             </div>
                             <div class="box" :style="tabStyle" v-if="(password.length==6) && (!orders.length||orderAdd)"> 
+
+                                <div class="box" :style="myStyle">
+                                    <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
+                                </div>
                                 <b-tabs vertical type="is-boxed">
                                     <b-tab-item :label="appetizers">
                                         <div class="columns is-multiline is-variable is-two-thirds-desktop is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" >  
@@ -349,6 +353,44 @@ import Message from'./Message';
 
 var ModalForm = {
     props: ['orders', 'cost'],
+
+    methods: {    
+        update() {
+            return axios({
+                method: 'put',          
+                data: {            
+                    name: this.formData[0].name,            
+                    category: this.formData[0].category,                               
+                    cost:this.formData[0].cost,
+                    description:this.formData[0].description,
+                    image_url:this.formData[0].image_url  
+                },          
+                url: `http://localhost:5000/menu/editmenu/update/${this.formData[0]._id}`          
+            // headers: {            
+            //     'Content-Type': 'application/json',          
+            // },        
+            })          
+            .then(() => { 
+                
+                this.$swal(            
+                    'Great!',            
+                    'Menu Item was successfully updated!',            
+                    'success',          
+                );               
+                        
+                //this.$refs.form.reset();          
+            })
+            .catch(() => {
+
+                this.$swal(            
+                    'Sorry! Menu Item could not be Updated.',
+                    'Try Again'           
+                           
+                ); 
+            });      
+        },    
+   
+    },
 
     template: 
         `   <form>

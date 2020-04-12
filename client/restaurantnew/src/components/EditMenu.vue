@@ -1,6 +1,6 @@
 <template>
  <div :style="backImage">   
-    <div class="container is-fluid" >        
+    <div class="container is-fullscreen" >        
         <br/> 
         <div style="margin-top:85px">
             <div class="box" :style="myStyle"> 
@@ -37,7 +37,7 @@
                 trap-focus
                 aria-role="dialog"
                 aria-modal>
-                <update-menu-form></update-menu-form>
+                <update-menu-form :formData="checkedRows"></update-menu-form>
             </b-modal>
 
             <button class="button field is-warning" @click="isComponentModalActive = true">                    
@@ -61,185 +61,24 @@
 import axios from 'axios';
 
 var AddMenuForm = {
-    props: ['name','category','description', 'cost','image_url'],
-
-    template: 
-    `   <form method="post">
-            <div class="modal-card" style="width: auto">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Add Menu Item</p>
-                </header>
-                <section class="modal-card-body">
-                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
-                        <b-input                            
-                            :v-model="name"                            
-                            required>
-                        </b-input>
-                    </b-field>
-
-                    <b-field custom-class="is-small has-text-warning" label="Category">
-                        <b-input                            
-                            :v-model="category"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Description">
-                        <b-input
-                            type="textarea"
-                            :v-model="description"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Cost">
-                        <b-input
-                            :v-model="cost"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Image URL">
-                        <b-input
-                            type="textarea"
-                            :v-model="image_url"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary" @click="submit">Add Item</button>
-                </footer>
-            </div>
-        </form>
-    `,  
-        
-}
-var UpdateMenuForm = {
-    props: ['name','category','description', 'cost','image_url'],
-
-    template: 
-    `   <form action="">
-            <div class="modal-card" style="width: auto">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">Update Menu Item</p>
-                </header>
-                <section class="modal-card-body">
-                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
-                        <b-input                            
-                            :v-model="name"                            
-                            required>
-                        </b-input>
-                    </b-field>
-
-                    <b-field custom-class="is-small has-text-warning" label="Category">
-                        <b-input                            
-                            :v-model="category"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Description">
-                        <b-input
-                            type="textarea"
-                            :v-model="description"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Cost">
-                        <b-input
-                            type="number"
-                            :v-model="cost"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    <b-field custom-class="is-small has-text-warning" label="Image URL">
-                        <b-input
-                            type="textarea"
-                            :v-model="image_url"                            
-                            required>
-                        </b-input>
-                    </b-field>
-                    
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary" type="button">Update Item</button>
-                </footer>
-            </div>
-        </form>
-    `
-    
-}
-
-export default {
-    name: 'EditMenu',
-    components: {
-            AddMenuForm,
-            UpdateMenuForm
-    },
+    // props: {
+    //     input: {
+    //         type: Object,
+    //         required: true
+    //     }
+    // },
 
     data() {        
 
         return {
-            isComponentModalActive: false,
-            isComponentModTwoActive:false,
-
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-                
-            },
-            cardStyle:{
-                backgroundColor:"#a9d3cd"
-            },
-
-            backImage: { 
-                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
-            },
-
-            formProps: {
-                name: "",
-                category:"",            
-                cost:'',
-                description:"",
-                image_url:"",
-            },
-
-            menus:[],
-
-            checkboxPosition: 'left',
-            checkedRows: [],
-            columns: [
-                
-                {
-                    field: 'name',
-                    label: 'Menu Item',
-                    searchable: true,
-                },
-                {
-                    field: 'category',
-                    label: 'Food Category',
-                    searchable: true,
-                },
-                {
-                    field: 'cost',
-                    label: 'Item Price',
-                    searchable: true,
-                }
-                
-                
-            ]
+            name: "",
+            category:"", 
+            description:"",           
+            cost:'',                
+            image_url:"",
         }
     },
-    created: function () {
-        axios({        
-                method: 'get',
-                url: 'http://localhost:5000/menu',      
-            })        
-            .then((response) => {          
-                this.menus = response.data.menus;        
-            })        
-            .catch(() => {})
-    },  
+
     methods: {    
         submit() {
             return axios({
@@ -277,7 +116,233 @@ export default {
         },    
    
     },
-     
+   
+
+    template: 
+    `   <form method="post">
+            <div class="modal-card" style="width: auto">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Add Menu Item</p>
+                </header>
+                <section class="modal-card-body">
+                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
+                        <b-input                            
+                            v-model="name"                             
+                            required>
+                        </b-input>
+                    </b-field>
+
+                    <b-field custom-class="is-small has-text-warning" label="Category">
+                        <b-input                            
+                            v-model="category"                            
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Description">
+                        <b-input
+                            type="textarea"
+                            v-model="description"                           
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Cost">
+                        <b-input
+                            v-model="cost"                           
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Image URL">
+                        <b-input
+                            type="textarea"
+                            v-model="image_url"                          
+                            required>
+                        </b-input>
+                    </b-field>
+                    
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button" type="button" @click="$parent.close()">Close</button>
+                    <button class="button is-primary" @click="submit">Add Item</button>
+                </footer>
+            </div>
+        </form>
+    `,      
+        
+}
+var UpdateMenuForm = {
+    //props: ['name','category','description', 'cost','image_url'],
+
+    props:{
+            formData: {
+                type: Array,
+                required: true
+            }
+    }, 
+    
+    
+    methods: {    
+        update() {
+            return axios({
+                method: 'put',          
+                data: {            
+                    name: this.formData[0].name,            
+                    category: this.formData[0].category,                               
+                    cost:this.formData[0].cost,
+                    description:this.formData[0].description,
+                    image_url:this.formData[0].image_url  
+                },          
+                url: `http://localhost:5000/menu/editmenu/update/${this.formData[0]._id}`          
+            // headers: {            
+            //     'Content-Type': 'application/json',          
+            // },        
+            })          
+            .then(() => { 
+                
+                this.$swal(            
+                    'Great!',            
+                    'Menu Item was successfully updated!',            
+                    'success',          
+                );               
+                        
+                //this.$refs.form.reset();          
+            })
+            .catch(() => {
+
+                this.$swal(            
+                    'Sorry! Menu Item could not be Updated.',
+                    'Try Again'           
+                           
+                ); 
+            });      
+        },    
+   
+    },
+   
+
+    template: 
+    `   <form method="put">
+            <div class="modal-card" style="width: auto">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Update Menu Item</p>
+                </header>
+                <section class="modal-card-body">
+                    <b-field custom-class="is-small has-text-warning" label="Name of Item">
+                        <b-input                            
+                            v-model="formData[0].name" 
+                                                       
+                            required>
+                        </b-input>
+                    </b-field>
+
+                    <b-field custom-class="is-small has-text-warning" label="Category">
+                        <b-input                            
+                            v-model="formData[0].category"                            
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Description">
+                        <b-input
+                            type="textarea"
+                            v-model="formData[0].description"                            
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Cost">
+                        <b-input                           
+                            v-model="formData[0].cost"                            
+                            required>
+                        </b-input>
+                    </b-field>
+                    <b-field custom-class="is-small has-text-warning" label="Image URL">
+                        <b-input
+                            type="textarea"
+                            v-model="formData[0].image_url"                            
+                            required>
+                        </b-input>
+                    </b-field>
+                    
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button" type="button" @click="$parent.close()">Close</button>
+                    <button class="button is-primary" type="button" @click="update">Update Item</button>
+                </footer>
+            </div>
+        </form>
+    `
+    
+}
+
+export default {
+    name: 'EditMenu',
+    components: {
+            AddMenuForm,
+            UpdateMenuForm
+    },
+
+    data() {        
+
+        return {
+            isComponentModalActive: false,
+            isComponentModTwoActive:false,
+
+            myStyle:{
+                backgroundColor: 'rgba(63,63,63,.95)'
+                
+                
+            },
+            cardStyle:{
+                backgroundColor:"#a9d3cd"
+            },
+
+            backImage: { 
+                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
+            },
+
+            // input: {
+            //     name: "",
+            //     category:"", 
+            //     description:"",           
+            //     cost:'',                
+            //     image_url:"",
+            // },
+
+            menus:[],
+
+            checkboxPosition: 'left',
+            checkedRows: [],
+            columns: [
+                
+                {
+                    field: 'name',
+                    label: 'Menu Item',
+                    searchable: true,
+                },
+                {
+                    field: 'category',
+                    label: 'Food Category',
+                    searchable: true,
+                },
+                {
+                    field: 'cost',
+                    label: 'Item Price',
+                    searchable: true,
+                }
+                
+                
+            ]
+        }
+    },
+    created: function () {
+        axios({        
+                method: 'get',
+                url: 'http://localhost:5000/menu',      
+            })        
+            .then((response) => {          
+                this.menus = response.data.menus;        
+            })        
+            .catch(() => {})
+    },  
+   
    
     
 }

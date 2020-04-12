@@ -5,7 +5,7 @@
             <br/>
             
             <div v-for="reservation in sortedReservations" :key="reservation._id" style="margin-top:85px">
-            <b-message :title="reservation.tableNo[0].tableNum.toString()" type="is-success" aria-close-label="Close message">
+            <b-message :title="reservation.tableNo.tableNum.toString()" type="is-success" aria-close-label="Close message">
                     
                     <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
                     <br/><br/>

@@ -20,14 +20,14 @@
             
             <button class="button field is-warning" @click="isComponentModalActive = true">                    
                 <b-icon icon="plus"></b-icon>
-                <span>Reserve Table</span>
+                <span>Add Table</span>
             </button>       
             <b-modal :active.sync="isComponentModalActive"
                 has-modal-card
                 trap-focus
                 aria-role="dialog"
                 aria-modal>
-                <modal-form :seatsReserved="checkedRows"></modal-form>
+                <modal-form></modal-form>
             </b-modal>  
         </div>
           
@@ -38,7 +38,45 @@
 import axios from 'axios';
 
 var ModalForm = {
-    props: ['customerName', 'seatsReserved','datetime'],
+    
+    data(){
+        return{
+            tableNum:'',
+            seatNum:''
+        }
+    },
+
+    methods: {                         
+        addTable() {      
+            return axios({        
+                method: 'post',
+                data: {            
+                        tableNum: this.tableNum,            
+                        seatNum: this.seatNum, 
+                                
+                },          
+                url: 'http://localhost:5000/table/addTable',      
+            })        
+            .then((response) => {          
+                
+
+                this.$swal(            
+                    'Great!',            
+                    'Reservation was successfully added!',            
+                    'success',          
+                );            
+                           
+                             
+            })
+            .catch(() => {
+                this.$swal(            
+                    'Sorry! Table could not be be Added',          
+                                
+                    'error',          
+                ); 
+            });      
+        }
+    },
 
     template: 
 `        <form action="">
@@ -48,31 +86,28 @@ var ModalForm = {
                 </header>
                 <section class="modal-card-body">
                     <b-field 
-                    custom-class="has-text-warning" 
-                    :type="isNameLabelDanger"
-                    :name="customerName" 
-                    :message="nameLabelMessage"
-                    label="Name">
+                        custom-class="has-text-warning"                        
+                        name="tableNo"                         
+                        label="Name">
                     
-                <b-input placeholder="John Doe" v-model="customerName" required></b-input>
+                        <b-input v-model="tableNum" required></b-input>
                 
-            </b-field>
-            <br/>
-            <b-field label="No. of Persons" custom-class="has-text-warning" :type="ispersonNumLabelDanger" :message="personNumLabelMessage">
-                    <b-input :value="seatsReserved" required>
-                    </b-input>
-            </b-field><br/>
-            <b-field label="Arrival Date and Time" custom-class="has-text-warning" :type="isdateLabelDanger" :message="dateLabelMessage">
-                <b-datetimepicker v-model="datetime"
-                    placeholder="Click to select..."
-                    :min-datetime="minDatetime"
-                    :max-datetime="maxDatetime">
-                </b-datetimepicker>
-            </b-field><br/>
+                    </b-field>
+                    <br/>
+                    
+                    <b-field 
+                        custom-class="has-text-warning"                         
+                        name="seatNo"                         
+                        label="No. of Seats">
+                            
+                        <b-input v-model="seatNum" required></b-input>
+                        
+                    </b-field><br/>
+                    
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button class="button is-primary">Add Reservation</button>
+                    <button class="button is-primary" @click="addTable">Add Table</button>
                 </footer>
             </div>
         </form>
@@ -133,10 +168,7 @@ export default {
         .catch(() => {})
     },
     computed:{
-        //create if statements based on number of persons entered into given form field
-        // and if a table to accommadate that number is available
-        //for eg...if number entered && number>3 && tables.length=0 then divide entered number in half and filter this.tables for any available
-        // if customer agrees to split number as suggested..then store return value(that is the tableNo of the available table) of a filter function  in this.checkedRows
+       
     }    
     
 }

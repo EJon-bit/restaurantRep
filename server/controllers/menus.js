@@ -49,17 +49,17 @@ router.post('/editmenu/add', (req, res) => {
 
 router.put('editmenu/update/:id', (req, res) => {   
     
-    Menu.findById(req.params.id, 'name category description cost image_url', function (error, menu) { 
+    Menu.findById(req.params.id, function (error, menu) { 
         if (error) { console.error(error); }
         
-        menu.name = req.body.name    
-        menu.category = req.body.category  
-        menu.description = req.body.description   
-        menu.cost = req.body.cost      
-        menu.image_url = req.body.image_url 
+        menu.name = req.body.name;
+        menu.category = req.body.category;  
+        menu.description = req.body.description;   
+        menu.cost = req.body.cost;     
+        menu.image_url = req.body.image_url; 
         
                 
-        user.save(function (error, menu) {        
+        menu.save(function (error, menu) {        
             if (error) { console.log(error); }        
             res.send(menu)      
         });    

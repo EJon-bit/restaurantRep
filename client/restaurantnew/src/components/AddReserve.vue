@@ -17,6 +17,17 @@
                 
             </b-field>
             <br/>
+            <b-field                    
+                    custom-class="is-small has-text-warning" 
+                    :type="isEmailLabelDanger"
+                    :name="customerEmail" 
+                    :message="emailLabelMessage"
+                    label="Email">
+                    
+                <b-input placeholder="johndoe@gmail.com" :style="myStyle" v-model="customerEmail" ></b-input>
+                
+            </b-field><br/>  
+
             <b-field label="No. of Persons" custom-class="is-small has-text-warning" :type="ispersonNumLabelDanger" :message="personNumLabelMessage">
                     <b-select placeholder="Select a number" v-model="seatsReserved">
                        
@@ -40,29 +51,31 @@
             <b-field label="Orders" custom-class="is-small has-text-warning" type="is-primary">
                 <b-input :value="msg.toString()" type="textarea" disabled ></b-input>
             </b-field><br/> 
-
-            <b-field 
-                    v-if="queued"
-                    custom-class="is-small has-text-warning" 
-                    :type="isEmailLabelDanger"
-                    :name="customerEmail" 
-                    :message="emailLabelMessage"
-                    label="Email">
-                    
-                <b-input placeholder="johndoe@gmail.com" :style="myStyle" v-model="customerEmail" ></b-input>
                 
-            </b-field><br/>       
          
-            <div id="button" >
+            <div id="button">
                 <b-button type="is-primary" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
                     Submit Reservation
                 </b-button>
-                <b-button type="is-link" :disabled="formIsInDanger" v-if="queued" @click="save" >
-                    Save Reservation
-                </b-button><br/>
-                <b-button type="is-warning" v-if="queued" @click="seeTables" >
-                    See Available Tables
-                </b-button>
+                <div>
+                    <b-button type="is-link" :disabled="formIsInDanger" v-if="queued" @click="save" >
+                        Save Reservation
+                    </b-button>
+                </div>
+                <div>
+                    <b-button type="is-warning" v-if="queued" @click="isComponentModalActive = true" >
+                        See Available Tables
+                    </b-button>
+                </div>
+
+                <b-modal 
+                    :active.sync="isComponentModalActive"
+                    has-modal-card
+                    trap-focus
+                    aria-role="dialog"
+                    aria-modal>
+                    <modal-form @availDate="changeDate" :seatNo="seatsReserved" :date="datetime" :minDatetime="minDatetime" :maxDatetime="maxDatetime"></modal-form>
+                </b-modal>
             </div>
          
         </div>
@@ -71,6 +84,81 @@
 
 <script>  
     import axios from 'axios';
+
+    var ModalForm = {
+        props: ['date', 'minDatetime', 'maxDatetime', 'seatNo'],
+
+        data(){
+            return{
+                availableDates:[],
+                checkboxGroup:[],
+                availDate:"",
+                //dateChange,
+            }   
+        },
+
+        mounted() {    
+            this.fetchAvailDates(); //fetches available using axios request
+        },  
+
+        methods: { 
+
+            dateChecked() {
+                this.$emit('availDate', this.checkboxGroup.dateReserved);
+                //this.$emit('dateChange', true);
+            },
+            
+            fetchAvailDates() {      
+                return axios({        
+                    method: 'get',
+                    url: `http://localhost:5000/reservation/${this.seatNo}/${this.date}`,      
+                })        
+                .then((response) => {          
+                    this.availableDates = response.data.availableDates;        
+                })        
+                .catch(() => {        
+                });    
+            }
+        },
+        // computed:{
+        //     closestdate() {
+        //         if (this.availableDates !== "") {
+        //             return "is-success";
+        //         } else {
+        //             return "is-danger";
+        //         }
+        //     },
+        // },
+
+        template: 
+        `   <form>
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Add Order</p>
+                    </header>
+                    <section class="modal-card-body">
+                        <b-datetimepicker v-model="date" 
+                            inline 
+                            :min-datetime="minDatetime"
+                            :max-datetime="maxDatetime">
+                        </b-datetimepicker> <br/>
+                        <div>
+                            <b-notification v-for="date in availableDates" :key="date.dateReserved" :type="is-info" aria-close-label="Close notification">
+                                <b-checkbox size="is-medium" v-model="checkboxGroup" :native-value="date.dateReserved"></b-checkbox>
+                                {{date.dateReserved}}
+                            </b-notification>
+
+                        </div>                        
+                        
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button class="button" type="button" @click="$parent.close()">Close</button>
+                        <button v-if= "checkboxGroup" class="button is-primary" @click="dateChecked">Submit Date</button>
+                    </footer>
+                </div>
+            </form>
+        `
+    }
         
     export default {  
         
@@ -82,6 +170,11 @@
                 type: Array,
                 required: true
             }
+        },
+
+        components: {
+            ModalForm,
+       
         },
 
         
@@ -105,6 +198,9 @@
                 queued:false,
                 customerName: "",
                 seatsReserved:"",
+                customerEmail:"",
+                isComponentModalActive:false,
+
                 datetime:new Date(),
                
                 
@@ -126,7 +222,8 @@
                         seatsReserved: this.seatsReserved, 
                         numOrders:this.msg.length,           
                         orders:this.msg,
-                        dateReserved:this.datetime          
+                        dateReserved:this.datetime,  
+                        email:this.customerEmail        
                     },          
                     url: 'http://localhost:5000/reservation',          
                     // headers: {            
@@ -157,6 +254,12 @@
                         'error',          
                     ); 
                 });      
+            },
+
+            changeDate(value){
+
+                this.datetime= this.value;
+                //this.submit();                
             },
 
             save() {      
@@ -198,9 +301,9 @@
                 });      
             },
 
-            seeTables(){
-                this.$router.push({ name: 'AvailTables' });
-            }
+            // seeTables(){
+            //     this.$router.push({ name: 'AvailTables' });
+            // }
             
         },
 

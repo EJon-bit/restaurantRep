@@ -34,11 +34,11 @@ var miscReserveSchema = new Schema({
         type: Array,                        
     },
 
-    tableNo:[{
+    tableNo:{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Table' ,
               
-    }],
+    },
 
     password:{
         type:String,

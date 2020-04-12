@@ -14,9 +14,23 @@ var transporter = nodemailer.createTransport({
     }
 })
 
+router.post('/addtable', (req, res) => {    
+    var table = new Table(req.body);
+    
+    table.occupied=false;
+    table.reserved=false;
+
+    table.save((error, table) => {      
+        if (error) { console.log(error); }      
+        res.json({
+            table,
+        });    
+    });  
+}); 
+
     
 router.get('/', (req, res) => {    
-            Table.find({"reserved":false}, (error, tables) => {      
+            Table.find({}, (error, tables) => {      
                 if (error) { console.log(error); }      
                 res.json({        
                     tables,      

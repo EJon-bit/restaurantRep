@@ -46,11 +46,11 @@ var reservationSchema = new Schema({
         required:true
 
     },
-    tableNo:[{
+    tableNo:{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Table' ,
         required:true      
-    }],
+    },
     onSite:{
         
         type:Boolean,
