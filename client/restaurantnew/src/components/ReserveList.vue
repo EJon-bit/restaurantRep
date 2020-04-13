@@ -95,7 +95,7 @@ export default {
 <style scoped>
 
 #reserve{
- background-image: url('https://previews.123rf.com/images/9dreamstudio/9dreamstudio1709/9dreamstudio170901460/85756145-kitchen-table-with-spices-and-dry-herbs-on-wooden-kitchen-background-top-view-mock-up.jpg');
+ background-image: url('https://i.pinimg.com/originals/45/50/7d/45507dac980fed098a1e8c0762db6d6a.jpg');
  /* background-size: cover;
  background-repeat: no-repeat;  */
  

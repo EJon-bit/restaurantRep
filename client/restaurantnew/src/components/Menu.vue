@@ -278,7 +278,7 @@ export default {
                 backgroundColor: 'rgba(52,103,96,.89)'
             },
             backImage: { 
-                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
+                backgroundImage: "url(https://i.imgur.com/ZOcLM7h.jpg)"
             }
 
 

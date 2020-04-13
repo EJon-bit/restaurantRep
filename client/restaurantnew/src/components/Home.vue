@@ -1,7 +1,7 @@
 <!-- for home page-->
 /* eslint-disable */
 <template>
-  <div id="home" :style="myStyle">
+  <div id="home" :style="backImage">
     <!-- <div class="column is-12"> -->
       <b-carousel            
             :indicator="indicator"
@@ -97,6 +97,11 @@
             indicatorMode: 'hover',
             indicatorPosition: 'is-bottom',
             indicatorStyle: 'is-dots',
+
+            backImage: { 
+                backgroundImage: "url(https://i.imgur.com/ZOcLM7h.jpg)"
+                         
+            },
 
             myStyle:{
                 backgroundColor: 'rgba(89,124,134)'
