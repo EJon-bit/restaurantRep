@@ -53,7 +53,7 @@
             </b-field><br/> 
                 
          
-            <div id="button">
+            <div id="button">8
                 <b-button type="is-primary" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
                     Submit Reservation
                 </b-button>
@@ -61,7 +61,7 @@
                     <b-button type="is-link" :disabled="formIsInDanger" v-if="queued" @click="save" >
                         Save Reservation
                     </b-button>
-                </div>
+                </div><br/>
                 <div>
                     <b-button type="is-warning" v-if="queued" @click="isComponentModalActive = true" >
                         See Available Tables
@@ -74,7 +74,14 @@
                     trap-focus
                     aria-role="dialog"
                     aria-modal>
-                    <modal-form @availDate="changeDate" :seatNo="seatsReserved" :date="datetime" :minDatetime="minDatetime" :maxDatetime="maxDatetime"></modal-form>
+                    <modal-form                         
+                        :seatNo="seatsReserved" 
+                        :date="datetime"
+                        :customerName="customerName"                      
+                        :numOrders="msg.length"          
+                        :orders="msg"                          
+                        :email="customerEmail">
+                    </modal-form>
                 </b-modal>
             </div>
          
@@ -86,7 +93,7 @@
     import axios from 'axios';
 
     var ModalForm = {
-        props: ['date', 'minDatetime', 'maxDatetime', 'seatNo'],
+        props: ['date', 'seatNo', 'customerName', 'numOrders', 'orders', 'email'],
 
         data(){
             return{
@@ -103,9 +110,44 @@
 
         methods: { 
 
-            dateChecked() {
-                this.$emit('availDate', this.checkboxGroup.dateReserved);
-                //this.$emit('dateChange', true);
+            subDateNew() {                
+                return axios({          
+                    method: 'post',          
+                    data: {            
+                        customerName: this.customerName,            
+                        seatsReserved: this.seatNo, 
+                        numOrders:this.numOrders,           
+                        orders:this.orders,
+                        dateReserved:this.checkboxGroup[0],  
+                        email:this.email        
+                    },          
+                    url: 'http://localhost:5000/reservation',          
+                          
+                })          
+                .then(() => { 
+                    //this.submitfail=false,
+
+                    this.$router.push({ name: 'UserReservePage' });  
+
+                    this.$swal(            
+                                  
+                        'Reservation was successfully added!',            
+                        'CHECK EMAIL FOR PASSWORD',          
+                    );            
+                           
+                    //this.$refs.form.reset();          
+                })
+                .catch(() => {
+
+                    
+                    this.$swal(            
+                        'Sorry! There are NO available tables Right Now',            
+                        'You can save this reservation.',
+                        'If you do it will be automatically added when a Table becomes Available',         
+                        'error',          
+                    ); 
+                });    
+                
             },
             
             fetchAvailDates() {      
@@ -120,43 +162,29 @@
                 });    
             }
         },
-        // computed:{
-        //     closestdate() {
-        //         if (this.availableDates !== "") {
-        //             return "is-success";
-        //         } else {
-        //             return "is-danger";
-        //         }
-        //     },
-        // },
-
+       
         template: 
-        `   <form>
-                <div class="modal-card" style="width: auto">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Add Order</p>
-                    </header>
-                    <section class="modal-card-body">
-                        <b-datetimepicker v-model="date" 
-                            inline 
-                            :min-datetime="minDatetime"
-                            :max-datetime="maxDatetime">
-                        </b-datetimepicker> <br/>
-                        <div>
-                            <b-notification v-for="date in availableDates" :key="date.dateReserved" :type="is-info" aria-close-label="Close notification">
-                                <b-checkbox size="is-medium" v-model="checkboxGroup" :native-value="date.dateReserved"></b-checkbox>
-                                {{date.dateReserved}}
-                            </b-notification>
+        `   
+            <div class="modal-card" style="width: auto">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Available Dates</p>
+                </header>
+                <section class="modal-card-body">
+                    
+                    <div>
+                        <b-notification v-for="date in availableDates" :key="date.rawDate" type="is-dark" style="color:gold;font-size:25px; opacity:0.85" aria-close-label="Close notification">
+                            <b-checkbox size="is-medium" v-model="checkboxGroup" :native-value="date.rawDate"></b-checkbox>
+                            {{date.dateReserved}}
+                        </b-notification>
 
-                        </div>                        
-                        
-                    </section>
-                    <footer class="modal-card-foot">
-                        <button class="button" type="button" @click="$parent.close()">Close</button>
-                        <button v-if= "checkboxGroup" class="button is-primary" @click="dateChecked">Submit Date</button>
-                    </footer>
-                </div>
-            </form>
+                    </div>                        
+                    
+                </section>
+                <footer class="modal-card-foot">
+                    <button class="button" type="button" @click="$parent.close()">Close</button>
+                    <button v-if= "checkboxGroup" class="button is-primary" @click="subDateNew">Submit Date</button>
+                </footer>
+            </div>            
         `
     }
         
@@ -199,6 +227,7 @@
                 customerName: "",
                 seatsReserved:"",
                 customerEmail:"",
+                reservation:{},
                 isComponentModalActive:false,
 
                 datetime:new Date(),
@@ -226,22 +255,19 @@
                         email:this.customerEmail        
                     },          
                     url: 'http://localhost:5000/reservation',          
-                    // headers: {            
-                    //     'Content-Type': 'application/json',          
-                    // },        
+                        
                 })          
                 .then(() => { 
-                    //this.submitfail=false,
-
-                    this.$router.push({ name: 'UserReservePage' });  
-
-                    this.$swal(            
-                        'Great!',            
+                    
+                    this.getRes();
+                                          
+                    this.$swal(                                 
+                                
                         'Reservation was successfully added!',            
-                        'success',          
-                    );            
-                           
-                    //this.$refs.form.reset();          
+                        'CHECK EMAIL FOR PASSWORD',          
+                    );  
+                    this.$router.push({ name: 'UserReservePage' });          
+                                                        
                 })
                 .catch(() => {
 
@@ -254,13 +280,7 @@
                         'error',          
                     ); 
                 });      
-            },
-
-            changeDate(value){
-
-                this.datetime= this.value;
-                //this.submit();                
-            },
+            },            
 
             save() {      
                         
@@ -301,10 +321,20 @@
                 });      
             },
 
-            // seeTables(){
-            //     this.$router.push({ name: 'AvailTables' });
-            // }
+            getRes(){                
+                return axios({        
+                    method: 'get',
+                    url: `http://localhost:5000/reservation/${this.datetime}`,      
+                })        
+                .then((response) => {          
+                    this.reservation = response.data.reservation;        
+                })        
+                .catch(() => {        
+
+                });    
             
+            },
+                        
         },
 
         computed:{

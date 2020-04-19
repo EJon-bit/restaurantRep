@@ -3,7 +3,7 @@
     <div :style="backImage">
         <br/>
         <div class="container is-fullscreen">
-            <div class="columns is variable is-6-widescreen" style="margin-top:60px">        
+            <div class="columns is-variable is-6-widescreen" style="margin-top:60px">        
                 <div class="column is-variable is-three-quarters-widescreen is-two-thirds-tablet">
                     <div class="box" :style="tabStyle">                
                         <b-tabs vertical type="is-boxed">

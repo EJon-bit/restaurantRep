@@ -9573,31 +9573,31 @@
   
   @media screen and (min-width: 1024px) {
     .columns.is-variable.is-5-desktop {
-      --columnGap: 1.25rem;
+      --columnGap: 2.25rem;
     }
   }
   
   @media screen and (min-width: 1024px) and (max-width: 1215px) {
     .columns.is-variable.is-5-desktop-only {
-      --columnGap: 1.25rem;
+      --columnGap: 2.25rem;
     }
   }
   
   @media screen and (min-width: 1216px) {
     .columns.is-variable.is-5-widescreen {
-      --columnGap: 1.25rem;
+      --columnGap: 2.25rem;
     }
   }
   
   @media screen and (min-width: 1216px) and (max-width: 1407px) {
     .columns.is-variable.is-5-widescreen-only {
-      --columnGap: 1.25rem;
+      --columnGap: 2.25rem;
     }
   }
   
   @media screen and (min-width: 1408px) {
     .columns.is-variable.is-5-fullhd {
-      --columnGap: 1.25rem;
+      --columnGap: 2.25rem;
     }
   }
   

@@ -1,12 +1,12 @@
 
 <template>
     <div id="reserve">
-        <div class="container is-fluid">
+        <div class="container is-fulscreen">
             <br/>
             
             <div v-for="reservation in sortedReservations" :key="reservation._id" style="margin-top:85px">
-            <b-message :title="reservation.tableNo.tableNum.toString()" type="is-success" aria-close-label="Close message">
-                    
+                
+                <b-message :title="reservation.tableNo.tableNum.toString()" type="is-success" aria-close-label="Close message">                    
                     <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
                     <br/><br/>
                     <strong> Orders: {{reservation.orders}}</strong>
@@ -95,7 +95,7 @@ export default {
 <style scoped>
 
 #reserve{
- background-image: url('https://i.pinimg.com/originals/45/50/7d/45507dac980fed098a1e8c0762db6d6a.jpg');
+ background-image: url('https://i.imgur.com/ZOcLM7h.jpg');
  /* background-size: cover;
  background-repeat: no-repeat;  */
  

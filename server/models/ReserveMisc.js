@@ -45,15 +45,10 @@ var miscReserveSchema = new Schema({
         required:true
 
     },
-
-    dateReserved:{
-        type:Date,
-        required:true
-
-    } ,
+   
     email:{
         type:String,
-        required:true
+        //required:true
 
     },
     

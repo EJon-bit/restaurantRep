@@ -1,7 +1,7 @@
 <!-- for home page-->
 /* eslint-disable */
 <template>
-  <div id="home" :style="backImage">
+  <div id="home">
     <!-- <div class="column is-12"> -->
       <b-carousel            
             :indicator="indicator"
@@ -43,42 +43,57 @@
               </span>
             </b-carousel-item>
         </b-carousel> 
-        <div class="container is-fullscreen">
-          <div class="tile is-ancestor">
-            <div class="tile is-vertical is-4">
-              <div class="tile">
-                <div class="tile is-parent">
-                  <article class="tile is-child notification">
-                    <p class="title">Vertical...</p>
-                    <p class="subtitle">Top tile</p>
-                  </article>
-                  <!-- <article class="tile is-child notification">
-                    <p class="title">...tiles</p>
-                    <p class="subtitle">Bottom tile</p>
-                  </article> -->
+        
+        <div class="container is-fullscreen" style="margin-top:-10px; overflow: hidden;"> 
+          <!-- <div id="lights"/>           -->
+          <div class="columns is-multiline is-variable is-8-widescreen">
+            <div class="column is-variable is-one-third-widescreen is-two-thirds-tablet">
+              <div class="container is-fullscreen" id="woodback">
+                <div class="container is-fullscreen" id="plate" style="font-family:Segoe Script;font-weight:bold;font-size:34px;color:#363101;"><br/><br/>
+                   The <br> Food                 
                 </div>
-              </div>
-            </div>
-          </div>
-          
-          <article class="tile is-child is-6 notification">
-            <p class="title">Wide tile</p>
-            <p class="subtitle">Aligned with the right tile</p>
-            <div class="content">
-              <!-- Content -->
-            </div>
-          </article>                       
-          <br/>       
-          <article class="tile is-child is-9 notification" style="margin-bottom:10px">
-            <div class="content">
-              <p class="title">Tall tile</p>
-              <p class="subtitle">With even more content</p>
-              <div class="content">
                 
+                <div class="container is-fullscreen" id="hex" style="margin-top:7px;"><br/>
+                    ygvhj
+                </div>                                 
               </div>
-            </div>
-          </article>         
-          
+            </div><br/>
+            <div class="column is-variable is-7-widescreen is-two-thirds-tablet" style="margin-left:100px;">
+                <div class="box" style="background-color: #024047;opacity:0.9">                  
+                  <p id="brush" class="title is-4" style="font-family:Segoe Script;color:gold;">Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!...</p>
+                  <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> You Name It! </p>         
+                </div>
+                <div class="box" style="opacity:0.9; background:rgba(89,124,134)">
+                  <div id="food" class="box"/>
+                  <div id="meal" class="box" />                                   
+                </div>
+
+            </div> 
+            <hr class="featurette-divider" style="margin-top:10px;">
+            <div class="column is-variable is-7-widescreen is-two-thirds-tablet">
+                <div class="box" style="background-color: #024047;opacity:0.9">                  
+                  <p id="bruh" class="title is-4" style="font-family:Segoe Script;color:gold;">Laugh! Unwind! Dine! Rejuvinate!...</p>
+                  <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> A Sensory Expedition! </p>         
+                </div>
+                <div class="box" style="opacity:0.9; background:rgba(89,124,134)">
+                  <div id="box" class="box" style="opacity:1;"/>
+                  <div id="eat" class="box" style="opacity:1;"/>                                     
+                </div>
+            </div> 
+            <div class="column is-variable is-one-third-widescreen is-two-thirds-tablet">
+              <div class="container is-fullscreen" id="woodback" style="margin-left:50px;">
+                <div class="container is-fullscreen" id="plate">   
+                  <div id=text style="font-family:Segoe Script;font-weight:bold;font-size:30px;color:#363101"><br/><br/>            
+                   The <br/>Experience
+                  </div>
+                </div>
+                <div class="container is-fullscreen" id="hex" style="margin-top:7px;"><br/>
+                    Ambiance
+                </div>                                 
+              </div>
+            </div> 
+                 
+          </div>
         </div>
         <br/><br/>      
   </div>
@@ -102,11 +117,12 @@
                 backgroundImage: "url(https://i.imgur.com/ZOcLM7h.jpg)"
                          
             },
-
+           
             myStyle:{
                 backgroundColor: 'rgba(89,124,134)'
                 
             },
+           
         
       }
     }
@@ -122,6 +138,88 @@ img{
     min-height: 680px;
 
 }
+#plate {
+  background-image : url('../pics/plate.png');  
+  background-position: center ;
+  background-size: 100% 100%;
+  height: 300px;
+  width: 300px;
+}
+#home {
+  background-image : url('../pics/websitewall.jpg');  
+  background-position: center ;
+  background-size: 150% 50%;
+ 
+}
+#woodback {
+  background-image : url('../pics/woodback.png');
+  background-repeat :no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  height: 600px;
+  width: 460px;
+}
+#lights {
+  background-image : url('../pics/lights.png');
+  background-repeat :repeat-x;
+  background-size: 10% 100%;
+  height: 150px; 
+}
+#hex {
+  background-image : url('../pics/hexagon.png');  
+  background-position: center ;
+  background-size: 100% 100%;
+  height: 250px;
+  width: 330px;
+}
+#brush {
+  background-image : url('../pics/brushstroke.png'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 90% 100%; 
+}
+#bruh {
+  background-image : url('../pics/brushstroke.png'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 70% 100%; 
+}
+#box.box{
+  background-image : url('../pics/laughingpeople.jpg'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 100% 100%; 
+  height: 200px;
+  width: 250px;
 
+}
+#eat.box{
+  background-image : url('../pics/eat.jpg'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 100% 100%; 
+  height: 200px;
+  width: 250px;
+  margin-left:400px;
+  margin-top:-50px;
+}
+#food.box{
+  background-image : url('../pics/foods.jpg'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 100% 100%; 
+  height: 200px;
+  width: 250px;
+}
+#meal.box{
+  background-image : url('../pics/meal.jpg'); 
+  background-repeat :no-repeat; 
+  background-position: center ;
+  background-size: 100% 100%; 
+  height: 200px;
+  width: 250px;
+  margin-left:400px;
+  margin-top:-50px;
+}
 
 </style>

@@ -12,11 +12,7 @@ var tableSchema = new Schema({
         type:Number,
        
     },
-    ipAddress:{
-        type:String,
-        
-
-    },
+    
     occupied:{
         type:Boolean,
         

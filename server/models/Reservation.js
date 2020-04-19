@@ -57,15 +57,14 @@ var reservationSchema = new Schema({
         required:true
 
     },
+    atTable:{
+        type:Boolean,
+    }, 
     password:{
         type:String,
         required:true
 
-    },
-    atTable:{
-        type:Boolean,
-        
-    },
+    },       
     email:{
         type:String,
 
