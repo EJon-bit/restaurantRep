@@ -28,7 +28,20 @@ var menuSchema = new Schema({
     image_url:{
         type: String,
         required:true
-    }
+    },
+    prepTime:{
+        type: Number,
+        required:true
+
+    },
+    qty:{
+        type: Number,
+        required:true
+
+    },
+    
+
+
 });
 
 var Menu = module.exports = mongoose.model('Menu',menuSchema);

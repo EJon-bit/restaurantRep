@@ -6,14 +6,21 @@ Vue.use(Vuex)
 export var store= new Vuex.Store({
     state:{        
         waiterCall:false,
-        checkWait:false
+        checkWait:false,
+        password:'',
     },
 
     mutations:{
         kitchenSend: state=>{
-            state.waiterCall=true  
-            state.checkWait=true          
+            state.waiterCall=true
+            state.checkWait=true         
         },
+        pass: (state, payload)=>{
+            
+            state.password= payload;
+                   
+        },
+
     },
 
     actions:{

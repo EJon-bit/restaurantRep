@@ -4,7 +4,7 @@
         <div class="container is-fulscreen">
             <br/>
             
-            <div v-for="reservation in sortedReservations" :key="reservation._id" style="margin-top:85px">
+            <div v-for="reservation in reservations" :key="reservation._id" style="margin-top:85px">
                 
                 <b-message :title="reservation.tableNo.tableNum.toString()" type="is-success" aria-close-label="Close message">                    
                     <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
@@ -31,6 +31,8 @@
 import axios from 'axios'
 import FlipCountdown from 'vue2-flip-countdown'
 import Message from'./Message'
+import openSocket from 'socket.io-client';
+const socket = openSocket('http://localhost:5000');
 
 export default {
 
@@ -45,49 +47,46 @@ export default {
     data() {    
         return {      
             reservations: [],                 
-
-            // backImage: { 
-            //     backgroundImage: "url(https://image.freepik.com/free-photo/grunge-wooden-cutting-board-with-copy-space-design-make-food-background_3249-3466.jpg)" 
-                
-            // }  
-            };  
-        },  
-        mounted() {    
-            this.fetchReservations(); //fetches menu using axios request 
-        },  
-        methods: {    
-            async fetchReservations() {      
-                return axios({        
-                    method: 'get',
-                    url: 'http://localhost:5000/reservation',      
-                })        
-                .then((response) => {          
-                    this.reservations = response.data.reservations;        
-                })        
-                .catch(() => {        
-
-                });    
-            },  
-        },
-        computed:{
-            checkWait(){
-                return this.$store.state.checkWait
-            },
-
-            sortedReservations: function(){
-                
-                // put in search function for change in onSite field...if person onSite and not served 
-                //sort such that those onSite reservations are placed first
-
-                //if person on site and orderAdded after being served placed them last
-                return this.reservations.sort((a, b) =>{
-
-                    return new Date(a.dateReserved) - new Date(b.dateReserved);
-                })                    
-            },
-
+            //reserveUpdate: false,
             
+        };  
+    }, 
+    created() {
+        this.fetchReservations();
+        var newData;
+        socket.on("newReserveList", function(data){
+            console.log(data);
+            newData=data;
+            
+        })
+        if(newData==true){
+            console.log('The new Data is', newData)
+            this.fetchReservations();
         }
+       
+    }, 
+        
+    methods: {    
+        async fetchReservations() {      
+            return axios({        
+                method: 'get',
+                url: 'http://localhost:5000/reservation',      
+            })        
+            .then((response) => {          
+                this.reservations = response.data.reservations;        
+            })        
+            .catch(() => {        
+
+            });    
+        },
+        
+    },
+    computed:{
+        checkWait(){
+            return this.$store.state.checkWait
+        },
+               
+    }
         
 
 }

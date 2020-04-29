@@ -53,19 +53,19 @@ var transporter = nodemailer.createTransport({
 
             // sends email to customer when table becomes available 
             // send mail with defined transport object
-            var mailInfo = transporter.sendMail({
-                from: transporter.auth.user, // sender address
-                to: reservation.email, // list of receivers
-                subject: "Top Tier- Reservation Update", // Subject line
-                text: "A table meeting your requirments has been made available and assigned to you. PLEASE CLICK THE LINK BELOW TO SECURE YOUR RESERVATION.", // plain text body
-                html: "<b>Hello world?</b>" // html body
-            },
-            (error)=>{
-                if (error){
-                    return console.log(error);
-                }                    
-            });
-            console.log("Message sent: %s", mailInfo.messageId);
+            // var mailInfo = transporter.sendMail({
+            //     from: transporter.auth.user, // sender address
+            //     to: reservation.email, // list of receivers
+            //     subject: "Top Tier- Reservation Update", // Subject line
+            //     text: "Your password is", // plain text body
+            //     html: "<b>Hello world?</b>" // html body
+            // },
+            // (error)=>{
+            //     if (error){
+            //         return console.log(error);
+            //     }                    
+            // });
+            // console.log("Message sent: %s", mailInfo.messageId);
 
             await reservation.save(); 
 
@@ -93,19 +93,20 @@ var transporter = nodemailer.createTransport({
 
                 // sends email to customer when table becomes available 
                 // send mail with defined transport object
-                var mailpostInfo = transporter.sendMail({
-                        from: transporter.auth.user, // sender address
-                        to: reservation.email, // list of receivers
-                        subject: "Top Tier- Reservation Update", // Subject line
-                        text: "A table meeting your requirments has been made available and assigned to you. PLEASE CLICK THE LINK BELOW TO SECURE YOUR RESERVATION.", // plain text body
-                        html: "<b>Hello world?</b>" // html body
-                    },
-                    (error)=>{
-                        if (error){
-                            return console.log(error);
-                        }                    
-                });
-                console.log("Message sent: %s", mailpostInfo.messageId);
+                // var mailpostInfo = transporter.sendMail({
+                //         from: transporter.auth.user, // sender address
+                //         to: reservation.email, // list of receivers
+                //         subject: "Top Tier- Reservation Update", // Subject line
+                //         text: "A table meeting your requirments has been made available and assigned to you. PLEASE CLICK THE LINK BELOW TO SECURE YOUR RESERVATION.", // plain text body
+                //         html: "<b>Hello world?</b>" // html body
+                //     },
+                //     (error)=>{
+                //         if (error){
+                //             return console.log(error);
+                //         }                  
+                //     }
+                // );
+                //console.log("Message sent: %s", mailpostInfo.messageId);
     
                 res.json({        
                     reservation,      
@@ -117,11 +118,6 @@ var transporter = nodemailer.createTransport({
                 res.status(409).end();
             }
     
-
-            
-                                
-        
-                
              
         }   
         else{
@@ -232,7 +228,9 @@ var transporter = nodemailer.createTransport({
             res.json({        
                 reservations,      
             });    
-        })       
+        })
+        .limit(15)
+        .sort({dateReserved:1})      
         .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
  
         
@@ -246,7 +244,7 @@ var transporter = nodemailer.createTransport({
         var parseDate= new Date(dateres) //stores the formatted date mm/dd/yyyy 00:00...      
         console.log("The Date is:", parseDate);
 
-        await Reservation.findOne({"dateReserved":parseDate},'password',(error, reservation) => {      
+        await Reservation.findOne({"dateReserved":parseDate},'password', (error, reservation) => {      
                                             
             if (error) { console.log(error); }      
             console.log("The reservation is:", reservation)

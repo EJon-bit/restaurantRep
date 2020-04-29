@@ -14,7 +14,7 @@
             <b-carousel-item>
               <span class="image">
                 <img src="https://www.intelligenthq.com/wp-content/uploads/2019/08/restaurant-1024x683.jpg">
-              </span>              
+              </span> 
               
             </b-carousel-item>
 
@@ -26,9 +26,11 @@
             </b-carousel-item>
 
             <b-carousel-item>
+             
               <span class="image">
                 <img src="http://www.herecomesthefood.com.au/wp-content/uploads/2018/12/food-and-table.jpg">
-              </span>
+              </span>                           
+                
             </b-carousel-item>
 
             <b-carousel-item>
@@ -58,30 +60,25 @@
                 </div>                                 
               </div>
             </div><br/>
-            <div class="column is-variable is-7-widescreen is-two-thirds-tablet" style="margin-left:100px;">
+            <div id="stuffs" class="column is-variable is-7-widescreen is-two-thirds-tablet">
                 <div class="box" style="background-color: #024047;opacity:0.9">                  
-                  <p id="brush" class="title is-4" style="font-family:Segoe Script;color:gold;">Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!...</p>
+                  <p class="title is-4" style="font-family:Segoe Script;color:gold;">Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!...</p>
                   <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> You Name It! </p>         
                 </div>
-                <div class="box" style="opacity:0.9; background:rgba(89,124,134)">
-                  <div id="food" class="box"/>
-                  <div id="meal" class="box" />                                   
-                </div>
+                <div id="food" class="box" />
+                  
 
             </div> 
             <hr class="featurette-divider" style="margin-top:10px;">
             <div class="column is-variable is-7-widescreen is-two-thirds-tablet">
                 <div class="box" style="background-color: #024047;opacity:0.9">                  
-                  <p id="bruh" class="title is-4" style="font-family:Segoe Script;color:gold;">Laugh! Unwind! Dine! Rejuvinate!...</p>
+                  <p class="title is-4" style="font-family:Segoe Script;color:gold;">Laugh! Unwind! Dine! Rejuvinate!...</p>
                   <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> A Sensory Expedition! </p>         
                 </div>
-                <div class="box" style="opacity:0.9; background:rgba(89,124,134)">
-                  <div id="box" class="box" style="opacity:1;"/>
-                  <div id="eat" class="box" style="opacity:1;"/>                                     
-                </div>
+                <div id="box" class="box" />
             </div> 
             <div class="column is-variable is-one-third-widescreen is-two-thirds-tablet">
-              <div class="container is-fullscreen" id="woodback" style="margin-left:50px;">
+              <div class="container is-fullscreen" id="woodbackthing">
                 <div class="container is-fullscreen" id="plate">   
                   <div id=text style="font-family:Segoe Script;font-weight:bold;font-size:30px;color:#363101"><br/><br/>            
                    The <br/>Experience
@@ -130,13 +127,106 @@
 </script>
 
 <style scoped>
-
-img{
+@media screen and (min-width: 769px), print {
+  img{
     position: relative;
     top: 0;
     left: 0;
-    min-height: 680px;
+    height: 630px;
+  }
+  .carousel {
+    max-height: 630px;
+    position: relative;
+   box-shadow: 0px 0px 10px 8px #3a403f;
+  }
+  #woodbackthing {
+    margin-left:50px;
+    background-image : url('../pics/woodback.png');
+    background-repeat :no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 600px;
+    width: 100%;
+  }
+  #stuffs{
+    margin-left:100px;
+  }
+  #food.box{
+    border-radius: 50px 50px 50px 50px;
+    background-image : url('../pics/foods.jpg'); 
+    background-repeat :no-repeat; 
+    background-position: center ;
+    background-size: 100% 100%; 
+    height: 400px;
+    /* width: 250px; */
+  }
+   #home {
+    background-image : url('../pics/websitewall.jpg');  
+    background-position: center ;
+    background-size: 120% 50%;
+  
+  }
+  #box.box{
+    border-radius: 50px 50px 50px 50px;
+    background-image : url('../pics/laughingpeople.jpg'); 
+    background-repeat :no-repeat; 
+    background-position: center ;
+    background-size: 100% 100%; 
+    height: 420px;
+    /* width: 250px; */
 
+  }
+  
+}
+
+@media screen and (max-width: 768px), print {
+  img{
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 300px;
+  }
+  .carousel {
+    max-height: 300px;
+    position: relative;
+   box-shadow: 0px 0px 10px 8px #3a403f;
+  }
+  #woodbackthing {
+    margin-left:0px;
+    background-image : url('../pics/woodback.png');
+    background-repeat :no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    height: 600px;
+    width: 100%;
+  }
+  #stuffs{
+    margin-left:1px;
+  }
+  #food.box{
+    border-radius: 50px 50px 50px 50px;
+    background-image : url('../pics/foods.jpg'); 
+    background-repeat :no-repeat; 
+    background-position: center ;
+    background-size: 100% 100%; 
+    height: 250px;
+    /* width: 250px; */
+  }
+  #box.box{
+    border-radius: 50px 50px 50px 50px;
+    background-image : url('../pics/laughingpeople.jpg'); 
+    background-repeat :no-repeat; 
+    background-position: center ;
+    background-size: 100% 100%; 
+    height: 300px;
+    /* width: 250px; */
+  }
+  #home {
+    background-image : url('../pics/websitewall.jpg');  
+    background-position: center ;
+    background-size: 350% 30%;
+  
+  }
 }
 #plate {
   background-image : url('../pics/plate.png');  
@@ -145,34 +235,24 @@ img{
   height: 300px;
   width: 300px;
 }
-#home {
-  background-image : url('../pics/websitewall.jpg');  
-  background-position: center ;
-  background-size: 150% 50%;
- 
-}
+
 #woodback {
   background-image : url('../pics/woodback.png');
   background-repeat :no-repeat;
   background-position: center center;
   background-size: 100% 100%;
   height: 600px;
-  width: 460px;
+  width: 100%;
 }
-#lights {
-  background-image : url('../pics/lights.png');
-  background-repeat :repeat-x;
-  background-size: 10% 100%;
-  height: 150px; 
-}
+
 #hex {
   background-image : url('../pics/hexagon.png');  
   background-position: center ;
   background-size: 100% 100%;
-  height: 250px;
-  width: 330px;
+  height: 40%;
+  width: 80%;
 }
-#brush {
+/* #brush {
   background-image : url('../pics/brushstroke.png'); 
   background-repeat :no-repeat; 
   background-position: center ;
@@ -183,43 +263,8 @@ img{
   background-repeat :no-repeat; 
   background-position: center ;
   background-size: 70% 100%; 
-}
-#box.box{
-  background-image : url('../pics/laughingpeople.jpg'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 100% 100%; 
-  height: 200px;
-  width: 250px;
+} */
 
-}
-#eat.box{
-  background-image : url('../pics/eat.jpg'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 100% 100%; 
-  height: 200px;
-  width: 250px;
-  margin-left:400px;
-  margin-top:-50px;
-}
-#food.box{
-  background-image : url('../pics/foods.jpg'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 100% 100%; 
-  height: 200px;
-  width: 250px;
-}
-#meal.box{
-  background-image : url('../pics/meal.jpg'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 100% 100%; 
-  height: 200px;
-  width: 250px;
-  margin-left:400px;
-  margin-top:-50px;
-}
+
 
 </style>

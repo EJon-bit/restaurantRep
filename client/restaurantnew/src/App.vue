@@ -4,17 +4,17 @@
      
     <b-navbar class="navbar is-dark is-fixed-top">
       <template slot="brand">
-          <b-navbar-item tag="router-link" :to="{ path: '/' }" style="font-family:Segoe Script;font-size:30px;color:gold;">
+          <b-navbar-item  id="logo" tag="router-link" :to="{ path: '/' }" >
               <img src="https://cdn0.iconfinder.com/data/icons/building-and-location-filled-outline-1/64/Location-map-pin-marker-food-512.png">Top Tier Cuisine JA
           </b-navbar-item>
       </template>
       
       <template slot="start">
-          <b-navbar-item tag="router-link" :to="{ path: '/Menu' }" style="font-family:Gabriola;font-size:32px;"> Menu & Reservations
+          <b-navbar-item id="links" tag="router-link" :to="{ path: '/Menu' }"> Menu & Reservations
             <!-- <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link> -->
           </b-navbar-item>
 
-          <b-navbar-item tag="router-link" :to="{ path: '/Reservation/User' }" style="font-family:Gabriola;font-size:32px;"> Edit Reservation
+          <b-navbar-item id="links" tag="router-link" :to="{ path: '/Reservation/User' }"> Edit Reservation
             <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
           </b-navbar-item> 
                    
@@ -61,7 +61,29 @@ export default {
 </script>
 
 <style scoped>
-
+@media screen and (min-width: 769px), print {
+  #logo{
+    font-family:Segoe Script;
+    font-size:30px;
+    color:gold;
+  }
+  #links{
+    font-family:Gabriola;
+    font-size:32px;
+  }
+}
+@media screen and (max-width: 768px), print {
+  #logo{
+    font-family:Segoe Script;
+    font-size:12px;
+    font-weight:bold;
+    color:gold;
+  }
+  #links{
+    font-family:Gabriola;
+    font-size:22px;
+  }
+}
 #app {
   
   /* font-family: Florence, cursive; */

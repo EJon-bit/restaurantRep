@@ -53,8 +53,8 @@
             </b-field><br/> 
                 
          
-            <div id="button">8
-                <b-button type="is-primary" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
+            <div id="button">
+                <b-button type="is-link" :disabled="formIsInDanger" v-if="!queued" @click="submit" >
                     Submit Reservation
                 </b-button>
                 <div>
@@ -83,6 +83,20 @@
                         :email="customerEmail">
                     </modal-form>
                 </b-modal>
+
+                <b-modal 
+                    :active.sync="statModalActive"
+                    has-modal-card
+                    trap-focus
+                    aria-role="dialog"
+                    aria-modal>
+                    <stat-modal 
+                        @changePage="changePage"                        
+                        :success="success" 
+                        :fail="fail"
+                        :password="reservation">                        
+                    </stat-modal>
+                </b-modal>
             </div>
          
         </div>
@@ -91,6 +105,8 @@
 
 <script>  
     import axios from 'axios';
+    import openSocket from 'socket.io-client';
+    const socket = openSocket('http://localhost:5000');
 
     var ModalForm = {
         props: ['date', 'seatNo', 'customerName', 'numOrders', 'orders', 'email'],
@@ -187,6 +203,46 @@
             </div>            
         `
     }
+    var statModal = {
+        props: ['success','fail', 'password'],
+                
+        methods: { 
+
+            savePassword() {                
+                               
+                this.$emit('changePage', this.password.reservation.password)
+               
+            }
+        },
+       
+        template: 
+        `   
+            <div class="modal-card" style="width: auto">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">Reservation Status</p>
+                </header>
+                <section class="modal-card-body">                    
+                    <div>
+                       <div v-if="success">
+                            <p>Reservation Succesfully Added</p>
+                            <p class="title is-6">Your Password is {{password.reservation.password}}</p>
+                            <button class="button is-primary" @click="savePassword">Ok</button>
+                       </div>
+                       <div v-if="fail">
+                            <p class="title is-4"> Sorry <br/>Your reservation cannot be added right now<br/>There are no available tables</p>
+                            <p class="title is-6" style="color:white;">You can save your reservation details and/or check to see other available times</p>
+                            <p class="title is-6" style="color:white;">To do click Ok click the the buttons under your reservation details</p>
+                            <button class="button" type="button is-link" @click="$parent.close()">Ok</button>
+                       </div>                        
+                    </div>          
+                </section>
+                <footer class="modal-card-foot">
+                    <p style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Thank you for visiting</p>
+                </footer>
+
+            </div>            
+        `
+    }
         
     export default {  
         
@@ -202,6 +258,7 @@
 
         components: {
             ModalForm,
+            statModal,
        
         },
 
@@ -229,6 +286,9 @@
                 customerEmail:"",
                 reservation:{},
                 isComponentModalActive:false,
+                statModalActive:false,
+                success:false,
+                fail:false,
 
                 datetime:new Date(),
                
@@ -241,7 +301,16 @@
                                
             }
         }, 
+        created() {
+            socket.on('created', function(data){
+                console.log(data)
+            })
+        },
         methods:{
+            changePage(value){
+                this.$store.commit('pass', value);
+                this.$router.push({ name: 'UserReservePage' }); 
+            },
             submit() {      
                         
                 return axios({          
@@ -259,26 +328,21 @@
                 })          
                 .then(() => { 
                     
-                    this.getRes();
-                                          
-                    this.$swal(                                 
-                                
-                        'Reservation was successfully added!',            
-                        'CHECK EMAIL FOR PASSWORD',          
-                    );  
-                    this.$router.push({ name: 'UserReservePage' });          
+                                        
+                    this.getRes();                    
+                    
+                    this.success=true;  
+                    this.statModalActive=true;                                          
+                    socket.emit('fromClient', 'true')   
                                                         
                 })
                 .catch(() => {
 
                     this.queued=true;
+                    this.fail=true;
+                    this.statModalActive=true;
 
-                    this.$swal(            
-                        'Sorry! There are NO available tables Right Now',            
-                        'You can save this reservation.',
-                        'If you do it will be automatically added when a Table becomes Available',         
-                        'error',          
-                    ); 
+                    
                 });      
             },            
 
@@ -321,13 +385,13 @@
                 });      
             },
 
-            getRes(){                
+            async getRes(){                
                 return axios({        
                     method: 'get',
                     url: `http://localhost:5000/reservation/${this.datetime}`,      
                 })        
                 .then((response) => {          
-                    this.reservation = response.data.reservation;        
+                    this.reservation = response.data;        
                 })        
                 .catch(() => {        
 
