@@ -1,6 +1,6 @@
 
 <template>    
-    <div :style="backImage">
+    <div >
         <br/>
         <div class="container is-fullscreen">
             <div class="columns is-variable is-6-widescreen" style="margin-left:5px;margin-right:5px;margin-top:60px">        
@@ -17,7 +17,7 @@
                 </div>
             </div> 
         </div>
-        <br/> <br/>
+        
     </div>   
                   
 </template> 
@@ -51,9 +51,7 @@ export default {
             tabStyle:{
                 backgroundColor: 'rgba(52,103,96,.89)'
             },
-            backImage: { 
-                backgroundImage: "url(https://i.imgur.com/ZOcLM7h.jpg)"
-            }
+            
 
 
         };
@@ -80,6 +78,10 @@ export default {
     #boxPad{
         padding:20px 10px 10px 10px ;
     }
+}
+
+#app{
+    background-size: 150% 100%;
 }
    
     

@@ -1,26 +1,25 @@
 
 <template>
     <div id="reserve">
-        <div class="container is-fulscreen">
-            <br/>
-            
-            <div v-for="reservation in sortReserve" :key="reservation._id" style="margin-top:85px">
-                
-                <b-message :title="getTitle(reservation.tableNo.tableNum)" type="is-success" aria-close-label="Close message">                    
-                    <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
-                    <br/><br/>
-                    <strong> Orders:</strong>
-                    <b-taglist v-for="order in reservation.orders" :key="order"> 
-                        <b-tag size="is-medium" rounded type="is-dark">{{order}}</b-tag>
-                    </b-taglist>
+        <div class="container is-fullscreen">
+            <div class="column" style="margin:auto">            
+                <div v-for="reservation in sortReserve" :key="reservation._id" style="margin-top:50px">
                     
-                    <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
-                    <div>
-                        <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
-                    </div>
+                    <b-message :title="getTitle(reservation.tableNo.tableNum)" type="is-success" aria-close-label="Close message">                    
+                        <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
+                        <br/><br/>
+                        <strong> Orders:</strong>
+                        <b-taglist v-for="order in reservation.orders" :key="order"> 
+                            <b-tag size="is-medium" rounded type="is-dark">{{order}}</b-tag>
+                        </b-taglist>
+                        
+                        <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
+                        <div>
+                            <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
+                        </div>
 
-                </b-message>
-            
+                    </b-message>                
+                </div>
             </div>
         </div>
         
@@ -181,12 +180,7 @@ export default {
 </script>
 <style scoped>
 
-#reserve{
- background-image: url('https://i.imgur.com/ZOcLM7h.jpg');
- /* background-size: cover;
- background-repeat: no-repeat;  */
- 
-}
+
 
 
 </style>

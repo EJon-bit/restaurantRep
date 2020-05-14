@@ -1,29 +1,27 @@
 
 <template>
     <div id="backImage">        
-        <div class="columns is-mobile" style="margin-top:100px">
-            <div class="column is-half is-offset-one-quarter">
-                <div class="box" :style="myStyle">   
-                    <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/>
-                    <div class="container">
-                        <b-field name="pass" label="Password" custom-class="is-small has-text-warning" type="is-primary">
-                            <b-input v-model="password" :message="loginLabelMessage">  
-                            </b-input>                        
-                        </b-field> <br/>
+        <div class="column" style="margin:auto">
+            <div id="best" class="box">   
+                <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/>
+                <div class="container">
+                    <b-field name="pass" label="Password" custom-class="is-small has-text-warning" type="is-primary">
+                        <b-input v-model="password" :message="loginLabelMessage">  
+                        </b-input>                        
+                    </b-field> <br/>
 
-                        <b-button type="is-primary" :disabled="loginIsInDanger" @click="login">
-                            Login    
-                        </b-button>
-                    </div>
-                </div>                
-            </div>
-            <div v-if="payMessage">                            
-                <b-notification type="is-info" aria-close-label="Close notification">
-                    Customer at table {{tableNo}} has requested to Pay for their Order
-                </b-notification>
+                    <b-button type="is-primary" :disabled="loginIsInDanger" @click="login">
+                        Login    
+                    </b-button>
+                </div>
             </div>
         </div>
-        <br/><br/>
+        <div v-if="payMessage">                            
+            <b-notification type="is-info" aria-close-label="Close notification">
+                Customer at table {{tableNo}} has requested to Pay for their Order
+            </b-notification>
+        </div>
+       
     </div> 
 </template>
 
@@ -43,10 +41,7 @@ export default {
             payMessage:false,
             messageCount:0,
             tableNo:0,
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-            },
+            
         }
     },
     created:function(){    
@@ -117,14 +112,15 @@ export default {
    
 </script>
 <style scoped>
+
+  #best{
+    background-color: rgba(63,63,63,.95);
+    margin:auto;   
+    margin-top:10%;
+    width:50%;
+    height: 100%;
     
-    #backImage{
-        background-image: url('../pics/websitewall.jpg');
-        background-size: cover;
-        /* background-repeat: no-repeat;  */
-        margin-top:0;
-        padding:0;
-        min-height: 100%;
-    }
+  }  
+    
 
 </style>

@@ -1,7 +1,7 @@
 /* eslint-disable */
 <template>
   <div id="app">       
-    <div id="inside"> 
+    <div id="wrapContent">
       <b-navbar class="navbar is-dark is-fixed-top" v-if="($route.name!='ReserveList')&&($route.name!='Login')&&($route.name!='UserReservePage')">
         <template slot="brand">
             <b-navbar-item  id="logo" tag="router-link" :to="{ path: '/' }" >
@@ -16,17 +16,16 @@
 
             <b-navbar-item id="links" tag="router-link" :to="{ path: '/Reservation/User' }"> Edit Reservation
               <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
-            </b-navbar-item> 
-                    
-        </template>        
-          
+            </b-navbar-item>                   
+        </template>            
       </b-navbar>          
       
       <transition name="fade" >
         <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
       </transition>
     </div>
-    <footer class="footer">
+
+    <footer id="footer">
       <div class="columns is-variable is-0-desktop"> 
         <div class="column is-variable is-one-third-desktop" align="left">        
           <i style="vertical-align: middle;">
@@ -49,38 +48,46 @@
 </template>
 
 <script>
-//import './assets/stylesheets/main.css';
-
-//import Home from './components/Home.vue';
-
 
 export default {
   name: 'App',
   
-  // data(){
-  //   return{
-  //     onSite:null,
-  //   }
-  // },
-  // created(){
-  //   localStorage.onSite=false;
-  //   this.onSite=localStorage.onSite
-   
-  // }
+  data(){
+    return{
+      onSite:null,
+    }
+  },
+  created(){
+    localStorage.onSite=false;
+    this.onSite=localStorage.onSite
+    
+  }
 }
 </script>
 
 <style>
-.footer {  
-  left: 0;
-  bottom: 0;
-  width: 100%; 
-  position: relative; 
-}
-#inside{
-  min-height: 100%;
-}
+
 @media screen and (min-width: 769px), print {
+  #wrapContent{
+    padding-bottom: 10rem;    /* Footer height */
+  }
+
+  #app {    
+    
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;      
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 100vh; 
+    background-image : url('pics/websitewall.jpg');  
+    background-position: center ;
+    background-size: 120% 50% cover;    
+  
+    
+  }
+
   #logo{
     font-family:Segoe Script;
     font-size:30px;
@@ -90,8 +97,37 @@ export default {
     font-family:Gabriola;
     font-size:32px;
   }
+  #footer {  
+    background-color: #bde6ded7;
+    color: #19190b;     
+    padding: 1rem 1.5rem 1rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;   
+  }
 }
 @media screen and (max-width: 768px), print {
+  #wrapContent{
+    padding-bottom: 20rem;    /* Footer height */
+  }
+
+  #app {
+    
+    /* font-family: Florence, cursive; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;  
+    /* margin: 0;
+    padding: 0; */
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 100vh; 
+    background-image : url('pics/websitewall.jpg');  
+    background-position: center ;
+    background-size: 120% 50% cover;   
+    
+  }
   #logo{
     font-family:Segoe Script;
     font-size:12px;
@@ -102,20 +138,16 @@ export default {
     font-family:Gabriola;
     font-size:22px;
   }
+  #footer {  
+    background-color: #bde6ded7;
+    color: #19190b;     
+    padding: 1rem 1.5rem 1rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;   
+  }
 }
-#app {
-  
-  /* font-family: Florence, cursive; */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;  
-  margin: 0;
-  padding: 0;
-  justify-content: center;
-  align-items: center;
-  
-   
-}
+
 
 </style>
 

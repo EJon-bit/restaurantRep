@@ -1,162 +1,161 @@
 
 <template>
     <div id="userPage">           
-            <template>
-                <div class="column is-variable is-6-widescreen is-10-desktop" style="margin:auto"> 
-                    <div id="best" class="box" :style="myStyle" v-if="password.length!=6 && orders.length==0"> 
-                        <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold;font-size:35px;margin-top:10px">Enter Password Here</h1>
-                        
-                        <b-field                     
-                            label="Password"    
-                            name=password                              
-                            custom-class="is-small has-text-warning" 
-                            type="is-primary" 
-                            style="margin-bottom:50px">
-                            <b-input v-model="password"/>  
-                                            
-                        </b-field>                    
-                    </div>
+        <template>
+            <div class="column is-variable is-6-widescreen is-10-desktop" style="margin:auto"> 
+                <div id="best" class="box" :style="myStyle" v-if="password.length!=6 && orders.length==0"> 
+                    <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold;font-size:35px;margin-top:10px">Enter Password Here</h1>
+                    
+                    <b-field                     
+                        label="Password"    
+                        name=password                              
+                        custom-class="is-small has-text-warning" 
+                        type="is-primary" 
+                        style="margin-bottom:50px">
+                        <b-input v-model="password"/>  
+                                        
+                    </b-field>                    
                 </div>
-            </template>
-            <template>
-                <div class="container is-fullscreen" style="margin-bottom:50px"> 
-                    <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
-                        <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
-                                
-                            <div id="good" class="box" :style="myStyle" v-if="orders.length"> 
-                                <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
-                                <div>
-                                    <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
-                                </div>  
+            </div>
+        </template>
+        <template>
+            <div class="container is-fullscreen" style="margin-bottom:50px"> 
+                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
+                    <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
+                            
+                        <div id="good" class="box" :style="myStyle" v-if="orders.length"> 
+                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
+                            <div>
+                                <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
+                            </div>  
 
-                                <p class="title is-4" style="color:orange;font-size:20px;">Bill Total: ${{reservation.orderCost}}</p>
-                                
-                                <div v-if="callWaiter" style="margin-bottom:40px">                            
-                                    <b-notification type="is-info" aria-close-label="Close notification">
-                                        A Waiter will be arriving shortly
-                                    </b-notification>
-                                </div>
-                                
-                                <div>
-                                    <button class="button field is-danger" @click="makePayment" v-if="reservation.onSite">                                    
-                                        <span>Pay Now</span>
-                                    </button>
-
-                                    <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
-                                        <span>Add Order</span>
-                                    </button>
-                                    <b-modal :active.sync="isComponentModalActive"
-                                        has-modal-card
-                                        trap-focus
-                                        aria-role="dialog"
-                                        aria-modal>
-                                        <modal-form                                     
-                                            :orders="checkItem" 
-                                            :cost="checkCosts"                                          
-                                            :defaultPass="password" 
-                                            :pass="pass">
-                                        </modal-form>
-                                    </b-modal>
-
-                                    <button class="button field is-warning" @click="kitchenSend" v-if="reservation.onSite">                                    
-                                        <span>Call Waiter</span>
-                                    </button>
-                                    <button class="button field is-warning" v-if="!reservation.onSite" @click="delRes">                                    
-                                        <span>Delete Reservation</span>
-                                    </button>
-                                </div>  
-                                
-                            </div>                 
-                        </div>
-                        <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:65px">
-                            <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                                <div id="seeMenu" class="column is-variable is-11-desktop is-12-tablet is-11-mobile" style="margin-left:20px">
-                                    <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length" style="margin-top:20px">
-                                            <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
-                                    </div>
-                                    <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6) && (!orders.length||orderAdd)" style="margin-top:20px"> 
-
-                                        <div class="box" v-if="orderAdd" :style="myStyle">
-                                            <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
-                                        </div>
-                                        <foodmenu @changed="onChange"></foodmenu>                        
-                                    </div>                     
-                                </div>     
-
-                                <div class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length" style="margin-left:40px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
-                                    
-                                    <div class="box" :style="myStyle">
-                                        <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
-                                    </div>
-                                    <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
-                                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                                            <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
-                                                <b-card                                     
-                                                    :img-src="order.image_url"
-                                                    img-alt="Image"
-                                                    img-top
-                                                    tag="article"
-                                                    :style="cardStyle"                                   
-                                                    class="box">
-                                                    
-                                                    <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
-
-                                                    <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
-
-                                                    <div class="field" style="margin-bottom: 30px">
-                                                        <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
-                                                        <p style="font-weight:bold">Check to Delete</p>
-                                                    </div>
-                                                    
-                                                    <b-card-text name="description" style="margin-top: 10px">
-                                                        {{order.description}} <br/>                                            
-                                                    </b-card-text>                                                                                
-                                                </b-card>
-                                            </div> 
-                                            <br/>
-                                            <div class="column is-variable is-12-desktop is-11-mobile">
-                                                <b-pagination
-                                                    :total="total"
-                                                    :current.sync="current"
-                                                    :per-page="perPage">
-                                                </b-pagination>  
-                                            </div>
-                                                        
-                                        </div> 
-                                        <div>                                    
-                                            <button class="button field is-danger" v-if="!reservation.onSite" @click="deleteModal =true">
-                                                <b-icon icon="delete"></b-icon>
-                                                <span>Delete</span>
-                                            </button> 
-                                            <b-modal :active.sync="deleteModal"
-                                                has-modal-card
-                                                trap-focus
-                                                aria-role="dialog"
-                                                aria-modal>
-                                                <delete-form 
-                                                    :checkboxGroup="checkItem"
-                                                    :cost="checkCosts"
-                                                    :checkboxOrders="checkboxOrders" 
-                                                    :orders="orders"                                                                                                 
-                                                    :defaultPass="password" 
-                                                    :pass="pass">                                                    
-                                                </delete-form>
-                                            </b-modal>
-                                            <button class="button field is-warning" v-if="!orderAdd" @click="menuSee">                                    
-                                                <span>See Menu</span>
-                                            </button>   
-                                            <button class="button field is-warning" v-if="orderAdd" @click="orderAdd = false">                                    
-                                                <span>Close Menu</span>
-                                            </button>                     
-                                        </div>                                 
-                                    </div> 
-                                </div> 
+                            <p class="title is-4" style="color:orange;font-size:20px;">Bill Total: ${{reservation.orderCost}}</p>
+                            
+                            <div v-if="callWaiter" style="margin-bottom:40px">                            
+                                <b-notification type="is-info" aria-close-label="Close notification">
+                                    A Waiter will be arriving shortly
+                                </b-notification>
                             </div>
-                        </div>    
+                            
+                            <div>
+                                <button class="button field is-danger" @click="makePayment" v-if="reservation.onSite">                                    
+                                    <span>Pay Now</span>
+                                </button>
+
+                                <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
+                                    <span>Add Order</span>
+                                </button>
+                                <b-modal :active.sync="isComponentModalActive"
+                                    has-modal-card
+                                    trap-focus
+                                    aria-role="dialog"
+                                    aria-modal>
+                                    <modal-form                                     
+                                        :orders="checkItem" 
+                                        :cost="checkCosts"                                          
+                                        :defaultPass="password" 
+                                        :pass="pass">
+                                    </modal-form>
+                                </b-modal>
+
+                                <button class="button field is-warning" @click="kitchenSend" v-if="reservation.onSite">                                    
+                                    <span>Call Waiter</span>
+                                </button>
+                                <button class="button field is-warning" v-if="!reservation.onSite" @click="delRes">                                    
+                                    <span>Delete Reservation</span>
+                                </button>
+                            </div>  
+                            
+                        </div>                 
                     </div>
+                    <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:65px">
+                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                            <div id="seeMenu" class="column is-variable is-11-desktop is-12-tablet is-11-mobile" style="margin-left:20px">
+                                <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length" style="margin-top:20px">
+                                        <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
+                                </div>
+                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6) && (!orders.length||orderAdd)" style="margin-top:20px"> 
+
+                                    <div class="box" v-if="orderAdd" :style="myStyle">
+                                        <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
+                                    </div>
+                                    <foodmenu @changed="onChange"></foodmenu>                        
+                                </div>                     
+                            </div>     
+
+                            <div class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length" style="margin-left:40px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                                
+                                <div class="box" :style="myStyle">
+                                    <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
+                                </div>
+                                <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
+                                    <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                                        <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
+                                            <b-card                                     
+                                                :img-src="order.image_url"
+                                                img-alt="Image"
+                                                img-top
+                                                tag="article"
+                                                :style="cardStyle"                                   
+                                                class="box">
+                                                
+                                                <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
+
+                                                <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
+
+                                                <div class="field" style="margin-bottom: 30px">
+                                                    <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
+                                                    <p style="font-weight:bold">Check to Delete</p>
+                                                </div>
+                                                
+                                                <b-card-text name="description" style="margin-top: 10px">
+                                                    {{order.description}} <br/>                                            
+                                                </b-card-text>                                                                                
+                                            </b-card>
+                                        </div> 
+                                        <br/>
+                                        <div class="column is-variable is-12-desktop is-11-mobile">
+                                            <b-pagination
+                                                :total="total"
+                                                :current.sync="current"
+                                                :per-page="perPage">
+                                            </b-pagination>  
+                                        </div>
+                                                    
+                                    </div> 
+                                    <div>                                    
+                                        <button class="button field is-danger" v-if="!reservation.onSite" @click="deleteModal =true">
+                                            <b-icon icon="delete"></b-icon>
+                                            <span>Delete</span>
+                                        </button> 
+                                        <b-modal :active.sync="deleteModal"
+                                            has-modal-card
+                                            trap-focus
+                                            aria-role="dialog"
+                                            aria-modal>
+                                            <delete-form 
+                                                :checkboxGroup="checkItem"
+                                                :cost="checkCosts"
+                                                :checkboxOrders="checkboxOrders" 
+                                                :orders="orders"                                                                                                 
+                                                :defaultPass="password" 
+                                                :pass="pass">                                                    
+                                            </delete-form>
+                                        </b-modal>
+                                        <button class="button field is-warning" v-if="!orderAdd" @click="menuSee">                                    
+                                            <span>See Menu</span>
+                                        </button>   
+                                        <button class="button field is-warning" v-if="orderAdd" @click="orderAdd = false">                                    
+                                            <span>Close Menu</span>
+                                        </button>                     
+                                    </div>                                 
+                                </div> 
+                            </div> 
+                        </div>
+                    </div>    
                 </div>
-            </template>
-        
+            </div>
+        </template>        
     </div>
 </template>
 
@@ -392,7 +391,7 @@ export default {
             console.log(data);
             this.table= localStorage.table
             if(data.table==this.table){
-                localStorage.onSite= true
+                
                 this.pass= data.password
                 this.filteredReservations(this.pass);
             }
@@ -560,12 +559,7 @@ export default {
         height: 35%;
         /* object-fit: cover; */
     }
-    #userPage {
-    background-image : url('../pics/websitewall.jpg');  
-    background-position: center ;
-    /* background-size: 350% 30%; */
-  
-  }
+    
         
     
 

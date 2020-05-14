@@ -94,7 +94,7 @@
                  
           </div>
         </div>
-        <br/><br/>      
+             
   </div>
   
   
@@ -184,13 +184,7 @@ span:hover .overlay {
     height: 400px;
     /* width: 250px; */
   }
-   #home {
-    background-image : url('../pics/websiteEdit.jpg');  
-    background-position: center ;
-    background-size: 120% 50%;
-    /* filter: blur(100%);
-    -webkit-filter: blur(100%); */
-  }
+  
   #box.box{
     border-radius: 50px 50px 50px 50px;
     background-image : url('../pics/laughingpeople.jpg'); 
@@ -246,15 +240,8 @@ span:hover .overlay {
     height: 300px;
     /* width: 250px; */
   }
-  #home {
-    background-image : url('../pics/websiteEdit.jpg');  
-    background-position: center ;
-    background-size: 350% 30%;
-    filter: blur(100%);
-    -webkit-filter: blur(100%);
-    
   
-  }
+  
 }
 #plate {
   background-image : url('../pics/plate.png');  
