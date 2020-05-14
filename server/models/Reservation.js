@@ -38,7 +38,7 @@ var reservationSchema = new Schema({
     },
 
     orderCost:{
-        type: Array,                        
+        type: Number,                        
     },
 
     dateReserved:{

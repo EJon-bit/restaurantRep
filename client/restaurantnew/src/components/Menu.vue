@@ -5,14 +5,14 @@
         <div class="container is-fullscreen">
             <div class="columns is-variable is-6-widescreen" style="margin-left:5px;margin-right:5px;margin-top:60px">        
                 <div class="column is-variable is-three-quarters-widescreen is-two-thirds-tablet is-12-mobile">
-                    <div class="box" :style="tabStyle">                
+                    <div id="boxPad" class="box" :style="tabStyle">                
                         <foodmenu @changed="onChange"></foodmenu>
                     </div>
                 </div>
                 <div class="column is-variable is-one-quarter-widescreen is-one-third-tablet is-12-mobile">
                     <div class="box" :style="myStyle">                 
                     
-                        <addreserve :msg="checkboxGroup"></addreserve>
+                        <addreserve :cost="checkCosts" :msg="checkItem"></addreserve>
                     </div>
                 </div>
             </div> 
@@ -39,7 +39,8 @@ export default {
         return {
             
             
-            checkboxGroup:[],
+            checkItem:[],
+            checkCosts:0,
                        
 
             myStyle:{
@@ -59,7 +60,14 @@ export default {
     },
     methods: {
         onChange(value){
-            this.checkboxGroup=value;
+            this.checkCosts=0;
+            this.checkItem=[];
+            value.forEach((element, index, arr) => {
+                this.checkItem[index]=element.itemName;
+                
+                this.checkCosts+=element.itemCost;
+            });
+            
         }
     },
 }  
@@ -68,11 +76,11 @@ export default {
 </script> 
 
 <style scoped>
-    
-    #boxOpacity{
-
-        opacity: 0.89;
-
+@media screen and (max-width: 768px), print {
+    #boxPad{
+        padding:20px 10px 10px 10px ;
     }
+}
+   
     
 </style>

@@ -1,7 +1,7 @@
 
 <template>
     
-    <div :style="backImage">       
+    <div>       
         <br/> 
         <div class="box" :style="myStyle"> 
             <p class="title is-4" style="font-family:Gabriola; font-weight:bold; color:gold; font-size:35px;">Available Tables</p>             
@@ -132,10 +132,6 @@ export default {
             },
             cardStyle:{
                 backgroundColor:"#a9d3cd"
-            },
-
-            backImage: { 
-                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
             },
 
             tables:[],

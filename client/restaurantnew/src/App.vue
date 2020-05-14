@@ -1,31 +1,31 @@
 /* eslint-disable */
 <template>
   <div id="app">       
-     
-    <b-navbar class="navbar is-dark is-fixed-top">
-      <template slot="brand">
-          <b-navbar-item  id="logo" tag="router-link" :to="{ path: '/' }" >
-              <img src="https://cdn0.iconfinder.com/data/icons/building-and-location-filled-outline-1/64/Location-map-pin-marker-food-512.png">Top Tier Cuisine JA
-          </b-navbar-item>
-      </template>
-      
-      <template slot="start">
-          <b-navbar-item id="links" tag="router-link" :to="{ path: '/Menu' }"> Menu & Reservations
-            <!-- <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link> -->
-          </b-navbar-item>
-
-          <b-navbar-item id="links" tag="router-link" :to="{ path: '/Reservation/User' }"> Edit Reservation
-            <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
-          </b-navbar-item> 
-                   
-      </template>        
+    <div id="inside"> 
+      <b-navbar class="navbar is-dark is-fixed-top" v-if="($route.name!='ReserveList')&&($route.name!='Login')&&($route.name!='UserReservePage')">
+        <template slot="brand">
+            <b-navbar-item  id="logo" tag="router-link" :to="{ path: '/' }" >
+                <img src="https://cdn0.iconfinder.com/data/icons/building-and-location-filled-outline-1/64/Location-map-pin-marker-food-512.png">Top Tier Cuisine JA
+            </b-navbar-item>
+        </template>
         
-    </b-navbar>          
-    
-    <transition name="fade">
-      <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
-    </transition>
-    
+        <template slot="start">
+            <b-navbar-item id="links" tag="router-link" :to="{ path: '/Menu' }"> Menu & Reservations
+              <!-- <router-link to="/Menu" class="nav-link">Menu & Reservations</router-link> -->
+            </b-navbar-item>
+
+            <b-navbar-item id="links" tag="router-link" :to="{ path: '/Reservation/User' }"> Edit Reservation
+              <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
+            </b-navbar-item> 
+                    
+        </template>        
+          
+      </b-navbar>          
+      
+      <transition name="fade" >
+        <router-view></router-view> <!--renders the component according to the routing path in our Vue application-->
+      </transition>
+    </div>
     <footer class="footer">
       <div class="columns is-variable is-0-desktop"> 
         <div class="column is-variable is-one-third-desktop" align="left">        
@@ -57,10 +57,29 @@
 export default {
   name: 'App',
   
+  // data(){
+  //   return{
+  //     onSite:null,
+  //   }
+  // },
+  // created(){
+  //   localStorage.onSite=false;
+  //   this.onSite=localStorage.onSite
+   
+  // }
 }
 </script>
 
-<style scoped>
+<style>
+.footer {  
+  left: 0;
+  bottom: 0;
+  width: 100%; 
+  position: relative; 
+}
+#inside{
+  min-height: 100%;
+}
 @media screen and (min-width: 769px), print {
   #logo{
     font-family:Segoe Script;
@@ -90,9 +109,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;  
-  margin-top: 0px;
+  margin: 0;
+  padding: 0;
   justify-content: center;
   align-items: center;
+  
    
 }
 

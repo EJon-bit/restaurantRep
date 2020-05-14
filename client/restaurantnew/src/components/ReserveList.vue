@@ -4,15 +4,16 @@
         <div class="container is-fulscreen">
             <br/>
             
-            <div v-for="reservation in reservations" :key="reservation._id" style="margin-top:85px">
+            <div v-for="reservation in sortReserve" :key="reservation._id" style="margin-top:85px">
                 
-                <b-message :title="reservation.tableNo.tableNum.toString()" type="is-success" aria-close-label="Close message">                    
+                <b-message :title="getTitle(reservation.tableNo.tableNum)" type="is-success" aria-close-label="Close message">                    
                     <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
                     <br/><br/>
-                    <strong> Orders: {{reservation.orders}}</strong>
-                    <div>
-                        <br/><message v-if="checkWait"></message>
-                    </div>
+                    <strong> Orders:</strong>
+                    <b-taglist v-for="order in reservation.orders" :key="order"> 
+                        <b-tag size="is-medium" rounded type="is-dark">{{order}}</b-tag>
+                    </b-taglist>
+                    
                     <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
                     <div>
                         <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
@@ -22,7 +23,7 @@
             
             </div>
         </div>
-        <br/><br/>
+        
     </div>
 </template>
 
@@ -30,43 +31,126 @@
 
 import axios from 'axios'
 import FlipCountdown from 'vue2-flip-countdown'
-import Message from'./Message'
+
+import Speech from 'speak-tts'
 import openSocket from 'socket.io-client';
 const socket = openSocket('http://localhost:5000');
+const speech = new Speech();
 
 export default {
 
   name: 'ReserveList', 
 
   components: { 
-    FlipCountdown,
-    'message':Message
+    FlipCountdown,   
 
   },
 
     data() {    
         return {      
             reservations: [],                 
-            //reserveUpdate: false,
+            tableNo: null,
             
         };  
     }, 
-    created() {
+    created:function(){
         this.fetchReservations();
-        var newData;
-        socket.on("newReserveList", function(data){
+        
+        if(speech.hasBrowserSupport()) { // returns a boolean
+            console.log("speech synthesis supported")
+        }
+
+        speech.init({
+            'volume': 1,
+            'lang': 'en-US',
+            'rate': 1.25,
+            'pitch': 1.5,
+            'voice':'Microsoft Zira Desktop - English (United States)',
+        })
+        .then((data) => {            
+            console.log("Speech is ready, voices are available", data.voices)
+        })
+        .catch(e => {
+            console.error("An error occured while initializing : ", e)
+        })
+                        
+        socket.on("newReserveList", (data)=>{
             console.log(data);
-            newData=data;
+            if(data=='true'){
+                console.log('The new Data is', data)
+                this.fetchReservations();
+            }
             
         })
-        if(newData==true){
-            console.log('The new Data is', newData)
-            this.fetchReservations();
-        }
-       
+        socket.on("reserveUpdate", (data)=>{
+            console.log(data);
+            if(data.onSite=='true'){
+                console.log('The new Data is', data)
+                this.fetchReservations();
+
+                console.log('A customer has arrived')
+                //Add audio thingy to call waiter
+                speech.speak({
+                    text: `Customer for table ${data.table} has arrived`,
+                    queue: true, // current speech will be interrupted,
+                    listeners: {
+                        onstart: () => {
+                            console.log("Start utterance")
+                        },
+                        onend: () => {
+                            console.log("End utterance")
+                        },
+                        onresume: () => {
+                            console.log("Resume utterance")
+                        },
+                       
+                    }
+                }).then(() => {
+                    console.log("Success !")
+                }).catch(e => {
+                    console.error("An error occurred :", e)
+                })
+             
+            }
+            
+        })
+
+        socket.on("waiterCall", (data)=>{
+            console.log(data);
+            if(data.status=='true'){
+                this.tableNo= data.table;
+                console.log('Calling waiter')
+                //Add audio thingy to call waiter
+                speech.speak({
+                    text: `Calling Waiter to table ${this.tableNo}`,
+                    queue: true, // current speech will be interrupted,
+                    listeners: {
+                        onstart: () => {
+                            console.log("Start utterance")
+                        },
+                        onend: () => {
+                            console.log("End utterance")
+                        },
+                        onresume: () => {
+                            console.log("Resume utterance")
+                        },
+                       
+                    }
+                }).then(() => {
+                    console.log("Success !")
+                }).catch(e => {
+                    console.error("An error occurred :", e)
+                })
+            }
+            
+        })      
     }, 
+           
+    methods: {  
         
-    methods: {    
+        getTitle(tableObj){
+            return "Table " + tableObj.toString()
+        },
         async fetchReservations() {      
             return axios({        
                 method: 'get',
@@ -82,11 +166,15 @@ export default {
         
     },
     computed:{
-        checkWait(){
-            return this.$store.state.checkWait
-        },
-               
+        sortReserve:function(){
+            return this.reservations.sort((x, y)=>{
+                // true values first
+                return (x.onSite === y.onSite)? 0 : x.onSite? -1 : 1;
+                
+            });
+        }
     }
+    
         
 
 }

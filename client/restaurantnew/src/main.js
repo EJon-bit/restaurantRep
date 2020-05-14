@@ -1,5 +1,5 @@
 /* eslint-disable */
-import './css/buefyEdited.css';
+import './css/personalized.css';
 
 import Buefy from 'buefy'
 import Vue from 'vue'
@@ -8,6 +8,23 @@ import App from './App.vue'
 import router from './router'  
 import { CardPlugin } from 'bootstrap-vue'
 import {store} from './store/store'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {faCookieBite, faSeedling, faDrumstickBite, faGlassCheers, faIceCream, faBreadSlice} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+
+library.add(
+  faCookieBite,
+  faSeedling,
+  faDrumstickBite,
+  faGlassCheers,
+  faIceCream,
+  faBreadSlice,
+  
+)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+
 
 
 Vue.use(CardPlugin)

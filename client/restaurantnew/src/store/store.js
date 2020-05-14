@@ -5,29 +5,26 @@ Vue.use(Vuex)
 
 export var store= new Vuex.Store({
     state:{        
-        waiterCall:false,
-        checkWait:false,
-        password:'',
+        
+        password:'',       
+        derived:null,        
     },
 
     mutations:{
-        kitchenSend: state=>{
-            state.waiterCall=true
-            state.checkWait=true         
-        },
+        
         pass: (state, payload)=>{
             
             state.password= payload;
                    
         },
+        
+        isDerived:(state, payload)=>{
+            state.derived=payload;
+        }
 
     },
 
-    actions:{
-        kitchenSend:context=>{
-            setTimeout(function(){
-                context.commit('kitchenSend')
-            },1000)
-        }
-    }
+    // actions:{
+        
+    // }
 })

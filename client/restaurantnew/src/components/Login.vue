@@ -5,8 +5,8 @@
             <div class="column is-half is-offset-one-quarter">
                 <div class="box" :style="myStyle">   
                     <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/>
-                    <b-form>
-                        <b-field label="Password" custom-class="is-small has-text-warning" type="is-primary">
+                    <div class="container">
+                        <b-field name="pass" label="Password" custom-class="is-small has-text-warning" type="is-primary">
                             <b-input v-model="password" :message="loginLabelMessage">  
                             </b-input>                        
                         </b-field> <br/>
@@ -14,8 +14,13 @@
                         <b-button type="is-primary" :disabled="loginIsInDanger" @click="login">
                             Login    
                         </b-button>
-                    </b-form>
+                    </div>
                 </div>                
+            </div>
+            <div v-if="payMessage">                            
+                <b-notification type="is-info" aria-close-label="Close notification">
+                    Customer at table {{tableNo}} has requested to Pay for their Order
+                </b-notification>
             </div>
         </div>
         <br/><br/>
@@ -24,47 +29,59 @@
 
 <script>
 import axios from 'axios'
-   //insert code to get reservations for password...let b-input use v-mode=password and
-   // find reservation with that specific password...when change on-site field to true....
-   //each table must have specialised python code to check its specific table document for the onsite field 
-export default{
+import openSocket from "socket.io-client";
+var socket = openSocket("http://localhost:5000");
+   
+export default {
     name:'Login',
 
     data(){
         return{
 
             password:'',
-            reservation:[],
-            // backImage: { 
-            //     backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
-            // },
+            reservation:null,
+            payMessage:false,
+            messageCount:0,
+            tableNo:0,
             myStyle:{
                 backgroundColor: 'rgba(63,63,63,.95)'
                 
             },
         }
     },
-    // mounted() {    
-    //     this.fetchReservation(); //fetches reservation using axios request 
-       
-    // },
+    created:function(){    
+        
+        socket.on("newPayRequest", (data)=>{
+            console.log(data);
+            if(data.status=='true'){
+                console.log('The new Data is', data)
+                this.tableNo= data.table;
+                this.payMessage=true;
+                this.messageCount+=1;
+            }
+            
+        })
+    },
     methods:{
         login() {      
-            return axios({        
+            axios({        
                 method: 'put',
                 
-                url: `http://localhost:5000/reservation/user/${this.password}`,      
+                url: `http://localhost:5000/reservation/user/password/${this.password}`,      
 
             })        
-            .then(() => {              
+            .then((response) => {       
                     
                     this.$swal(            
                         'Great!',            
                         'Reservation was successfully added!',            
                         'success',          
-                    );            
-                            
-                    //this.$refs.form.reset();          
+                    ); 
+                    this.reservation = response.data.reservation;
+                     
+                    socket.emit('reloadRes', {onSite:'true', table: this.reservation.tableNo.tableNum})  
+                    socket.emit('rgbTrigger', this.reservation.tableNo._id )  
+                    socket.emit('openCustomer', {table: this.reservation.tableNo.tableNum, password: this.password})         
             })
             .catch(() => {
 
@@ -102,10 +119,12 @@ export default{
 <style scoped>
     
     #backImage{
-        background-image: url('https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg');
+        background-image: url('../pics/websitewall.jpg');
         background-size: cover;
         /* background-repeat: no-repeat;  */
-        
-}
+        margin-top:0;
+        padding:0;
+        min-height: 100%;
+    }
 
 </style>

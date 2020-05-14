@@ -51,6 +51,10 @@
             <b-field label="Orders" custom-class="is-small has-text-warning" type="is-primary">
                 <b-input :value="msg.toString()" type="textarea" disabled ></b-input>
             </b-field><br/> 
+
+            <b-field label="Total Cost" custom-class="is-small has-text-warning" type="is-primary">
+                <b-input :value="cost" disabled ></b-input>
+            </b-field><br/> 
                 
          
             <div id="button">
@@ -90,11 +94,11 @@
                     trap-focus
                     aria-role="dialog"
                     aria-modal>
-                    <stat-modal 
+                    <stat-modal v-if="(reservation!=null)||(fail==true)"
                         @changePage="changePage"                        
                         :success="success" 
                         :fail="fail"
-                        :password="reservation">                        
+                        :password="reservation.reservation.password">                        
                     </stat-modal>
                 </b-modal>
             </div>
@@ -169,7 +173,7 @@
             fetchAvailDates() {      
                 return axios({        
                     method: 'get',
-                    url: `http://localhost:5000/reservation/${this.seatNo}/${this.date}`,      
+                    url: `http://localhost:5000/reservation/seatNum/${this.seatNo}/${this.date}`,      
                 })        
                 .then((response) => {          
                     this.availableDates = response.data.availableDates;        
@@ -210,7 +214,7 @@
 
             savePassword() {                
                                
-                this.$emit('changePage', this.password.reservation.password)
+                this.$emit('changePage', this.password)
                
             }
         },
@@ -225,14 +229,14 @@
                     <div>
                        <div v-if="success">
                             <p>Reservation Succesfully Added</p>
-                            <p class="title is-6">Your Password is {{password.reservation.password}}</p>
+                            <p class="title is-6" style="color:white;font-weight:bold">Your Password is {{password}}</p>
                             <button class="button is-primary" @click="savePassword">Ok</button>
                        </div>
                        <div v-if="fail">
                             <p class="title is-4"> Sorry <br/>Your reservation cannot be added right now<br/>There are no available tables</p>
                             <p class="title is-6" style="color:white;">You can save your reservation details and/or check to see other available times</p>
                             <p class="title is-6" style="color:white;">To do click Ok click the the buttons under your reservation details</p>
-                            <button class="button" type="button is-link" @click="$parent.close()">Ok</button>
+                            <button class="button" type="button is-primary" @click="$parent.close()">Ok</button>
                        </div>                        
                     </div>          
                 </section>
@@ -253,7 +257,11 @@
             msg: {
                 type: Array,
                 required: true
-            }
+            },
+            cost: {
+                type: Number,
+                required: true
+            },
         },
 
         components: {
@@ -284,7 +292,7 @@
                 customerName: "",
                 seatsReserved:"",
                 customerEmail:"",
-                reservation:{},
+                reservation:null,
                 isComponentModalActive:false,
                 statModalActive:false,
                 success:false,
@@ -301,14 +309,18 @@
                                
             }
         }, 
-        created() {
-            socket.on('created', function(data){
+        created:()=>{
+            socket.on('created', (data)=>{
                 console.log(data)
             })
         },
         methods:{
+            
+
             changePage(value){
+               
                 this.$store.commit('pass', value);
+                this.$store.commit('isDerived', true);
                 this.$router.push({ name: 'UserReservePage' }); 
             },
             submit() {      
@@ -320,6 +332,7 @@
                         seatsReserved: this.seatsReserved, 
                         numOrders:this.msg.length,           
                         orders:this.msg,
+                        orderCost:this.cost,
                         dateReserved:this.datetime,  
                         email:this.customerEmail        
                     },          
@@ -388,7 +401,7 @@
             async getRes(){                
                 return axios({        
                     method: 'get',
-                    url: `http://localhost:5000/reservation/${this.datetime}`,      
+                    url: `http://localhost:5000/reservation/date/${this.datetime}`,      
                 })        
                 .then((response) => {          
                     this.reservation = response.data;        

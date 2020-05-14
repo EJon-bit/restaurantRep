@@ -14,6 +14,8 @@
             <b-carousel-item>
               <span class="image">
                 <img src="https://www.intelligenthq.com/wp-content/uploads/2019/08/restaurant-1024x683.jpg">
+                <div class="overlay">User friendly Customer Management System.
+                  <br/> Make your Reservation. Collect password in Email. See and Edit your Order any time </div>
               </span> 
               
             </b-carousel-item>
@@ -21,27 +23,28 @@
             <b-carousel-item>
               <span class="image">
                 <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">
+                <div class="overlay">No tables Available? No problem! Save your Reservation.<br/>
+                 We will Send you an Email as soon as a table becomes available</div>
               </span>
               
             </b-carousel-item>
-
-            <b-carousel-item>
-             
-              <span class="image">
-                <img src="http://www.herecomesthefood.com.au/wp-content/uploads/2018/12/food-and-table.jpg">
-              </span>                           
-                
-            </b-carousel-item>
-
+            
             <b-carousel-item>
               <span class="image">
                 <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/63/cf/92/salle-du-restaurant-bistro.jpg">
+                <div class="overlay">Arrive and Find your table with No Hassle and No Assistance.<br/>
+                Verify your ID at the entrance, Then look for a table with a blinking light.<br/>
+                That table is yours! Impossible to miss!
+                </div>
               </span>
             </b-carousel-item>
 
             <b-carousel-item>
               <span class="image">
                 <img src="https://www.athenaspahotel.com/media/cache/jadro_resize/rc/q71gJJGT1579080551/jadroRoot/medias/_a1a5606.jpg">
+                <div class="overlay"> User friendly Digital Display at each table!<br/>
+                Add items or extra items to your order at your table with the a few button clicks. <br/>No waiter needed!
+                </div>
               </span>
             </b-carousel-item>
         </b-carousel> 
@@ -56,7 +59,7 @@
                 </div>
                 
                 <div class="container is-fullscreen" id="hex" style="margin-top:7px;"><br/>
-                    ygvhj
+                    Enjoy our vast culinary <br/>selections,catering to every <br/>palate. Customize your dish as you<br/> see fit. We Aim to please.
                 </div>                                 
               </div>
             </div><br/>
@@ -65,8 +68,7 @@
                   <p class="title is-4" style="font-family:Segoe Script;color:gold;">Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!...</p>
                   <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> You Name It! </p>         
                 </div>
-                <div id="food" class="box" />
-                  
+                <div id="food" class="box" />                
 
             </div> 
             <hr class="featurette-divider" style="margin-top:10px;">
@@ -127,6 +129,28 @@
 </script>
 
 <style scoped>
+.overlay {
+  position: absolute;
+  bottom: 50px;
+  
+  background-image : url('../pics/stroke.png');
+  background-repeat :no-repeat;
+  background-position: center center;
+  background-size: 90% 150%;/* Black see-through */
+  color: gold;
+  width: 100%;
+  transition: .5s ease;
+  opacity:0;
+  color: gold;
+  font-family:Gabriola;
+  font-weight:bold;
+  font-size: 35px;
+  padding: 20px;
+  text-align: center;
+}
+span:hover .overlay {
+  opacity: 0.8;
+}
 @media screen and (min-width: 769px), print {
   img{
     position: relative;
@@ -161,10 +185,11 @@
     /* width: 250px; */
   }
    #home {
-    background-image : url('../pics/websitewall.jpg');  
+    background-image : url('../pics/websiteEdit.jpg');  
     background-position: center ;
     background-size: 120% 50%;
-  
+    /* filter: blur(100%);
+    -webkit-filter: blur(100%); */
   }
   #box.box{
     border-radius: 50px 50px 50px 50px;
@@ -222,9 +247,12 @@
     /* width: 250px; */
   }
   #home {
-    background-image : url('../pics/websitewall.jpg');  
+    background-image : url('../pics/websiteEdit.jpg');  
     background-position: center ;
     background-size: 350% 30%;
+    filter: blur(100%);
+    -webkit-filter: blur(100%);
+    
   
   }
 }
@@ -252,18 +280,7 @@
   height: 40%;
   width: 80%;
 }
-/* #brush {
-  background-image : url('../pics/brushstroke.png'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 90% 100%; 
-}
-#bruh {
-  background-image : url('../pics/brushstroke.png'); 
-  background-repeat :no-repeat; 
-  background-position: center ;
-  background-size: 70% 100%; 
-} */
+
 
 
 

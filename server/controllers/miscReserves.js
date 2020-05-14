@@ -3,30 +3,59 @@ var randomstring= require('randomstring');
 var express = require("express")
 var router = express.Router()
 var Reservemisc = require("../models/ReserveMisc");
+var nodemailer = require("nodemailer");
 // var Menu = require('../models/Menu');
 // var Table = require('../models/Table')
 
+var transporter = nodemailer.createTransport({
+    service: 'gmail',                
+    auth: {
+        user: 'toptiercuisineja@gmail.com',
+        pass:  't0Pt1eRJ@'
+    }
+})    
 
 
 //post request to make post this miscellaneous collection if no tables are available 
 router.post('/queued', async(req,res) => {
     
     
-var passCode = randomstring.generate({length: 6,  charset: 'numeric'});
+    var passCode = randomstring.generate({length: 6,  charset: 'numeric'});
 
-var miscReservation = new Reservemisc(req.body);
-                
-    
-miscReservation.password = passCode;
-miscReservation.onSite=false;
+    var miscReservation = new Reservemisc(req.body);
+                    
+        
+    miscReservation.password = passCode;
+    miscReservation.onSite=false;
 
 
-await miscReservation.save(); 
+    await miscReservation.save(); 
 
-res.json({        
-    miscReservation,      
-});  
-    
+    var mailInfo ={
+        from: '"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
+        to: reservation.email, // list of receivers
+        subject: "Top Tier- Reservation Update", // Subject line
+        text: "Hello", // plain text body
+        html: `<p>Hi ${reservation.name} your password is ${reservation.password} 
+        <br/> An email will be sent to this address, to notify you when a suitable table has become available
+        <br/> Please Ensure you save the password given.
+        <br/>You are required to have it upon your arrival at the restaurant, to validate your reservation <br/> Thank you. </p>` // html body
+    };
+
+    transporter.sendMail(mailInfo, (error, info)=>{
+        if (error){
+            return console.log(error);
+        } 
+        else{
+            console.log("Message sent:" + info.response);
+        }
+    }) 
+
+
+    res.json({        
+        miscReservation,      
+    });  
+        
 
     
 });     

@@ -1,5 +1,5 @@
 <template>
- <div :style="backImage">   
+ <div>   
     <div class="container is-fullscreen" >        
         <br/> 
         <div style="margin-top:85px">
@@ -293,11 +293,7 @@ export default {
             cardStyle:{
                 backgroundColor:"#a9d3cd"
             },
-
-            backImage: { 
-                backgroundImage: "url(https://st.depositphotos.com/2158511/4377/v/950/depositphotos_43771103-stock-illustration-raw-food-seamless-background.jpg)" 
-            },
-
+            
             // input: {
             //     name: "",
             //     category:"", 

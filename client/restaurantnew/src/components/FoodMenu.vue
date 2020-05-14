@@ -2,7 +2,12 @@
 <template>    
                 
     <b-tabs vertical type="is-boxed">
-        <b-tab-item :label="appetizers">
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="cookie-bite" size="1x" inverse />
+                <span v-if="windowWidth>=761">Appetizers</span>
+            </template>
+            
             <div class="columns is-multiline is-variable is-2-mobile is-1-tablet is-2-desktop is-2-widescreen" >  
                 <div class="column is-variable is-one-third-desktop is-two-fifths-tablet is-12-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                     <b-card
@@ -18,7 +23,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -26,7 +31,7 @@
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text style="margin-top: 10px;margin-bottom:50px">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                                   
                                                                                     
@@ -43,7 +48,11 @@
             </div>  
         </b-tab-item>
         
-        <b-tab-item :label="meatLovers">
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="drumstick-bite" size="1x" inverse />
+                <span v-if="windowWidth>=761">Meat Lover</span>
+            </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
                     <b-card
@@ -59,7 +68,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -67,7 +76,7 @@
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text style="margin-top:10px;margin-bottom:50px">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                        
                     </b-card>
@@ -83,7 +92,11 @@
             </div>
         </b-tab-item>
         
-        <b-tab-item :label="vegetarian">
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="seedling" size="1x" inverse />
+                <span v-if="windowWidth>=761">Vegetarian</span>
+            </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_two" :key="menu.name">
                     <b-card 
@@ -99,7 +112,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -124,7 +137,11 @@
             
         </b-tab-item>
 
-        <b-tab-item :label="sides">
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="bread-slice" size="1x" inverse />
+                <span v-if="windowWidth>=761">Sides</span>
+            </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_three" :key="menu.name">
                     <b-card
@@ -140,7 +157,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -164,7 +181,11 @@
             </div>
         </b-tab-item>
 
-        <b-tab-item :label="beverages" >
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="glass-cheers" size="1x" inverse />
+                <span v-if="windowWidth>=761">Bevarages</span>
+            </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_four" :key="menu.name">
                     <b-card
@@ -180,7 +201,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -204,7 +225,11 @@
             </div>
         </b-tab-item>
 
-        <b-tab-item :label="dessert">
+        <b-tab-item>
+            <template slot="header">               
+                <font-awesome-icon v-if="windowWidth<761" icon="ice-cream" size="1x" inverse />
+                <span v-if="windowWidth>=761">Dessert</span>
+            </template>
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_five" :key="menu.name">
                     <b-card
@@ -220,7 +245,7 @@
                         <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
                         
                         <div class="field" style="margin-bottom: 30px">
-                            <b-checkbox type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="menu.name"></b-checkbox><br/>
+                            <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
                             <p style="font-weight:bold">Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
@@ -250,17 +275,17 @@
 
 <script> 
 import axios from 'axios';
-import AddReserve from'./AddReserve';
+//import AddReserve from'./AddReserve';
 
 export default {  
     name: 'Menu',  
 
-    components:{
-        'addreserve':AddReserve
-    },
+    // components:{
+    //     'addreserve':AddReserve
+    // },
     data() {    
         return {
-            
+            windowWidth:0,
             appetizers:"Appetizers",
             meatLovers:"Meat Lover",
             vegetarian:"Vegetarian",
@@ -268,6 +293,7 @@ export default {
             beverages:"Beverages",
             dessert:"Dessert",
             check:[],
+            checkless:[],
             checkboxGroup:[],
             menus: [],
             current:{
@@ -295,19 +321,21 @@ export default {
     },
     
    
-    created() {    
+    created(){ 
+        window.addEventListener('resize', this.handleResize);
+        this.handleResize();   
         this.fetchMenu(); //fetches menu using axios request
+
+    },
+    destroyed() {
+        window.removeEventListener('resize', this.handleResize);
     }, 
     watch: {
-        // whenever password changes, this function will run
-        checkboxGroup: function(newcheckboxGroup){
+        //whenever password changes, this function will run
+        checkboxGroup(){
+         
             this.$emit('changed', this.checkboxGroup)
-            if(this.checkboxGroup.length<this.check.length){
-                
-            }
-            else{
-                this.check=this.checkboxGroup;
-            }
+            
             
         },
 
@@ -315,12 +343,12 @@ export default {
             handler(){
                 this.checkboxGroup.forEach((checkBox, index, arr)=>{
                     
-                    var repeated=arr.filter(item=> item==checkBox)                    
-                    console.log(repeated.length)                    
-                    var things=this.menus.filter(menu=> menu.name.match(checkBox))
+                    var repeated=arr.filter(item=> item.itemName==checkBox.itemName)                    
+                    //console.log(repeated.length)                    
+                    var things=this.menus.filter(menu=> menu.name.match(checkBox.itemName))
                    
-                    console.log("Quantity is:", things[0].qty)
-                    console.log(arr)
+                    //console.log("Quantity is:", things[0].qty)
+                    //console.log(arr)
                     var i=1;                    
                     
                     if(repeated.length<=1 && things[0].qty>repeated.length){
@@ -344,6 +372,9 @@ export default {
                         }
                                       
                     }
+                    else if(things[0].qty<repeated.length){
+                        arr.pop(checkBox);
+                    }
                     this.$emit('changed', arr)
                 })        
             },
@@ -351,7 +382,25 @@ export default {
         }
             
     },         
-    methods: {    
+    methods: { 
+
+        handleResize() {
+            this.windowWidth=window.innerWidth;
+            if(this.windowWidth<=760) {
+                this.perPage=1
+            }
+            else if(this.windowWidth>760 && this.windowWidth<=1215){
+                this.perPage=2
+            }
+            else{
+                this.perPage=3
+            }
+           
+        },
+
+        checktheBox(obj1, obj2){
+            return {itemName:obj1, itemCost:obj2}
+        },   
         async fetchMenu() {      
             return axios({        
                 method: 'get',
@@ -363,11 +412,11 @@ export default {
             .catch(() => {        
             });    
         },
-        checkBox: function(object) {
+        checkBox(object){
             
             if(this.checkboxGroup.length){
                 
-                var stuff= this.checkboxGroup.filter(checkbox=> checkbox==object)
+                var stuff= this.checkboxGroup.filter(checkbox=> checkbox.itemName==object)
                 
                 if(stuff.length>0){
                     
@@ -392,17 +441,17 @@ export default {
                 return menu.category.match(this.appetizers)
             }).sort((a, b) => (a.cost - b.cost))                   
         },
-        filteredMenus_two: function(){
+        filteredMenus_two:function(){
             return this.menus.filter((menu)=>{                        
                 return menu.category.match(this.meatLovers)
             }).sort((a, b) => (a.cost - b.cost))                 
         },
-        filteredMenus_three: function(){
+        filteredMenus_three:function(){
             return this.menus.filter((menu)=>{                        
                 return menu.category.match(this.vegetarian)
             }).sort((a, b) => (a.cost - b.cost))                 
         },
-        filteredMenus_four: function(){
+        filteredMenus_four:function(){
             return this.menus.filter((menu)=>{                        
                 return menu.category.match(this.sides)
             }).sort((a, b) => (a.cost - b.cost))                 
@@ -412,7 +461,7 @@ export default {
                 return menu.category.match(this.beverages)
             }).sort((a, b) => (a.cost - b.cost))                 
         },
-        filteredMenus_six: function(){
+        filteredMenus_six:function(){
             return this.menus.filter((menu)=>{                        
                 return menu.category.match(this.dessert)
             }).sort((a, b) => (a.cost - b.cost))                 
@@ -420,37 +469,37 @@ export default {
 
         
         
-        paginatedItems() {
+        paginatedItems(){
             let page_number = this.current.appetizers-1
             this.total.appetizers=this.filteredMenus.length
             return this.filteredMenus.slice(page_number * this.perPage, (page_number + 1) * this.perPage); 
                 
         },
-        paginatedItems_one() {
+        paginatedItems_one(){
             let page_number = this.current.meatLovers-1
             this.total.meatLovers=this.filteredMenus_two.length
             return this.filteredMenus_two.slice(page_number * this.perPage, (page_number + 1) * this.perPage); 
                 
         },
-        paginatedItems_two() {
+        paginatedItems_two(){
             let page_number = this.current.vegetarian-1
             this.total.vegetarian=this.filteredMenus_three.length
             return this.filteredMenus_three.slice(page_number * this.perPage, (page_number + 1) * this.perPage); 
                 
         },
-        paginatedItems_three() {
+        paginatedItems_three(){
             let page_number = this.current.sides-1
             this.total.sides=this.filteredMenus_four.length
             return this.filteredMenus_four.slice(page_number * this.perPage, (page_number + 1) * this.perPage); 
                 
         },
-        paginatedItems_four() {
+        paginatedItems_four(){
             let page_number = this.current.beverages-1                
             this.total.beverages=this.filteredMenus_five.length
             return this.filteredMenus_five.slice(page_number * this.perPage, (page_number + 1) * this.perPage); 
                 
         },
-        paginatedItems_five() {
+        paginatedItems_five(){
             let page_number = this.current.dessert-1                
             this.total.dessert=this.filteredMenus_six.length
             return this.filteredMenus_six.slice(page_number * this.perPage, (page_number + 1) * this.perPage);
@@ -464,6 +513,7 @@ export default {
 </script> 
 
 <style scoped>
+    
     .card>img{
         border-radius: 10px 10px 0px 0px;
         
@@ -475,7 +525,7 @@ export default {
     .card{
         width: 100%;
         height: 100%;
-        /* object-fit: cover; */
+        object-fit: cover;
     }
     .card-img-top {
         width: 100%;
