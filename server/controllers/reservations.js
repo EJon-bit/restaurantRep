@@ -81,7 +81,7 @@ router.post('/', async(req,res) => {
     else if(testres.length!=0){
         /*if reservations with same seatNo but different date is found check to see if all those found                
         have dates that are > or <  the date for reservation being made by at least 2hrs  */                 
-        console.log("No completely unreserved tables avail")
+        console.log("No completely unreserved tables available")
         var resDateCheck = testres.filter(tr => Math.abs(tr.dateReserved.getTime() - reserveDate) < hr);
         console.log("resDateCheck:", resDateCheck);
         if (resDateCheck.length == 0) {

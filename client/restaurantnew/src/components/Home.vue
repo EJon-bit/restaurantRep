@@ -13,37 +13,39 @@
             
             <b-carousel-item>
               <span class="image">
-                <img src="https://www.intelligenthq.com/wp-content/uploads/2019/08/restaurant-1024x683.jpg">
+                <img src="../pics/restaurantWine.jpg">
                 <div class="overlay">User friendly Customer Management System.
-                  <br/> Make your Reservation. Collect password in Email. See and Edit your Order any time </div>
+                  <br/><p id="carouselDescrip"> Make your Reservation. Collect password in Email. See and Edit your Order any time </p> 
+                </div>
               </span> 
               
             </b-carousel-item>
 
             <b-carousel-item>
               <span class="image">
-                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80">
-                <div class="overlay">No tables Available? No problem! Save your Reservation.<br/>
-                 We will Send you an Email as soon as a table becomes available</div>
+                <img src="../pics/restPlate.jpg">
+                <div class="overlay">No tables Available? No problem! <br/>
+                  <p id="carouselDescrip"> Save your Reservation. We will Send you an Email as soon as a table becomes available</p>
+                </div>
               </span>
               
             </b-carousel-item>
             
             <b-carousel-item>
               <span class="image">
-                <img src="https://media-cdn.tripadvisor.com/media/photo-s/15/63/cf/92/salle-du-restaurant-bistro.jpg">
+                <img src="../pics/roundTable.jpg">
                 <div class="overlay">Arrive and Find your table with No Hassle and No Assistance.<br/>
-                Verify your ID at the entrance, Then look for a table with a blinking light.<br/>
-                That table is yours! Impossible to miss!
+                  <p id="carouselDescrip">Verify your ID at the entrance, Then look for a table with a blinking light.<br/>
+                  That table is yours! Impossible to miss!</p>
                 </div>
               </span>
             </b-carousel-item>
 
             <b-carousel-item>
               <span class="image">
-                <img src="https://www.athenaspahotel.com/media/cache/jadro_resize/rc/q71gJJGT1579080551/jadroRoot/medias/_a1a5606.jpg">
+                <img src="../pics/restBreakfast.jpg">
                 <div class="overlay"> User friendly Digital Display at each table!<br/>
-                Add items or extra items to your order at your table with the a few button clicks. <br/>No waiter needed!
+                  <p id="carouselDescrip">Add items or extra items to your order at your table with the a few button clicks. <br/>No waiter needed!</p>
                 </div>
               </span>
             </b-carousel-item>
@@ -150,6 +152,11 @@
 }
 span:hover .overlay {
   opacity: 0.8;
+}
+#carouselDescrip{
+  font-family: Garamond;
+  font-size:22px;
+  color:rgb(248, 248, 243);
 }
 @media screen and (min-width: 769px), print {
   img{

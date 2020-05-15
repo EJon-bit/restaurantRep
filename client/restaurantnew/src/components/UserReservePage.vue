@@ -79,7 +79,10 @@
                                     <div class="box" v-if="orderAdd" :style="myStyle">
                                         <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
                                     </div>
-                                    <foodmenu @changed="onChange"></foodmenu>                        
+                                    <foodmenu @changed="onChange"></foodmenu> 
+                                    <button class="button field is-warning" v-if="orderAdd" @click="orderAdd = false">                                    
+                                        <span>Close Menu</span>
+                                    </button>                       
                                 </div>                     
                             </div>     
 
@@ -90,7 +93,7 @@
                                 </div>
                                 <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
                                     <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                                        <div class="column is-variable is-one-third-widescreen is-8-desktop is-one-8-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
+                                        <div class="column is-variable is-one-third-widescreen is-half-desktop is-one-half-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
                                                 :img-src="order.image_url"
                                                 img-alt="Image"
@@ -145,9 +148,7 @@
                                         <button class="button field is-warning" v-if="!orderAdd" @click="menuSee">                                    
                                             <span>See Menu</span>
                                         </button>   
-                                        <button class="button field is-warning" v-if="orderAdd" @click="orderAdd = false">                                    
-                                            <span>Close Menu</span>
-                                        </button>                     
+                                                             
                                     </div>                                 
                                 </div> 
                             </div> 
@@ -220,7 +221,7 @@ var ModalForm = {
                 <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
                         <p class="modal-card-title">Add Order</p>
-                        <p class="modal-card-title">Delete Items</p>
+                       
                     </header>
                     <section class="modal-card-body">
                         <b-field custom-class="is-small has-text-warning" label="Orders">
@@ -314,8 +315,7 @@ var DeleteForm={
     template: 
         `   <form>
                 <div class="modal-card" style="width: auto">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Add Order</p>
+                    <header class="modal-card-head">                        
                         <p class="modal-card-title">Delete Items</p>
                     </header>
                     
@@ -424,6 +424,9 @@ export default {
     }, 
      
     methods: {  
+        delRes(){
+
+        },
         menuSee(){
             this.orderAdd = true
             document.querySelector('#seeMenu').scrollIntoView({ behavior: 'smooth' });
@@ -431,10 +434,10 @@ export default {
         
         handleResize() {
             this.windowWidth=window.innerWidth;
-            if(this.windowWidth<=760) {
+            if(this.windowWidth<=800) {
                 this.perPage=1
             }
-            else if(this.windowWidth>760 && this.windowWidth<=1215){
+            else if(this.windowWidth>800 && this.windowWidth<=1215){
                 this.perPage=2
             }
             else{

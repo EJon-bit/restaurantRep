@@ -4,12 +4,12 @@
     <b-tabs vertical type="is-boxed">
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="cookie-bite" size="1x" inverse />
-                <span v-if="windowWidth>=761">Appetizers</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="cookie-bite" size="1x" inverse />
+                <span v-if="windowWidth>=700">Appetizers</span>
             </template>
             
             <div class="columns is-multiline is-variable is-2-mobile is-1-tablet is-2-desktop is-2-widescreen" >  
-                <div class="column is-variable is-one-third-desktop is-two-fifths-tablet is-12-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-two-fifths-tablet is-full-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -50,11 +50,11 @@
         
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="drumstick-bite" size="1x" inverse />
-                <span v-if="windowWidth>=761">Meat Lover</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="drumstick-bite" size="1x" inverse />
+                <span v-if="windowWidth>=700">Meat Lover</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -94,11 +94,11 @@
         
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="seedling" size="1x" inverse />
-                <span v-if="windowWidth>=761">Vegetarian</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="seedling" size="1x" inverse />
+                <span v-if="windowWidth>=700">Vegetarian</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_two" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_two" :key="menu.name">
                     <b-card 
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -139,11 +139,11 @@
 
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="bread-slice" size="1x" inverse />
-                <span v-if="windowWidth>=761">Sides</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="bread-slice" size="1x" inverse />
+                <span v-if="windowWidth>=700">Sides</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_three" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_three" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -183,11 +183,11 @@
 
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="glass-cheers" size="1x" inverse />
-                <span v-if="windowWidth>=761">Bevarages</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="glass-cheers" size="1x" inverse />
+                <span v-if="windowWidth>=700">Bevarages</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_four" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_four" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -227,11 +227,11 @@
 
         <b-tab-item>
             <template slot="header">               
-                <font-awesome-icon v-if="windowWidth<761" icon="ice-cream" size="1x" inverse />
-                <span v-if="windowWidth>=761">Dessert</span>
+                <font-awesome-icon v-if="windowWidth<700" icon="ice-cream" size="1x" inverse />
+                <span v-if="windowWidth>=700">Dessert</span>
             </template>
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-desktop is-12-mobile is-12-tablet" v-for="menu in paginatedItems_five" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_five" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -386,10 +386,10 @@ export default {
 
         handleResize() {
             this.windowWidth=window.innerWidth;
-            if(this.windowWidth<=760) {
+            if(this.windowWidth<=800) {
                 this.perPage=1
             }
-            else if(this.windowWidth>760 && this.windowWidth<=1215){
+            else if(this.windowWidth>800 && this.windowWidth<=1215){
                 this.perPage=2
             }
             else{
