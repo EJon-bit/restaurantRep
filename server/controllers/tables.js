@@ -32,13 +32,13 @@ router.post('/addtable', (req, res) => {
 
 //to list all table for restaurant manager and/or employes to see and make changes if necessary    
 router.get('/', (req, res) => {    
-            Table.find({}, (error, tables) => {      
-                if (error) { console.log(error); }      
-                res.json({        
-                    tables,      
-                });    
-            }); 
-        }); 
+    Table.find({}, (error, tables) => {      
+        if (error) { console.log(error); }      
+        res.json({        
+            tables,      
+        });    
+    }); 
+}); 
 
 //finds out if table is still unoccupied after set time 
 //to determine if reserved field should be changed
