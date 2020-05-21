@@ -9,6 +9,7 @@ var router = express.Router();
 var port = process.env.API_PORT || 5000;
 var server = http.createServer(app); 
 var clientSocket = require('socket.io')(server);
+require('dotenv').config()
 
 server.listen(port, function() {  
     console.log(`api running on port ${port}`);
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //connect to mongodb
-mongoose.connect('mongodb+srv://restaurant:restaurantdb1@cluster0-cclil.azure.mongodb.net/restaurant?retryWrites=true&w=majority' , {useUnifiedTopology: true, useNewUrlParser: true}, function() {
+mongoose.connect(process.env.DB_CONNECTSTRING, {useUnifiedTopology: true, useNewUrlParser: true}, function() {
 console.log('Connection has been made');
 }) 
 .catch(err => { 
