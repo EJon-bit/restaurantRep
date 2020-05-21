@@ -57,7 +57,7 @@ var reservationSchema = new Schema({
         required:true
 
     },
-    atTable:{
+    paid:{
         type:Boolean,
     }, 
     password:{

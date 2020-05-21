@@ -1,0 +1,30 @@
+
+.card>img{
+    border-radius: 10px 10px 0px 0px;
+    
+}
+.card.box{
+    border-radius: 10px 10px 6px 6px;
+    padding: 0.75rem;
+}
+.card{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.card-img-top {
+    width: 100%;
+    height: 36%;
+    object-fit: cover;
+}
+
+#boxOpacity{
+
+    opacity: 0.89;
+
+}
+#cardOpacity{
+
+    opacity: 1;
+
+}

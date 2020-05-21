@@ -27,19 +27,18 @@ router.post('/queued', async(req,res) => {
         
     miscReservation.password = passCode;
     miscReservation.onSite=false;
+    miscReservation.paid= false;
 
 
     await miscReservation.save(); 
 
     var mailInfo ={
         from: '"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
-        to: reservation.email, // list of receivers
+        to: miscReservation.email, // list of receivers
         subject: "Top Tier- Reservation Update", // Subject line
         text: "Hello", // plain text body
-        html: `<p>Hi ${reservation.name} your password is ${reservation.password} 
-        <br/> An email will be sent to this address, to notify you when a suitable table has become available
-        <br/> Please Ensure you save the password given.
-        <br/>You are required to have it upon your arrival at the restaurant, to validate your reservation <br/> Thank you. </p>` // html body
+        html: `<p>Hi ${miscReservation.name}.
+        <br/>Your request has been saved. A message will be sent to this email, should a table become available.<br/> Thank you. </p>` // html body
     };
 
     transporter.sendMail(mailInfo, (error, info)=>{

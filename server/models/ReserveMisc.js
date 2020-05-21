@@ -28,29 +28,45 @@ var miscReserveSchema = new Schema({
         type: Array, 
                
     },
-    
 
-    orderCost:{
-        type: Array,                        
+    specialRequests:{ //example:birthdays, allergy notification
+        
+        type: Boolean,	
+
     },
 
+    orderCost:{
+        type: Number,                        
+    },
+
+    dateReserved:{
+        type:Date,
+        required:true
+
+    },
     tableNo:{
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Table' ,
-              
+            
     },
+    onSite:{
+        
+        type:Boolean,
+        required:true
 
+    },
+    paid:{
+        type:Boolean,
+    }, 
     password:{
         type:String,
         required:true
 
-    },
-   
+    },       
     email:{
         type:String,
-        //required:true
 
-    },
+    }
     
        
 });

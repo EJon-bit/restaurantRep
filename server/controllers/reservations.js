@@ -43,7 +43,7 @@ router.post('/', async(req,res) => {
         console.log("Table", tableNo);
         tableNo.reserved= true;
         await tableNo.save();
-        reservation.atTable= false;
+        reservation.paid= false;
         reservation.tableNo = tableNo._id;
         reservation.password = passCode;
         reservation.onSite=false;
@@ -86,7 +86,7 @@ router.post('/', async(req,res) => {
         console.log("resDateCheck:", resDateCheck);
         if (resDateCheck.length == 0) {
             // save reservation to db
-            reservation.atTable= false; 
+            reservation.paid= false; 
             reservation.tableNo=resTableNo._id;                    
             reservation.password = passCode;
             reservation.onSite=false;
@@ -127,15 +127,15 @@ router.post('/', async(req,res) => {
     else{
         res.status(409).end();
     }         
-    //}
+    
     
 }); 
 
-router.get('/checkonsite/:tableId', (req,res) => {
+router.get('/checkpay/:tableId', (req,res) => {
         
     var idTable= req.params.tableId;
 
-    Reservation.findOne({_id:idTable, onSite:true, atTable:false}, 'onSite', (error, reservation) => {      
+    Reservation.findOne({_id:idTable, onSite:true, atTable:false}, 'paid', (error, reservation) => {      
                                         
         if (error) { console.log(error); }      
         res.send(reservation); 

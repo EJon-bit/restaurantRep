@@ -84,16 +84,16 @@
                                         <span>Close Menu</span>
                                     </button>                       
                                 </div>                     
-                            </div>     
+                            </div>  <br/>   
 
-                            <div class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length" style="margin-left:40px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                            <div class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length" style="margin-left:20px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
                                 
                                 <div class="box" :style="myStyle">
                                     <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
                                 </div>
                                 <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
-                                    <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                                        <div class="column is-variable is-one-third-widescreen is-half-desktop is-one-half-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
+                                    <div class="columns is-multiline is-variable is-1-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                                        <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
                                                 :img-src="order.image_url"
                                                 img-alt="Image"
@@ -117,7 +117,7 @@
                                             </b-card>
                                         </div> 
                                         <br/>
-                                        <div class="column is-variable is-12-desktop is-11-mobile">
+                                        <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                                             <b-pagination
                                                 :total="total"
                                                 :current.sync="current"
@@ -260,10 +260,13 @@ var DeleteForm={
         }
     },
 
+    mounted(){
+        this.toDelete()
+    },
+
     methods:{
-        
-        async removeThing(){
-                       
+
+        toDelete(){
             this.orders.sort()
             this.checkboxOrders.sort()
             for(var k=0; k>this.checkboxOrders.length; ++k){
@@ -279,8 +282,11 @@ var DeleteForm={
                     })
                     break;
                 }                  
-            }         
-            
+            }     
+        },
+        
+        async removeThing(){
+           
             await axios({        
                 method: 'put',  
                 data:{
@@ -326,8 +332,7 @@ var DeleteForm={
                                                       
                     </section>
                     <footer class="modal-card-foot">                       
-                        <button class="button is-primary" @click="deleteItems">Yes</button>
-                        <button class="button" type="button is-primary" @click="$parent.close()">Cancel</button>
+                        <button class="button is-primary" @click="removeThing">Yes</button>                       
                     </footer>
                 </div>
             </form>

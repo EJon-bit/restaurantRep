@@ -9,7 +9,7 @@
             </template>
             
             <div class="columns is-multiline is-variable is-2-mobile is-1-tablet is-2-desktop is-2-widescreen" >  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-two-fifths-tablet is-full-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-full-tablet is-full-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -38,7 +38,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                     <b-pagination
                         :total="total.appetizers"
                         :current.sync="current.appetizers"
@@ -54,7 +54,7 @@
                 <span v-if="windowWidth>=700">Meat Lover</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-full-tablet is-full-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -82,7 +82,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                     <b-pagination
                         :total="total.meatLovers"
                         :current.sync="current.meatLovers"
@@ -98,7 +98,7 @@
                 <span v-if="windowWidth>=700">Vegetarian</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_two" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_two" :key="menu.name">
                     <b-card 
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -126,7 +126,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile ">
                     <b-pagination
                         :total="total.vegetarian"
                         :current.sync="current.vegetarian"
@@ -143,7 +143,7 @@
                 <span v-if="windowWidth>=700">Sides</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_three" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_three" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -171,7 +171,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                     <b-pagination
                         :total="total.sides"
                         :current.sync="current.sides"
@@ -187,7 +187,7 @@
                 <span v-if="windowWidth>=700">Bevarages</span>
             </template>
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_four" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_four" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -215,7 +215,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                     <b-pagination
                         :total="total.beverages"
                         :current.sync="current.beverages"
@@ -231,7 +231,7 @@
                 <span v-if="windowWidth>=700">Dessert</span>
             </template>
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
-                <div class="column is-variable is-one-third-widescreen is-half-desktop is-12-tablet is-12-mobile" v-for="menu in paginatedItems_five" :key="menu.name">
+                <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_five" :key="menu.name">
                     <b-card
                         :img-src="menu.image_url"
                         img-alt="Image"
@@ -259,7 +259,7 @@
                     </b-card>
                 </div>
                 <br/>
-                <div class="column is-variable is-12-desktop is-11-mobile">
+                <div class="column is-variable is-12-desktop is-12-tablet is-11-mobile">
                     <b-pagination
                         :total="total.dessert"
                         :current.sync="current.dessert"
@@ -513,35 +513,7 @@ export default {
 </script> 
 
 <style scoped>
-    
-    .card>img{
-        border-radius: 10px 10px 0px 0px;
-        
-    }
-    .card.box{
-        border-radius: 10px 10px 6px 6px;
-        padding: 0.75rem;
-    }
-    .card{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    .card-img-top {
-        width: 100%;
-        height: 36%;
-        object-fit: cover;
-    }
+    @import '../css/menu.css';    
 
-    #boxOpacity{
-
-        opacity: 0.89;
-
-    }
-    #cardOpacity{
-
-        opacity: 1;
-
-    }
 
 </style>

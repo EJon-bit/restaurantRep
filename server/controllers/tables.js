@@ -87,25 +87,29 @@ router.put('/tableavailability/:tableNo/:tableId', async(req, res) => {
     var tableNo=req.params.tableNo;
     var idTable= req.params.tableId;
 
-    //finds table with id given in parameter...returns the seatNum field for that table and stores in in seatNo
+    //finds table with id given in parameter...returns the seatNum field for that table and stores it in seatNo
     var seatNo= await Table.findOne({tableNum:tableNo},'seatNum');
     console.log("The number of seats are", seatNo);
 
-    
-    //this finds a queued reservation with the # of reserved seats that corresponds to the table which became available       
-    var reserveMisc = await Reservemisc.findOne({"seatsReserved":seatNo.seatNum});
-    console.log("The value in this array is", reserveMisc);
-
     //stores 2hrs ahead of current date in millisec
-    var dateCheck= Date.now()+7200000;
+    var dateCheck= Date.now();
     console.log("Date in millisec is:", dateCheck);
-
+    
     //stores 2hrs ahead in normal format
     var filterDate= Date(dateCheck);
     console.log("Date is:", filterDate);
+    
+    //this finds a queued reservation with the # of reserved seats that corresponds to the table which became available       
+    var reserveMisc = await Reservemisc.find({"seatsReserved":seatNo.seatNum, "dateReserved":{$gte:filterDate}}).sort({dateReserved:1});
+    console.log("Similar queued Reservation", reserveMisc);
+
+    var queuedTime = reserveMisc[0].dateReserved.getTime() + 7200000;
+
+    var queuedDate = Date(queuedTime);
+    console.log(" Queued Date is:", queuedDate);
 
     //checks for reservations that might have a reservation date within the 2hr margin alloted to each res
-    var reserveCheck = await Reservation.find({"tableNo":idTable, "dateReserved":{$lte:filterDate}});
+    var reserveCheck = await Reservation.find({"tableNo":idTable, "dateReserved":{$lte:queuedDate}});
     console.log("The table ID is", reserveCheck);
 
     //updates reserved field based on the presence or absence of a miscellaneous reservation match
@@ -114,14 +118,14 @@ router.put('/tableavailability/:tableNo/:tableId', async(req, res) => {
         if (error) { console.error(error); }
         
         //if there are no suitable queued reservations and no regular reservations within a 2hr margin...set table to false
-        if(!reserveMisc && !reserveCheck.length){
+        if(!reserveMisc.length && !reserveCheck.length){
             table.reserved = false;
         }
         
 
         /*if a queued reservation requesting this table was found and no regular reservation within a 2hr margin was found
         change table status back to reserved before a new customer tries to reserve it*/
-        else if(reserveMisc && !reserveCheck.length){
+        else if(reserveMisc.length && !reserveCheck.length){
 
             table.reserved = true;
         }    
@@ -136,8 +140,8 @@ router.put('/tableavailability/:tableNo/:tableId', async(req, res) => {
     
     /*finds table that was recently made available and 
     stores the id of that table in the queued reservation document which requesting a similar table ---IF no other reservations*/
-    if(reserveMisc && !reserveCheck.length){    
-        Reservemisc.findOne({"seatsReserved":seatNo.seatNum}, function(error, miscReservation){
+    if(reserveMisc.length && !reserveCheck.length){    
+        Reservemisc.findOne({"password":reserveMisc[0].password}, function(error, miscReservation){
             if (error) { console.error(error); }
             
             miscReservation.tableNo = seatNo._id;
@@ -146,27 +150,33 @@ router.put('/tableavailability/:tableNo/:tableId', async(req, res) => {
                 if (error) { console.log(error); }        
                 res.send(miscReservation)      
             });    
-        
+            
+            //sends email to customer when table becomes available 
+            //send mail with defined transport object
+            var mailInfo ={
+                from:'"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
+                to: miscReservation.email, // list of receivers
+                subject: "Top Tier- Reservation Update", // Subject line
+                text: "Hello World", // plain text body
+                html: `<p>Hi ${miscReservation.name} <br/> Please Ensure you save this password.
+                <br/>A table suitable for you saved Reservation has been made available. You are now officially Reserved.
+                <br/>Your password is ${miscReservation.password}.
+                <br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
+                <br/> Thank you.</p>` 
+            };
+
+            transporter.sendMail(mailInfo, (error, info)=>{
+                if (error){
+                    return console.log(error);
+                } 
+                else{
+                    console.log("Message sent:" + info.response);
+                }
+            }) 
             
         })
     }
-    //sends email to customer when table becomes available 
-    //send mail with defined transport object
-    // var mailInfo = transporter.sendMail({
-    //         from: transporter.auth.user, // sender address
-    //         to: reserveMisc.email, // list of receivers
-    //         subject: "Top Toer- Reservation Update", // Subject line
-    //         text: "A table meeting your requirments has been made available and assigned to you. PLEASE CLICK THE LINK BELOW TO SECURE YOUR RESERVATION.", // plain text body
-    //         html: "<b>Hello world?</b>" // html body
-    //     },
-    //     (error)=>{
-    //         if (error){
-    //             return console.log(error);
-    //         }                    
-    // });
-    // console.log("Message sent: %s", mailInfo.messageId);
-
-    //} 
+    
                 
 }); 
 

@@ -94,7 +94,12 @@
                     trap-focus
                     aria-role="dialog"
                     aria-modal>
-                    <stat-modal v-if="(reservation!=null)||(fail==true)"
+                    <stat-modal v-if="(fail==true)"
+                        @changePage="changePage"                        
+                        :success="success" 
+                        :fail="fail">                        
+                    </stat-modal>
+                    <stat-modal v-if="(reservation!=null)"
                         @changePage="changePage"                        
                         :success="success" 
                         :fail="fail"
@@ -325,7 +330,7 @@
             },
             submit() {      
                         
-                return axios({          
+                axios({          
                     method: 'post',          
                     data: {            
                         customerName: this.customerName,            
@@ -339,9 +344,9 @@
                     url: 'http://localhost:5000/reservation',          
                         
                 })          
-                .then(() => { 
+                .then((response) => { 
                     
-                                        
+                    console.log(response);                   
                     this.getRes();                    
                     
                     this.success=true;  
@@ -349,47 +354,44 @@
                     socket.emit('fromClient', 'true')   
                                                         
                 })
-                .catch(() => {
-
-                    this.queued=true;
-                    this.fail=true;
-                    this.statModalActive=true;
-
+                .catch((error) => {
+                    if (error.response) {
+                        this.queued=true;
+                        this.fail=true;
+                        this.statModalActive=true;
+                    }
                     
                 });      
             },            
 
             save() {      
                         
-                return axios({          
+                axios({          
                     method: 'post',          
                     data: {            
                         customerName: this.customerName,            
                         seatsReserved: this.seatsReserved, 
                         numOrders:this.msg.length,           
                         orders:this.msg,
+                        orderCost:this.cost,
                         dateReserved:this.datetime,
                         email:this.customerEmail         
                     },          
                     url: 'http://localhost:5000/misc/queued',          
-                    // headers: {            
-                    //     'Content-Type': 'application/json',          
-                    // },        
+                          
                 })          
                 .then(() => { 
                     this.$router.push({ name: 'Home' });  
 
                     this.$swal(            
                         'Great!',            
-                        'Reservation was successfully added!',            
+                        'Reservation has been saved!',            
                         'success',          
                     );            
                            
-                    //this.$refs.form.reset();          
+                        
                 })
-                .catch(() => {
-
-                    //this.queued=true;
+                .catch(() => {                  
 
                     this.$swal(            
                         'Sorry! Reservation failed to save, try again later',                                

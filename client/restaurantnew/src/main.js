@@ -1,9 +1,9 @@
 /* eslint-disable */
-import './css/personalized.css';
-
+import 'buefy/dist/buefy.css'
+import './css/personalized.css'
 import Buefy from 'buefy'
 import Vue from 'vue'
-import VueSwal from 'vue-swal';  
+import VueSwal from 'vue-swal'  
 import App from './App.vue'
 import router from './router'  
 import { CardPlugin } from 'bootstrap-vue'
