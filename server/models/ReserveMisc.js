@@ -58,6 +58,9 @@ var miscReserveSchema = new Schema({
     paid:{
         type:Boolean,
     }, 
+    served:{
+        type:Boolean,
+    }, 
     password:{
         type:String,
         required:true

@@ -9,12 +9,14 @@ var router = express.Router();
 var port = process.env.API_PORT || 5000;
 var server = http.createServer(app); 
 var clientSocket = require('socket.io')(server);
-require('dotenv').config()
+var pySockets = require('./sockets/pythonSockets')
+var frontSockets= require('./sockets/clientSockets')
 
+require('dotenv').config()
+ 
 server.listen(port, function() {  
     console.log(`api running on port ${port}`);
 }); 
-
 
 app.use(morgan('combined')); 
 app.use(bodyParser.json());  
@@ -22,7 +24,7 @@ app.use(cors());
 
 //connect to mongodb
 mongoose.connect(process.env.DB_CONNECTSTRING, {useUnifiedTopology: true, useNewUrlParser: true}, function() {
-console.log('Connection has been made');
+    console.log('Connection has been made');
 }) 
 .catch(err => { 
     console.error('App starting error:', err.stack);
@@ -37,71 +39,10 @@ clientSocket.on('connection', function(socket){
     })
     
     clientSocket.emit('created','Connection to client made')
+
+    frontSockets(socket)
+    pySockets(socket)
     
-    socket.on('fromClient', function(data){
-        console.log('The data is', data)
-        
-        if(data=='true'){
-            console.log("Reserve has been updated");
-            socket.broadcast.emit("newReserveList", data);
-        }
-    }); 
-
-    socket.on('callWaiter', function(data){
-        console.log('The data is', data)
-        
-        if(data.status=='true'){
-            console.log("Waiter has been called");
-            socket.broadcast.emit("waiterCall", data);
-        }
-    });        
-
-    socket.on('reloadRes', function(data){
-        console.log('The data is', data)
-        
-        if(data.onSite=='true'){
-            console.log("Reserve has been updated");
-            socket.broadcast.emit("reserveUpdate", data);
-        }
-    }); 
-
-    socket.on('reloadCustomer', function(data){
-        console.log('The data is', data)
-        
-        if(data=='true'){
-            console.log("Customer records has been updated");
-            socket.broadcast.emit("customerReload", data);
-        }
-    }); 
-
-
-    socket.on('rgbTrigger', function(data){
-        console.log('The data is', data)
-                
-        console.log("RGB wil lbe triggered");
-        socket.broadcast.emit("triggerRgb", data);
-        
-    }); 
-
-    socket.on('openCustomer', function(data){
-        console.log('The data is', data)
-                
-        console.log("Customer page Loading at Table");
-        socket.broadcast.emit("customerOpen", data);
-        
-    }); 
-    
-    
-
-    socket.on('payReq', function(data){
-        console.log('The data is', data)
-        
-        if(data.status=='true'){
-            console.log("Request to Pay has been made");
-            socket.broadcast.emit("newPayRequest", data);
-        }
-    });        
-        
 });
 
 app.use("/menu", require("./controllers/menus"));

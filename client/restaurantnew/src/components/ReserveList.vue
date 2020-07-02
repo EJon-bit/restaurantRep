@@ -2,7 +2,7 @@
 <template>
     <div id="reserve">
         <div class="container is-fullscreen">
-            <div class="column" style="margin:auto">            
+            <div class="column" v-if="reservations.length" style="margin:auto">            
                 <div v-for="reservation in sortReserve" :key="reservation._id" style="margin-top:50px">
                     
                     <b-message :title="getTitle(reservation.tableNo.tableNum)" type="is-success" aria-close-label="Close message">                    
@@ -12,6 +12,10 @@
                         <b-taglist v-for="order in reservation.orders" :key="order"> 
                             <b-tag size="is-medium" rounded type="is-dark">{{order}}</b-tag>
                         </b-taglist>
+
+                        <b-button type="is-primary" @click="served(reservation._id)">
+                            Served   
+                        </b-button>
                         
                         <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
                         <div>
@@ -20,6 +24,11 @@
 
                     </b-message>                
                 </div>
+            </div>
+            <div class="column" v-if="!reservations.length" style="margin:auto;">
+                <b-notification type="is-dark">
+                   No Reservations have been made yet.
+                </b-notification>
             </div>
         </div>
         
@@ -78,8 +87,7 @@ export default {
             if(data=='true'){
                 console.log('The new Data is', data)
                 this.fetchReservations();
-            }
-            
+            }            
         })
         socket.on("reserveUpdate", (data)=>{
             console.log(data);
@@ -162,6 +170,34 @@ export default {
 
             });    
         },
+
+        served(obj){
+            
+            axios({        
+                method: 'put',                
+                url: `http://localhost:5000/reservation/served/${obj}`,      
+
+            })        
+            .then(() => { 
+                socket.emit('fromClient', 'true')      
+                    
+                this.$swal(            
+                    'Great!',            
+                    'Reservation was successfully added!',            
+                    'success',          
+                ); 
+                         
+            })
+            .catch(() => {
+
+                this.$swal(            
+                    'Sorry!',            
+                    'Your reservation was NOT sucessfully added! Try again',            
+                    'error',          
+                ); 
+            });    
+        }
+        
         
     },
     computed:{

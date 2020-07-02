@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Home from '@/components/Home'
 import Menu from '@/components/Menu'//add any other pages like this
 import ReserveList from '@/components/ReserveList'
-import AvailTables from '@/components/AvailTables'
+import EditTables from '@/components/EditTables'
 import EditMenu from '@/components/EditMenu'
 import Login from '@/components/Login'
 import UserReservePage from '@/components/UserReservePage'
@@ -36,9 +36,9 @@ export default new Router({
         component: ReserveList    
       },
       {     
-        path: '/AvailableTables',     
-        name: 'AvailTables',     
-        component: AvailTables    
+        path: '/EditTables',     
+        name: 'EditTables',     
+        component: EditTables    
       },
       {     
         path: '/EditMenu',     

@@ -1,19 +1,9 @@
-var mongoose = require('mongoose')
-const nodemailer = require("nodemailer");
+
 var express = require("express")
 var router = express.Router()
 var Table = require("../models/Table");
 require("../models/Reservation")
-var Reservemisc = require('../models/ReserveMisc')
-var Reservation =require('../models/Reservation')
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',                
-    auth: {
-        user: 'toptiercuisineja@gmail.com',
-        pass:  't0Pt1eRJ@'
-    }
-})
 
 //adds table when restaurant makes changes to seating
 router.post('/addtable', (req, res) => {    
@@ -80,105 +70,7 @@ router.put('/tableoccupancyStat/:tableNo', async(req, res) => {
 })
 
 
-//update table reserved field in database if PIR no longer detects motion (i.e. if a person has left or did not arrive in time)
-//assigns the newly unreserved table to another waiting customer
-router.put('/tableavailability/:tableNo/:tableId', async(req, res) => {   
-    
-    var tableNo=req.params.tableNo;
-    var idTable= req.params.tableId;
 
-    //finds table with id given in parameter...returns the seatNum field for that table and stores it in seatNo
-    var seatNo= await Table.findOne({tableNum:tableNo},'seatNum');
-    console.log("The number of seats are", seatNo);
-
-    //stores 2hrs ahead of current date in millisec
-    var dateCheck= Date.now();
-    console.log("Date in millisec is:", dateCheck);
-    
-    //stores 2hrs ahead in normal format
-    var filterDate= Date(dateCheck);
-    console.log("Date is:", filterDate);
-    
-    //this finds a queued reservation with the # of reserved seats that corresponds to the table which became available       
-    var reserveMisc = await Reservemisc.find({"seatsReserved":seatNo.seatNum, "dateReserved":{$gte:filterDate}}).sort({dateReserved:1});
-    console.log("Similar queued Reservation", reserveMisc);
-
-    var queuedTime = reserveMisc[0].dateReserved.getTime() + 7200000;
-
-    var queuedDate = Date(queuedTime);
-    console.log(" Queued Date is:", queuedDate);
-
-    //checks for reservations that might have a reservation date within the 2hr margin alloted to each res
-    var reserveCheck = await Reservation.find({"tableNo":idTable, "dateReserved":{$lte:queuedDate}});
-    console.log("The table ID is", reserveCheck);
-
-    //updates reserved field based on the presence or absence of a miscellaneous reservation match
-    Table.findOne({tableNum:tableNo}, function(error, table) {      
-        
-        if (error) { console.error(error); }
-        
-        //if there are no suitable queued reservations and no regular reservations within a 2hr margin...set table to false
-        if(!reserveMisc.length && !reserveCheck.length){
-            table.reserved = false;
-        }
-        
-
-        /*if a queued reservation requesting this table was found and no regular reservation within a 2hr margin was found
-        change table status back to reserved before a new customer tries to reserve it*/
-        else if(reserveMisc.length && !reserveCheck.length){
-
-            table.reserved = true;
-        }    
-        
-        
-                
-        table.save(function (error) {        
-            if (error) { console.log(error); }        
-            //res.send(table)      
-        });    
-    }); 
-    
-    /*finds table that was recently made available and 
-    stores the id of that table in the queued reservation document which requesting a similar table ---IF no other reservations*/
-    if(reserveMisc.length && !reserveCheck.length){    
-        Reservemisc.findOne({"password":reserveMisc[0].password}, function(error, miscReservation){
-            if (error) { console.error(error); }
-            
-            miscReservation.tableNo = seatNo._id;
-                    
-            miscReservation.save(function (error, miscReservation) {        
-                if (error) { console.log(error); }        
-                res.send(miscReservation)      
-            });    
-            
-            //sends email to customer when table becomes available 
-            //send mail with defined transport object
-            var mailInfo ={
-                from:'"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
-                to: miscReservation.email, // list of receivers
-                subject: "Top Tier- Reservation Update", // Subject line
-                text: "Hello World", // plain text body
-                html: `<p>Hi ${miscReservation.name} <br/> Please Ensure you save this password.
-                <br/>A table suitable for you saved Reservation has been made available. You are now officially Reserved.
-                <br/>Your password is ${miscReservation.password}.
-                <br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
-                <br/> Thank you.</p>` 
-            };
-
-            transporter.sendMail(mailInfo, (error, info)=>{
-                if (error){
-                    return console.log(error);
-                } 
-                else{
-                    console.log("Message sent:" + info.response);
-                }
-            }) 
-            
-        })
-    }
-    
-                
-}); 
 
 module.exports=router;
            

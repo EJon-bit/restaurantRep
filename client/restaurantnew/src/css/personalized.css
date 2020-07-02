@@ -20,7 +20,7 @@
   .table thead td,
   .table thead th {
     border-width: 0 0 2px;
-    color: #dbdb21;
+    color: #0c0c0a;
   }
   
   .table tfoot {
@@ -118,7 +118,7 @@
   
   .modal-card-body {
     -webkit-overflow-scrolling: touch;
-    background-color: #0b8f74;
+    background-color: #0b8f74; 
     color: #e3e307;
     flex-grow: 1;
     flex-shrink: 1;
@@ -133,6 +133,7 @@
     border-color: #787704;
     color: #b5b305;  
     min-width: 2.25em;
+    
   }
   
   .pagination-previous:hover,

@@ -23,10 +23,18 @@
                    
             </b-table>       
         <div class="box" :style="myStyle">    
-            <button class="button field is-danger" >
+            <button class="button field is-danger" @click="deleteItems=true" >
                 <b-icon icon="delete"></b-icon>
                 <span>Delete</span>
             </button>
+            <b-modal :active.sync="deleteItems"
+                has-modal-card
+                trap-focus
+                aria-role="dialog"
+                aria-modal>
+                <delete-menu :dataDelete="checkedRows"></delete-menu>
+            </b-modal>
+
 
             <button class="button field is-link" @click="isComponentModTwoActive = true">
                 <b-icon icon="pencil"></b-icon>
@@ -192,9 +200,7 @@ var UpdateMenuForm = {
                     image_url:this.formData[0].image_url  
                 },          
                 url: `http://localhost:5000/menu/editmenu/update/${this.formData[0]._id}`          
-            // headers: {            
-            //     'Content-Type': 'application/json',          
-            // },        
+                
             })          
             .then(() => { 
                 
@@ -272,11 +278,74 @@ var UpdateMenuForm = {
     
 }
 
+var DeleteMenu = {
+   
+    props:{
+            dataDelete: {
+                type: Array,
+                required: true
+            }
+    }, 
+    
+    
+    methods: {    
+        removeItems() {
+            axios({
+                method: 'delete',          
+                data: {            
+                    itemsforDelete: this.dataDelete
+                },          
+                url: `http://localhost:5000/menu/deleteItems`          
+                
+            })          
+            .then(() => { 
+                
+                this.$swal(            
+                    'Great!',            
+                    'Menu Item(s) was successfully Deleted!',            
+                    'success',          
+                );               
+                        
+                //this.$refs.form.reset();          
+            })
+            .catch(() => {
+
+                this.$swal(            
+                    'Sorry!', 
+                    'Menu Item(s) could not be Deleted.',
+                    'Try Again'           
+                           
+                ); 
+            });      
+        },    
+   
+    },
+   
+
+    template: 
+    `    <div class="modal-card" style="width: auto">
+            <header class="modal-card-head">
+                <p class="modal-card-title">Deleting Menu Item(s)</p>
+            </header>
+            <section class="modal-card-body">
+                <p> Are you sure you want to delete these?</p>                    
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button" type="button" @click="$parent.close()">Cancel</button>
+                <button class="button is-primary" type="button" @click="removeItems">Yes</button>
+            </footer>
+        </div>
+        
+    `
+    
+}
+
 export default {
     name: 'EditMenu',
     components: {
             AddMenuForm,
-            UpdateMenuForm
+            UpdateMenuForm,
+            DeleteMenu,
     },
 
     data() {        
@@ -284,6 +353,7 @@ export default {
         return {
             isComponentModalActive: false,
             isComponentModTwoActive:false,
+            deleteItems:false,
 
             myStyle:{
                 backgroundColor: 'rgba(63,63,63,.95)'

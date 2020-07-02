@@ -66,11 +66,18 @@ router.put('editmenu/update/:id', (req, res) => {
     });  
 }); 
 
-router.delete('/editmenu/delete/:id', (req, res) => {    
-    Menu.remove({ _id: req.params.id }, function(error, menu){      
-        if (error) { console.error(error); }      
-        res.send({ success: true })    
-    });  
+router.delete('/deleteItems', (req, res) => { 
+    
+    var itemDelete= req.body.itemsforDelete
+
+    itemDelete.forEach(async(item) => {
+        await Menu.remove({ name:item.name}, function(error){      
+            if (error) { console.error(error); }      
+               
+        });  
+    });
+    res.send({ success: true }) 
+    
 });
 
 module.exports = router

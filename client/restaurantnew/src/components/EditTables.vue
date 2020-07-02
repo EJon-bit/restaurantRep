@@ -115,7 +115,7 @@ var ModalForm = {
 }
 
 export default {
-    name: 'AvailTables',
+    name: 'EditTables',
 
     components: {
             ModalForm

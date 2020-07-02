@@ -4,7 +4,7 @@ var express = require("express")
 var router = express.Router()
 var Reservemisc = require("../models/ReserveMisc");
 var nodemailer = require("nodemailer");
-// var Menu = require('../models/Menu');
+var Reservation = require('../models/Reservation');
 // var Table = require('../models/Table')
 
 var transporter = nodemailer.createTransport({
@@ -28,6 +28,7 @@ router.post('/queued', async(req,res) => {
     miscReservation.password = passCode;
     miscReservation.onSite=false;
     miscReservation.paid= false;
+    miscReservation.served=false;
 
 
     await miscReservation.save(); 
@@ -60,25 +61,68 @@ router.post('/queued', async(req,res) => {
 });     
 
 //put request to update a specific document in the miscellaneous reservations collection with an email or phone number
-router.put('/queued/:password',(req, res) => {  
+// router.put('/queued/:password',(req, res) => {  
     
-    var reservePass=req.params.password 
+//     var reservePass=req.params.password 
                 
-        Reservemisc.findOne({password:reservePass}, function(error, miscReservation) {      
+//     Reservemisc.findOne({password:reservePass}, function(error, miscReservation) {      
+        
+//         if (error) { console.error(error); }
+        
+//         miscReservation.onSite = true;  
+        
             
-            if (error) { console.error(error); }
-            
-            miscReservation.onSite = true;  
-            
-                
-            miscReservation.save(function (error, miscReservation) {        
-                if (error) { console.log(error); }        
-                res.send(miscReservation)      
-            });    
-        });  
-    }); 
+//         miscReservation.save(function (error, miscReservation) {        
+//             if (error) { console.log(error); }        
+//             res.json({
+//                 miscReservation
+//             })      
+//         });    
+//     });  
+// }); 
 
-//delete request to delete miscellaneous reservation
+router.put('/miscUser/:seatNo/:table', async(req, res) => {  
+    
+    var idTable=req.params.table
+    var seatNum=req.params.seatNo
+    
+
+    await Reservemisc.find({seatsReserved:seatNum}, function(error, miscReservation) {      
+        
+        if (error) { console.error(error); }   
+                     
+        console.log(miscReservation)
+
+        var reservation = new Reservation(miscReservation)
+
+        // reservation.customerName=
+        // reservation.seatsReserved=
+        // reservation.numOrders=
+        // reservation.orders=[]
+        // reservation.orderCost=
+        // reservation.dateReserved=
+        // reservation.tableNo= idTable
+        // reservation.onSite=
+        // reservation.paid=
+        // reservation.password=
+        // reservation.email=
+
+       
+        reservation.save(function (error, reservation) {        
+            if (error) { console.log(error); } 
+            res.json({
+                reservation
+            })                   
+        }); 
+        
+        
+    }).sort({dateReserved:1}).limit(1)  
+
+   
+}); 
+
+
+//delete request to delete miscellaneous reservation if date has passed
 router.delete('/queued/:password', (req, res) => {  
         
     var deletebyPass=req.params.password;
@@ -91,18 +135,18 @@ router.delete('/queued/:password', (req, res) => {
 });
 
 //get request to get a specific miscellaneous reservation to return all fields to eventually be posted in the reservations collection
-router.get('/getqueued/:password', (req,res) => {
+// router.get('/getqueued/:password', (req,res) => {
         
-    var userId= req.params.password;
+//     var userId= req.params.password;
 
-        Reservemisc.findOne({password:userId}, (error, miscReservation) => {      
+//         Reservemisc.findOne({password:userId}, (error, miscReservation) => {      
                                         
-        if (error) { console.log(error); }      
-        res.json({        
-            miscReservation,      
-        }); 
-    })
+//         if (error) { console.log(error); }      
+//         res.json({        
+//             miscReservation,      
+//         }); 
+//     })
     
-});
+// });
 
 module.exports = router

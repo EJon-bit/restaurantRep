@@ -14,8 +14,8 @@ max-height: 150vh;
     top: 0;
     right: 0.15rem;
     z-index: 1;
-    opacity:0;
-}
+    
+} 
 .carousel .carousel-indicator .indicator-item.is-active .indicator-style,
 .carousel .carousel-indicator .indicator-item .indicator-style:hover {
     background: #262622;
@@ -57,9 +57,9 @@ max-height: 150vh;
     transition: .5s ease;
     opacity:0;
     color: gold;
-    font-family:Gabriola;
+    font-family:Segoe Script;
     font-weight:bold;
-    font-size: 35px;
+    font-size: 25px;
     padding: 20px;
     text-align: center;
   }
@@ -67,9 +67,10 @@ max-height: 150vh;
     opacity: 0.8;
   }
   #carouselDescrip{
-    font-family: Garamond;
-    font-size:22px;
-    color:rgb(248, 248, 243);
+    font-family: Courier New;
+    font-size:20px;
+    font-weight:bolder;
+    color:#FFF2CC;
   }
   @media screen and (min-width: 769px), print {
     img{
@@ -181,10 +182,16 @@ max-height: 150vh;
   }
   
   #hex {
-    background-image : url('../pics/hexagon.png');  
+    background-image : url('../pics/hexagon2.png');  
     background-position: center ;
     background-size: 100% 100%;
+    opacity:0.9;
     height: 40%;
     width: 80%;
+    margin-top:7px;
+    font-family: Courier New;
+    font-size:18px;
+    font-weight:900;
+    color:#FFF2CC;
   }
   

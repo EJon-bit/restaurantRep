@@ -3,7 +3,7 @@
     <div id="userPage">           
         <template>
             <div class="column is-variable is-6-widescreen is-10-desktop" style="margin:auto"> 
-                <div id="best" class="box" :style="myStyle" v-if="password.length!=6 && orders.length==0"> 
+                <div id="best" class="box" :style="myStyle" v-if="password.length!=6 || reservation==null"> 
                     <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold;font-size:35px;margin-top:10px">Enter Password Here</h1>
                     
                     <b-field                     
@@ -19,7 +19,7 @@
             </div>
         </template>
         <template>
-            <div class="container is-fullscreen" style="margin-bottom:50px"> 
+            <div class="container is-fullscreen" style="margin-bottom:20px"> 
                 <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
                     <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
                             
@@ -38,10 +38,7 @@
                             </div>
                             
                             <div>
-                                <button class="button field is-danger" @click="makePayment" v-if="reservation.onSite">                                    
-                                    <span>Pay Now</span>
-                                </button>
-
+                               
                                 <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
                                     <span>Add Order</span>
                                 </button>
@@ -61,20 +58,34 @@
                                 <button class="button field is-warning" @click="kitchenSend" v-if="reservation.onSite">                                    
                                     <span>Call Waiter</span>
                                 </button>
-                                <button class="button field is-warning" v-if="!reservation.onSite" @click="delRes">                                    
+                                <button class="button field is-warning" v-if="!reservation.onSite" @click="deleteReservation==true">                                    
                                     <span>Delete Reservation</span>
                                 </button>
+                                <b-modal
+                                    :active.sync="deleteReservation"
+                                    has-modal-card
+                                    trap-focus
+                                    aria-role="dialog"
+                                    aria-modal>
+                                    <delete-res                                                
+                                        :seat="reservation.seatsReserved"                                                                                                                                                
+                                        :table="reservation.tableNo.tableNum" 
+                                        :password="reservation.password"
+                                        :date="reservation.dateReserved">                                                    
+                                    </delete-res>
+                                </b-modal>
+
                             </div>  
                             
                         </div>                 
                     </div>
                     <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:65px">
-                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                            <div id="seeMenu" class="column is-variable is-11-desktop is-12-tablet is-11-mobile" style="margin-left:20px">
-                                <div class="box" :style="myStyle" v-if="(password.length==6) && !orders.length" style="margin-top:20px">
+                        <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen is-centered">
+                            <div id="seeMenu" class="column is-variable is-11-desktop is-full-touch is-full-tablet is-full-mobile" style="margin-left:20px">
+                                <div class="box" :style="myStyle" v-if="(pass.length==6||password.length==6) && !orders.length && reservation!=null" style="margin-top:20px">
                                         <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
                                 </div>
-                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6) && (!orders.length||orderAdd)" style="margin-top:20px"> 
+                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6) && (!orders.length||orderAdd) && reservation!=null" style="margin-top:20px"> 
 
                                     <div class="box" v-if="orderAdd" :style="myStyle">
                                         <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
@@ -92,8 +103,8 @@
                                     <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
                                 </div>
                                 <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
-                                    <div class="columns is-multiline is-variable is-1-mobile is-2-tablet is-2-desktop is-2-widescreen">
-                                        <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-12-mobile" v-for="order in paginatedOrders" :key="order.name">   
+                                    <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">
+                                        <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-full-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
                                                 :img-src="order.image_url"
                                                 img-alt="Image"
@@ -136,14 +147,11 @@
                                             trap-focus
                                             aria-role="dialog"
                                             aria-modal>
-                                            <delete-form 
-                                                :checkboxGroup="checkItem"
-                                                :cost="checkCosts"
-                                                :checkboxOrders="checkboxOrders" 
-                                                :orders="orders"                                                                                                 
+                                            <delete-item                                                
+                                                :checkboxOrders="checkboxOrders"                                                                                                                                                
                                                 :defaultPass="password" 
                                                 :pass="pass">                                                    
-                                            </delete-form>
+                                            </delete-item>
                                         </b-modal>
                                         <button class="button field is-warning" v-if="!orderAdd" @click="menuSee">                                    
                                             <span>See Menu</span>
@@ -251,8 +259,8 @@ var ModalForm = {
         `
 }
 
-var DeleteForm={
-    props: ['orders','cost','checkboxOrders', 'checkboxGroup', 'defaultPass', 'pass'], 
+var DeleteItem={
+    props: ['checkboxOrders', 'defaultPass', 'pass'], 
 
     created(){
         if (this.defaultPass==null){
@@ -260,37 +268,15 @@ var DeleteForm={
         }
     },
 
-    mounted(){
-        this.toDelete()
-    },
-
+   
     methods:{
-
-        toDelete(){
-            this.orders.sort()
-            this.checkboxOrders.sort()
-            for(var k=0; k>this.checkboxOrders.length; ++k){
-                var same= this.checkboxOrders.filter(item=>(item==this.checkboxOrders[k]))
-                console.log("same length:", same)
-                var identical= this.orders.filter(thing=>(thing.name==this.checkboxGroup[k]))                    
-                console.log("identical length:", identical)
-
-                if((same.length==identical.length)||((same.length>0) &&(identical.length>same.length))){
-                    this.orders.splice(k, same.length)
-                    this.same.forEach((element,index,arr) =>{
-                        this.cost-=this.arr[k].cost;
-                    })
-                    break;
-                }                  
-            }     
-        },
         
         async removeThing(){
            
             await axios({        
                 method: 'put',  
                 data:{
-                    orders: this.orders,
+                    orders: this.checkboxOrders,
                 },           
                 url: `http://localhost:5000/reservation/user/${this.defaultPass}`,      
 
@@ -331,8 +317,64 @@ var DeleteForm={
                         </div>                       
                                                       
                     </section>
-                    <footer class="modal-card-foot">                       
+                    <footer class="modal-card-foot"> 
+                        <button class="button" type="button" @click="$parent.close()">Cancel</button>                      
                         <button class="button is-primary" @click="removeThing">Yes</button>                       
+                    </footer>
+                </div>
+            </form>
+        `
+}
+
+var DeleteRes={
+    props: ['seat', 'table', 'password', 'date'], 
+
+   
+    methods:{        
+        async delRes(){
+            axios({
+                method: 'delete',          
+                   
+                url: `http://localhost:5000/reservation/user/${this.seat}/${this.table}/${this.password}/${this.date}`          
+                
+            })          
+            .then(() => { 
+                
+                this.$swal(            
+                    'Great!',            
+                    'Menu Item(s) was successfully Deleted!',            
+                    'success',          
+                );             
+                       
+            })
+            .catch(() => {
+
+                this.$swal(            
+                    'Sorry!', 
+                    'Menu Item(s) could not be Deleted.',
+                    'Try Again'           
+                           
+                ); 
+            });      
+        },            
+       
+    },
+    template: 
+        `   <form>
+                <div class="modal-card" style="width: auto">
+                    <header class="modal-card-head">                        
+                        <p class="modal-card-title">Delete Items</p>
+                    </header>
+                    
+                    <section class="modal-card-body">
+                        <div>                        
+                            <p>Are you sure you want to Delete your reservation?</p>                                                 
+                        </div>                       
+                                                      
+                    </section>
+                    <footer class="modal-card-foot"> 
+                        <button class="button" type="button" @click="$parent.close()">Cancel</button>                      
+                        <button class="button is-primary" @click="delRes">Yes</button>                       
                     </footer>
                 </div>
             </form>
@@ -344,7 +386,7 @@ export default {
    
    components: {       
         ModalForm,
-        DeleteForm,
+        DeleteItem,
         FlipCountdown,       
         'foodmenu':FoodMenu
     },
@@ -355,6 +397,7 @@ export default {
             orderAdd:false,
             isComponentModalActive: false,
             deleteModal:false,
+            deleteReservation:false,
            
             checkItem:[],
             checkCosts:null,
@@ -429,9 +472,7 @@ export default {
     }, 
      
     methods: {  
-        delRes(){
-
-        },
+        
         menuSee(){
             this.orderAdd = true
             document.querySelector('#seeMenu').scrollIntoView({ behavior: 'smooth' });
@@ -461,9 +502,7 @@ export default {
             });
             
         },
-        makePayment(){
-            socket.emit('payReq', {status:'true', table:this.reservation.tableNo.tableNum})
-        },        
+         
         kitchenSend(){
             if(this.callWaiter){
                 this.callWaiter=false;

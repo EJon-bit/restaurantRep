@@ -1,4 +1,4 @@
-//var mongoose = require('mongoose')
+
 var randomstring= require('randomstring');
 var express = require("express")
 var router = express.Router()
@@ -6,6 +6,7 @@ var Reservation = require("../models/Reservation");
 var dateFormat = require('dateformat');
 var Menu = require('../models/Menu');
 var Table = require('../models/Table')
+var Reservemisc = require('../models/ReserveMisc')
 var nodemailer = require("nodemailer");
 
 //defines acc used to send email
@@ -16,6 +17,108 @@ var transporter = nodemailer.createTransport({
         pass:  't0Pt1eRJ@'
     }
 })    
+
+
+async function tranferSavedRes(numSeats, table, date){
+
+    var savedRes
+      
+    //this finds a queued reservation with the # of reserved seats that corresponds to the table which became available       
+    var reserveMisc = await Reservemisc.find({"seatsReserved":numSeats, "dateReserved":{$gte:date}}).sort({dateReserved:1});
+    console.log("Similar queued Reservation", reserveMisc);
+    if(reserveMisc.length){
+        var queuedTime = reserveMisc[0].dateReserved.getTime() + 7200000;
+
+        var queuedDate = Date(queuedTime);
+        console.log(" Queued Date is:", queuedDate);
+
+        //checks for reservations that might have a reservation date within the 2hr margin alloted to each res
+        var reserveCheck = await Reservation.find({"tableNo":table, "dateReserved":{$lte:queuedDate}});
+        console.log("The reservation is", reserveCheck);
+
+    }
+    
+    //if there is a miscellaneous reservation with a similar seating and date that does not clash with any pre existing reservation
+    if(reserveMisc.length && !reserveCheck.length){  
+        await Reservemisc.find({password:reserveMisc[0].password}, function(error, miscReservation) {      
+            
+            if (error) { console.error(error); }   
+                        
+            console.log(miscReservation)
+
+            savedRes=miscReservation.password;
+
+            var reservation = new Reservation(miscReservation)
+            reservation.tableNo= table
+            
+
+            reservation.save(function (error) {        
+                if (error) { console.log(error); }                          
+            }); 
+            
+            //sends email to customer when table becomes available 
+            //send mail with defined transport object
+            var mailInfo ={
+                from:'"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
+                to: miscReservation.email, // list of receivers
+                subject: "Top Tier- Reservation Update", // Subject line
+                text: "Hello World", // plain text body
+                html: `<p>Hi ${miscReservation.name} <br/> Please Ensure you save this password.
+                <br/>A table suitable for you saved Reservation has been made available. You are now officially Reserved.
+                <br/>Your password is ${miscReservation.password}.
+                <br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
+                <br/> Thank you.</p>` 
+            };
+
+            transporter.sendMail(mailInfo, (error, info)=>{
+                if (error){
+                    return console.log(error);
+                } 
+                else{
+                    console.log("Message sent:" + info.response);
+                }
+            }) 
+                    
+        })  
+
+        Reservemisc.deleteOne({password:savedRes}, function(error){      
+            if (error) { console.error(error); }      
+        
+        });  
+
+            
+    }
+}
+
+async function delResUpTab(tabId, resPass, a, c){
+    await Table.findOne({_id:tabId}, function(error, table){
+
+        if (error) { console.error(error); }
+        
+        if(!table.occupied){
+
+            tranferSavedRes(a, tabId, c)
+    
+            Reservation.deleteOne({password:resPass}, function(error){      
+                if (error) { console.error(error); }      
+                
+            });  
+
+             //finds all reservations reserved to the same table
+            var sameTable= Reservation.find({tableNo:tabId})
+
+            //change table reserved field to false if there are no other reservations related to that table
+            if(!sameTable.length){
+                table.reserved=false
+
+                table.save(function (error) {        
+                    if (error) { console.log(error); }        
+                    
+                });    
+            }
+        }
+    })
+}
     
 //add a reservation
 router.post('/', async(req,res) => {
@@ -25,7 +128,7 @@ router.post('/', async(req,res) => {
     var reservation = new Reservation(req.body); //accepts and stores the reservation details entered by the customer
 
     var tableNo = await Table.findOne({"seatNum":reservation.seatsReserved, "reserved":false});//tries to find an unreserved table that suits reservation details
-
+ 
     var resTableNo= await Table.findOne({"seatNum":reservation.seatsReserved});
     
     var testres = await Reservation.find({"seatsReserved":reservation.seatsReserved, "dateReserved":{$ne:reservation.dateReserved}})
@@ -44,6 +147,7 @@ router.post('/', async(req,res) => {
         tableNo.reserved= true;
         await tableNo.save();
         reservation.paid= false;
+        reservation.served=false;
         reservation.tableNo = tableNo._id;
         reservation.password = passCode;
         reservation.onSite=false;
@@ -87,6 +191,7 @@ router.post('/', async(req,res) => {
         if (resDateCheck.length == 0) {
             // save reservation to db
             reservation.paid= false; 
+            reservation.served=false;
             reservation.tableNo=resTableNo._id;                    
             reservation.password = passCode;
             reservation.onSite=false;
@@ -131,14 +236,28 @@ router.post('/', async(req,res) => {
     
 }); 
 
-router.get('/checkpay/:tableId', (req,res) => {
+//triggered when customer gets up from table (i.e. no motion detected)
+router.get('/checkpay/:tableId', async(req,res) => {
         
     var idTable= req.params.tableId;
 
-    Reservation.findOne({_id:idTable, onSite:true, atTable:false}, 'paid', (error, reservation) => {      
+    await Reservation.findOne({tableNo:idTable, onSite:true}, 'paid', (error, reservation) => {      
                                         
         if (error) { console.log(error); }      
         res.send(reservation); 
+    })
+    
+});    
+
+//to get a list of all reservations that are onsite but have not yet paid
+router.get('/payStat', async(req,res) => {        
+   
+    await Reservation.find({onSite:true}, 'customerName paid password', (error, reservations) => {      
+                                        
+        if (error) { console.log(error); }      
+        res.json({
+            reservations
+        }); 
     })
     
 });    
@@ -224,9 +343,23 @@ router.get('/seatNum/:seatNum/:date', async(req, res) => {
 
 //fetch all reservations
 router.get('/', async(req, res) => {
+   
+    //each time kitchen page is reloaded check if the the date for any reservation has passed and the customer didnt show up
+    var dateCheck= new Date(Date.now()-120000)
+    console.log(dateCheck)
     
-    await Reservation.find({},(error, reservations) => {      
-                                        
+    var resOnTimeCheck= await Reservation.find({"dateReserved":{$lt:dateCheck}}) 
+    console.log(resOnTimeCheck)
+
+    if(resOnTimeCheck.length){
+        resOnTimeCheck.forEach((reserve)=>{
+
+            delResUpTab(reserve.tableNo, reserve.password, reserve.seatsReserved, reserve.dateReserved)            
+
+        })
+    }
+    await Reservation.find({served:false},(error, reservations) => {      
+                                      
         if (error) { console.log(error); }      
         res.json({        
             reservations,      
@@ -234,11 +367,10 @@ router.get('/', async(req, res) => {
     })       
     .sort({dateReserved:1})      
     .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
-
     
 });
 
-//add get method for to display a customers reservation orders
+//to display a customers reservation password for reservation modal
 router.get('/date/:date', async(req,res) => {
 
     var dateres=req.params.date;
@@ -257,6 +389,7 @@ router.get('/date/:date', async(req,res) => {
         
 });
 
+
 router.get('/user/:password', (req,res) => {
         
     var userId= req.params.password;
@@ -271,7 +404,7 @@ router.get('/user/:password', (req,res) => {
     
 });
 
-
+//gets details from db menu corresponding to the orders of a specified reservation
 router.get('/password/:password', async(req,res) => {
 
     var pass=req.params.password;
@@ -280,18 +413,26 @@ router.get('/password/:password', async(req,res) => {
     
     var order= await Reservation.findOne({"password":pass}).populate('tableNo', 'tableNum')
     console.log(order)
+    
+    if (order==null){
+        res.status(409).end();
+    }
     // let menuItems = await order.orders.map(async name => await Menu.findOne({name}));
-    let menuItems = await Promise.all(order.orders.map((name) => Menu.findOne({name})));
+    else{
+
+        let menuItems = await Promise.all(order.orders.map((name) => Menu.findOne({name})));
     
-    console.log({
-        menuItems,
-        order
-    })
+        console.log({
+            menuItems,
+            order
+        })
+        
+        res.json({
+            menuItems,
+            order
+        })
     
-    res.json({
-        menuItems,
-        order
-    })
+    }
     
 });
 
@@ -317,24 +458,59 @@ router.put('/user/password/:password', async(req, res) => {
     }).populate('tableNo', 'tableNum')  
 }); 
 
+//to update (remove specific orders) from a reservation
 router.put('/user/:password', async(req, res) => {  
     
     var reservePass=req.params.password 
+   
+               
+    await Reservation.findOne({password:reservePass}, 'orders orderCost', function(error, reservation) {      
+       
+        var newCost=0
+
+        if (error) { console.error(error); }
+                    
+        var unwantedItems = req.body.orders
+        console.log(unwantedItems)
+
+        var newOrder=reservation.orders
+        console.log(newOrder)
+
+        unwantedItems.forEach((item)=>{
+            var i
+            newOrder.find((order, index)=>{
+                i=index
+                return order==item
+            })
+            newOrder.splice(i, 1)
+        })
+
+        console.log(newOrder)
+
+        newOrder.forEach((order)=>{
+            console.log(order)
+            Menu.findOne({name:order},'cost', function(error, menu){
+                if (error) { console.error(error); }
+               
+                newCost+=menu.cost 
+                reservation.orderCost= newCost   
+                console.log("The total cost is:", newCost)
+                            
+            })           
+            
+        })
+
+        
+        reservation.orders= newOrder
                 
-        await Reservation.findOne({password:reservePass},'orders cost', function(error, reservation) {      
-            
-            if (error) { console.error(error); }
-            
-            reservation.orders = req.body.orders;  
-            
-                
-            reservation.save(function (error, reservation) {        
-                if (error) { console.log(error); }        
-                res.json({
-                    reservation
-                })      
-            });    
-        });  
+        reservation.save(function (error, reservation) {        
+            if (error) { console.log(error); }        
+            res.json({
+                reservation
+            })      
+        });    
+        
+    });  
 }); 
 
 //to addtime to reservation when customer arrives...based on the time taken to prepare meal
@@ -366,26 +542,90 @@ router.put('/user/addtime/:password/:time',async(req, res) => {
 }); 
 
 
+//available in kitchen to update a reservation to 'served' when meal has been prepared
+router.put('/served/:id', async(req, res) => {  
+    
+    var reserveId= req.params.id
+                
+        await Reservation.findOne({_id:reserveId},'served', function(error, reservation) {      
+            
+            if (error) { console.error(error); }
+            
+            reservation.served = true;              
+           
+            reservation.save(function (error, reservation) {        
+                if (error) { console.log(error); }        
+                res.json({
+                    reservation
+                })      
+            });    
+        });  
+
+       
+        
+}); 
+
+//to update paid status to true for a specific reservation...also deletes the reservation if paid customer has left the restaurant
+//and replaces it with miscellaneous Reservation
+router.put('/payStat/:password', async(req, res) => {  
+    var tableCode
+    var seating
+    var reservePass=req.params.password 
+    var resDate
+                
+    await Reservation.findOne({password:reservePass},'paid tableNo seatsReserved dateReserved', function(error, reservation) {      
+        
+        if (error) { console.error(error); }
+        
+        resDate=reservation.dateReserved
+        reservation.paid = true;              
+        tableCode= reservation.tableNo 
+        seating=reservation.seatsReserved
+        reservation.save(function (error, reservation) {        
+            if (error) { console.log(error); }        
+            res.json({
+                reservation
+            })      
+        });    
+    });  
+   
+    delResUpTab(tableCode, reservePass, seating, resDate)
+
+    
+        
+}); 
+
 //delete a reservation for a user if they decide to cancel because of circumstance
-router.delete('/user/:password', (req, res) => {  
+router.delete('/user/:seatNo/:table/:password/:date', (req, res) => {  
         
     var deletebyPass=req.params.password;
-    Reservation.remove({password:deletebyPass}, function(error, reservation){      
-        if (error) { console.error(error); }      
-        res.send({ success: true })    
-    });  
+    var idTable=req.params.table
+    var seatNum=req.params.seatNo
+    var dateRes= req.params.date
 
+    delResUpTab(idTable, deletebyPass, seatNum, dateRes)
+    
+    res.send({ success: true }) 
+   
 });
 
 //delete based on pir sensors and python code
-router.delete('/deletereserve/:code', (req, res) => {  
+router.delete('/deletereserve/:code', async(req, res) => {  
         
-    var custId=req.params.code;
-    Reservation.remove({password:custId}, function(error){      
-        if (error) { console.error(error); }      
-        res.send({ success: true })    
-    });  
+    var idTable=req.params.code;
+    var resSeat
+    var date
+    var passId
+    await Reservation.findOne({tableNo:idTable, onSite: true}, 'seatsReserved dateReserved password', function(error, reservation){
+        if (error) { console.error(error); }
+        resSeat=reservation.seatsReserved
+        date= reservation.dateReserved
+        passId= reservation.password
+    })
 
+    delResUpTab(idTable, passId, resSeat, date)
+    
+    res.send({ success: true }) 
 });
 
 

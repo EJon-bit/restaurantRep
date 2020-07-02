@@ -346,12 +346,13 @@
                 })          
                 .then((response) => { 
                     
+                    socket.emit('fromClient', 'true')
                     console.log(response);                   
                     this.getRes();                    
                     
                     this.success=true;  
                     this.statModalActive=true;                                          
-                    socket.emit('fromClient', 'true')   
+                      
                                                         
                 })
                 .catch((error) => {

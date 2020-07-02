@@ -60,8 +60,8 @@
                    The <br> Food                 
                 </div>
                 
-                <div class="container is-fullscreen" id="hex" style="margin-top:7px;"><br/>
-                    Enjoy our vast culinary <br/>selections,catering to every <br/>palate. Customize your dish as you<br/> see fit. We Aim to please.
+                <div class="container is-fullscreen" id="hex"><br/>
+                    Enjoy our vast <br/>culinary selections, <br/>catering to every palate. <br/> Customize your dish as you<br/> see fit. <br/> We Aim to please.
                 </div>                                 
               </div>
             </div><br/>

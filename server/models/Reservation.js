@@ -60,6 +60,9 @@ var reservationSchema = new Schema({
     paid:{
         type:Boolean,
     }, 
+    served:{
+        type:Boolean,
+    }, 
     password:{
         type:String,
         required:true
