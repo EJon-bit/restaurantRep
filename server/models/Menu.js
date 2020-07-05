@@ -44,4 +44,4 @@ var menuSchema = new Schema({
 
 });
 
-var Menu = module.exports = mongoose.model('Menu',menuSchema);
+module.exports = mongoose.model('Menu',menuSchema);

@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+
 require("./Table")
 
 
@@ -8,7 +9,7 @@ var mongooseDateFormat = require('mongoose-date-format');
 
 
 //Reservation Schema
-var reservationSchema = new Schema({
+var resArchiveSchema = new Schema({
     customerName:{
 
         type:String,
@@ -76,8 +77,5 @@ var reservationSchema = new Schema({
 
 reservationSchema.plugin(mongooseDateFormat);
 
-module.exports = mongoose.model('Reservation', reservationSchema);
+module.exports = mongoose.model('ReservationArchive', resArchiveSchema);
  //makes reservation model accessable from anywhere else
-
- 
- 

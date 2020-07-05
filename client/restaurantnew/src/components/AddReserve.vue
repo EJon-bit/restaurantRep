@@ -94,8 +94,7 @@
                     trap-focus
                     aria-role="dialog"
                     aria-modal>
-                    <stat-modal v-if="(fail==true)"
-                        @changePage="changePage"                        
+                    <stat-modal v-if="(fail==true)"                                               
                         :success="success" 
                         :fail="fail">                        
                     </stat-modal>
@@ -116,7 +115,7 @@
     import axios from 'axios';
     import openSocket from 'socket.io-client';
     const socket = openSocket('http://localhost:5000');
-
+    var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var ModalForm = {
         props: ['date', 'seatNo', 'customerName', 'numOrders', 'orders', 'email'],
 
@@ -160,7 +159,7 @@
                         'CHECK EMAIL FOR PASSWORD',          
                     );            
                            
-                    //this.$refs.form.reset();          
+                              
                 })
                 .catch(() => {
 
@@ -395,14 +394,15 @@
                 .catch(() => {                  
 
                     this.$swal(            
-                        'Sorry! Reservation failed to save, try again later',                                
+                        'Sorry!',
+                        'Reservation failed to save, try again later',                                
                         'error',          
                     ); 
                 });      
             },
 
             async getRes(){                
-                return axios({        
+                axios({        
                     method: 'get',
                     url: `http://localhost:5000/reservation/date/${this.datetime}`,      
                 })        
@@ -449,18 +449,22 @@
                 }
             },   
             isEmailLabelDanger() {
-                if (this.customerEmail !== "") {
+                
+                if (this.customerEmail.match(mailFormat)) {
                     return "is-success";
                 } else {
                     return "is-danger";
                 }
             },
             emailLabelMessage() {
-                if (this.customerEmail !== null) {
+                if (this.customerEmail== "") {
+                    return "This field is required";
+                } 
+                else if (this.customerEmail.match(mailFormat)) {
                     return "";
                 } 
                 else {
-                    return "This field is required";
+                    return "Invalid Email";
                 }
             },                     
             formIsInDanger() {

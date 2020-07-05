@@ -4,8 +4,6 @@ var express = require("express")
 var router = express.Router()
 var Reservemisc = require("../models/ReserveMisc");
 var nodemailer = require("nodemailer");
-var Reservation = require('../models/Reservation');
-// var Table = require('../models/Table')
 
 var transporter = nodemailer.createTransport({
     service: 'gmail',                
@@ -38,8 +36,8 @@ router.post('/queued', async(req,res) => {
         to: miscReservation.email, // list of receivers
         subject: "Top Tier- Reservation Update", // Subject line
         text: "Hello", // plain text body
-        html: `<p>Hi ${miscReservation.name}.
-        <br/>Your request has been saved. A message will be sent to this email, should a table become available.<br/> Thank you. </p>` // html body
+        html: `<p>Hi ${miscReservation.customerName},
+        <br/><br/>Your request has been saved. A message will be sent to this email, should a table become available.<br/><br/> Thank you. </p>` // html body
     };
 
     transporter.sendMail(mailInfo, (error, info)=>{
@@ -51,102 +49,12 @@ router.post('/queued', async(req,res) => {
         }
     }) 
 
-
     res.json({        
         miscReservation,      
     });  
-        
-
-    
+   
 });     
 
-//put request to update a specific document in the miscellaneous reservations collection with an email or phone number
-// router.put('/queued/:password',(req, res) => {  
-    
-//     var reservePass=req.params.password 
-                
-//     Reservemisc.findOne({password:reservePass}, function(error, miscReservation) {      
-        
-//         if (error) { console.error(error); }
-        
-//         miscReservation.onSite = true;  
-        
-            
-//         miscReservation.save(function (error, miscReservation) {        
-//             if (error) { console.log(error); }        
-//             res.json({
-//                 miscReservation
-//             })      
-//         });    
-//     });  
-// }); 
 
-router.put('/miscUser/:seatNo/:table', async(req, res) => {  
-    
-    var idTable=req.params.table
-    var seatNum=req.params.seatNo
-    
-
-    await Reservemisc.find({seatsReserved:seatNum}, function(error, miscReservation) {      
-        
-        if (error) { console.error(error); }   
-                     
-        console.log(miscReservation)
-
-        var reservation = new Reservation(miscReservation)
-
-        // reservation.customerName=
-        // reservation.seatsReserved=
-        // reservation.numOrders=
-        // reservation.orders=[]
-        // reservation.orderCost=
-        // reservation.dateReserved=
-        // reservation.tableNo= idTable
-        // reservation.onSite=
-        // reservation.paid=
-        // reservation.password=
-        // reservation.email=
-
-       
-        reservation.save(function (error, reservation) {        
-            if (error) { console.log(error); } 
-            res.json({
-                reservation
-            })                   
-        }); 
-        
-        
-    }).sort({dateReserved:1}).limit(1)  
-
-   
-}); 
-
-
-//delete request to delete miscellaneous reservation if date has passed
-router.delete('/queued/:password', (req, res) => {  
-        
-    var deletebyPass=req.params.password;
-
-    miscReservation.remove({password:deletebyPass}, function(error, miscReservation){      
-        if (error) { console.error(error); }      
-        res.send({ success: true })    
-    });  
-
-});
-
-//get request to get a specific miscellaneous reservation to return all fields to eventually be posted in the reservations collection
-// router.get('/getqueued/:password', (req,res) => {
-        
-//     var userId= req.params.password;
-
-//         Reservemisc.findOne({password:userId}, (error, miscReservation) => {      
-                                        
-//         if (error) { console.log(error); }      
-//         res.json({        
-//             miscReservation,      
-//         }); 
-//     })
-    
-// });
 
 module.exports = router

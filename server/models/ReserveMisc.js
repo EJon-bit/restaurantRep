@@ -76,5 +76,5 @@ var miscReserveSchema = new Schema({
 
 miscReserveSchema.plugin(mongooseDateFormat);
 
-var Reservemisc = module.exports = mongoose.model('ReserveMisc', miscReserveSchema);
+module.exports = mongoose.model('ReserveMisc', miscReserveSchema);
  //makes reservation model accessable from anywhere else

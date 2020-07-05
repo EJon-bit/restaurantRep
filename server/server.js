@@ -50,5 +50,6 @@ app.use("/misc", require("./controllers/miscReserves"));
 app.use("/reservation", require("./controllers/reservations"));
 app.use("/table", require("./controllers/tables"));
 
+
 app.use('/', router); 
  

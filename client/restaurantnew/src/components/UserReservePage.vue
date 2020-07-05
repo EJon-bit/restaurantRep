@@ -3,10 +3,10 @@
     <div id="userPage">           
         <template>
             <div class="column is-variable is-6-widescreen is-10-desktop" style="margin:auto"> 
-                <div id="best" class="box" :style="myStyle" v-if="password.length!=6 || reservation==null"> 
+                <div id="best" class="box" :style="myStyle" v-if="(password.length!=6 & pass.length!=6 && sessionReload==null)|| reservation==null"> 
                     <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold;font-size:35px;margin-top:10px">Enter Password Here</h1>
                     
-                    <b-field                     
+                    <b-field ref="form"                 
                         label="Password"    
                         name=password                              
                         custom-class="is-small has-text-warning" 
@@ -23,23 +23,29 @@
                 <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
                     <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
                             
-                        <div id="good" class="box" :style="myStyle" v-if="orders.length"> 
-                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Your Order will be ready In:</h1><br/>
-                            <div>
+                        <div id="good" class="box" :style="myStyle" v-if="reservation!=null"> 
+                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;" v-if="orders.length">Your Order will be ready In:</h1><br/>
+                            <div v-if="orders.length ">
                                 <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
                             </div>  
 
-                            <p class="title is-4" style="color:orange;font-size:20px;">Bill Total: ${{reservation.orderCost}}</p>
+                            <p class="title is-4" style="color:orange;font-size:20px;" v-if="orders.length">Bill Total: ${{reservation.orderCost}}</p>
                             
                             <div v-if="callWaiter" style="margin-bottom:40px">                            
                                 <b-notification type="is-info" aria-close-label="Close notification">
                                     A Waiter will be arriving shortly
                                 </b-notification>
                             </div>
+
+                            <div v-if="foodUpdateMessage" style="margin-bottom:40px">                            
+                                <b-notification type="is-info" aria-close-label="Close notification">
+                                    Your Order has been prepared and is on its way to your Table
+                                </b-notification>
+                            </div>
                             
                             <div>
                                
-                                <button  v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
+                                <button :disabled="!checkItem.length" v-if="!orders.length||orderAdd" class="button field is-link" @click="isComponentModalActive = true">                                    
                                     <span>Add Order</span>
                                 </button>
                                 <b-modal :active.sync="isComponentModalActive"
@@ -51,6 +57,7 @@
                                         :orders="checkItem" 
                                         :cost="checkCosts"                                          
                                         :defaultPass="password" 
+                                        :sessionPass="sessionReload"
                                         :pass="pass">
                                     </modal-form>
                                 </b-modal>
@@ -58,7 +65,7 @@
                                 <button class="button field is-warning" @click="kitchenSend" v-if="reservation.onSite">                                    
                                     <span>Call Waiter</span>
                                 </button>
-                                <button class="button field is-warning" v-if="!reservation.onSite" @click="deleteReservation==true">                                    
+                                <button class="button field is-warning" v-if="!reservation.onSite" @click="deleteReservation=true">                                    
                                     <span>Delete Reservation</span>
                                 </button>
                                 <b-modal
@@ -69,9 +76,8 @@
                                     aria-modal>
                                     <delete-res                                                
                                         :seat="reservation.seatsReserved"                                                                                                                                                
-                                        :table="reservation.tableNo.tableNum" 
-                                        :password="reservation.password"
-                                        :date="reservation.dateReserved">                                                    
+                                        :table="reservation.tableNo._id" 
+                                        :password="reservation.password">                                                    
                                     </delete-res>
                                 </b-modal>
 
@@ -82,10 +88,10 @@
                     <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:65px">
                         <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen is-centered">
                             <div id="seeMenu" class="column is-variable is-11-desktop is-full-touch is-full-tablet is-full-mobile" style="margin-left:20px">
-                                <div class="box" :style="myStyle" v-if="(pass.length==6||password.length==6) && !orders.length && reservation!=null" style="margin-top:20px">
+                                <div class="box" :style="myStyle" v-if="(pass.length==6||password.length==6||sessionReload!=null) && !orders.length && reservation!=null" style="margin-top:20px">
                                         <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
                                 </div>
-                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6) && (!orders.length||orderAdd) && reservation!=null" style="margin-top:20px"> 
+                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6||sessionReload!=null) && (!orders.length||orderAdd) && reservation!=null" style="margin-top:20px"> 
 
                                     <div class="box" v-if="orderAdd" :style="myStyle">
                                         <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
@@ -138,7 +144,7 @@
                                                     
                                     </div> 
                                     <div>                                    
-                                        <button class="button field is-danger" v-if="!reservation.onSite" @click="deleteModal =true">
+                                        <button class="button field is-danger" :disabled="!checkboxOrders.length" v-if="!reservation.onSite" @click="deleteModal=true">
                                             <b-icon icon="delete"></b-icon>
                                             <span>Delete</span>
                                         </button> 
@@ -150,6 +156,7 @@
                                             <delete-item                                                
                                                 :checkboxOrders="checkboxOrders"                                                                                                                                                
                                                 :defaultPass="password" 
+                                                :sessionPass="sessionReload"
                                                 :pass="pass">                                                    
                                             </delete-item>
                                         </b-modal>
@@ -176,46 +183,50 @@ import FoodMenu from './FoodMenu.vue';
 import openSocket from "socket.io-client";
 var socket = openSocket("http://localhost:5000");
 
+
 var ModalForm = {
-    props: ['orders', 'cost', 'defaultPass', 'pass'],
+    props: ['orders', 'cost', 'defaultPass', 'sessionPass', 'pass'],
 
     created(){
-        if (this.defaultPass==null){
-            this.defaultPass==this.pass;
+        if (this.defaultPass=="" && this.sessionPass==""){
+            this.defaultPass=this.pass;
+        }
+        else if(this.defaultPass=="" && this.sessionPass!=null){
+            this.defaultPass=this.sessionPass
         }
     },
 
     methods: {    
-        async addTime(){
+        async updateOrder(){
             var timePrep= this.orders.sort((a,b)=>(b.prepTime-a.prepTime))
             console.log("Time to prepare meal is", timePrep[0].prepTime)
             await axios({        
                 method: 'put',  
                 data:{
                     orders: this.orders,
+                    cost: this.cost
                 },           
                 url: `http://localhost:5000/reservation/user/addtime/${this.defaultPass}/${timePrep[0].prepTime}`,      
 
             })       
             
             .then(() => { 
-                
+                                
                 socket.emit('fromClient', 'true');
                 socket.emit('reloadCustomer', 'true');
-                
                 this.$swal(            
                     'Great!',            
                     'Menu Item was successfully updated!',            
                     'success',          
-                );               
-                        
+                );     
                           
             })
             .catch(() => {
 
                 this.$swal(            
                     'Sorry! Menu Item could not be Updated.',
-                    'Try Again'           
+                    'Try Again',
+                    'error'
                            
                 ); 
             });      
@@ -252,7 +263,7 @@ var ModalForm = {
                     
                     <footer class="modal-card-foot">
                         <button class="button" type="button" @click="$parent.close()">Close</button>
-                        <button class="button is-primary" @click="update">Add Order</button>                       
+                        <button class="button is-primary" @click="updateOrder">Add Order</button>                       
                     </footer>
                 </div>
             </form>
@@ -260,19 +271,21 @@ var ModalForm = {
 }
 
 var DeleteItem={
-    props: ['checkboxOrders', 'defaultPass', 'pass'], 
+    props: ['checkboxOrders', 'defaultPass', 'sessionPass', 'pass'], 
 
     created(){
-        if (this.defaultPass==null){
-            this.defaultPass==this.pass;
+        if (this.defaultPass=="" && this.sessionPass==""){
+            this.defaultPass=this.pass;
+        }
+        else if(this.defaultPass=="" && this.sessionPass!=null){
+            this.defaultPass=this.sessionPass
         }
     },
 
    
     methods:{
         
-        async removeThing(){
-           
+        async removeThing(){         
             await axios({        
                 method: 'put',  
                 data:{
@@ -290,15 +303,14 @@ var DeleteItem={
                     'Items were successfully deleted!',            
                     'success',          
                 );               
-                        
-                          
+                         
             })
             .catch(() => {
-
                 this.$swal(            
-                    'Sorry! Items could not be deleted',
-                    'Try Again'        
-                           
+                    'Sorry!',
+                    'Items could not be deleted',
+                    'Try Again',       
+                    'error'       
                 ); 
             });          
             
@@ -327,15 +339,16 @@ var DeleteItem={
 }
 
 var DeleteRes={
-    props: ['seat', 'table', 'password', 'date'], 
+    props: ['seat', 'table', 'password'], 
 
    
     methods:{        
         async delRes(){
+            
             axios({
                 method: 'delete',          
                    
-                url: `http://localhost:5000/reservation/user/${this.seat}/${this.table}/${this.password}/${this.date}`          
+                url: `http://localhost:5000/reservation/user/${this.seat}/${this.table}/${this.password}`          
                 
             })          
             .then(() => { 
@@ -344,7 +357,8 @@ var DeleteRes={
                     'Great!',            
                     'Menu Item(s) was successfully Deleted!',            
                     'success',          
-                );             
+                ); 
+                          
                        
             })
             .catch(() => {
@@ -387,6 +401,7 @@ export default {
    components: {       
         ModalForm,
         DeleteItem,
+        DeleteRes,
         FlipCountdown,       
         'foodmenu':FoodMenu
     },
@@ -394,11 +409,12 @@ export default {
     data() {    
         return { 
             callWaiter:false,
+            foodUpdateMessage:false,
             orderAdd:false,
             isComponentModalActive: false,
             deleteModal:false,
             deleteReservation:false,
-           
+            sessionReload:null,
             checkItem:[],
             checkCosts:null,
             checkboxOrders:[],
@@ -429,12 +445,18 @@ export default {
     }, 
     created(){            
                        
-        this.pass= this.$store.state.password;    
+        this.pass= this.$store.state.password; 
+        if(sessionStorage.password!= undefined){
+            this.sessionReload= sessionStorage.password
+        }
+        
         if(this.pass.length==6){
-            this.filteredReservations(this.pass);
-            
+            this.filteredReservations(this.pass);            
         } 
-
+        else if(this.sessionReload!=null){
+            this.filteredReservations(this.sessionReload);
+        }
+       
         socket.on("customerOpen", (data)=>{
             console.log(data);
             this.table= localStorage.table
@@ -458,10 +480,17 @@ export default {
             
         })
 
+        socket.on("customerFoodUpdate", (data)=>{
+            console.log(data);
+            if(data==this.pass||data==this.sessionReload){
+                console.log('The data matches the password')
+                this.foodUpdateMessage=true;
+            }            
+        })
+
         this.unwatch= this.$watch('password', function(newPassword){
             if(newPassword.length==6){
-                this.filteredReservations(newPassword);
-                //this.totalCost();
+                this.filteredReservations(newPassword);                
             }     
         })    
         window.addEventListener('resize', this.handleResize);
@@ -538,15 +567,24 @@ export default {
                 url: `http://localhost:5000/reservation/password/${object}`,      
             })        
             .then((response)=>{ 
-                        
+                                 
                 this.orders= response.data.menuItems;
                 this.orders.sort();
-                this.reservation= response.data.order       
+                this.reservation= response.data.order 
+                
+                sessionStorage.setItem('password', object)
             })        
-            .catch(() => {        
-
-            });   
-          
+            .catch((error) => {
+                //if user enters wrong passcode
+                if (error.response) {
+                    this.$swal(            
+                    'Sorry', 
+                    'Passcode incorrect!',  
+                    'error'); 
+                    
+                   
+                }                    
+            });           
         },
         
         

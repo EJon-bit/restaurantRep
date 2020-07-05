@@ -6,7 +6,14 @@ function frontSockets(socket){
         if(data=='true'){
             console.log("Reserve has been updated");
             socket.emit("newReserveList", data);
+            
         }
+    }); 
+
+    socket.on('foodUpdate', function(data){
+        console.log('The data is', data)               
+        socket.emit("customerFoodUpdate", data)
+        
     }); 
 
     

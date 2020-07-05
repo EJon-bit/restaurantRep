@@ -3,12 +3,13 @@ var randomstring= require('randomstring');
 var express = require("express")
 var router = express.Router()
 var Reservation = require("../models/Reservation");
+var ReservationArchive = require("../models/ReservationArchive")
 var dateFormat = require('dateformat');
 var Menu = require('../models/Menu');
 var Table = require('../models/Table')
 var Reservemisc = require('../models/ReserveMisc')
 var nodemailer = require("nodemailer");
-
+var deleteRes=0;
 //defines acc used to send email
 var transporter = nodemailer.createTransport({
     service: 'gmail',                
@@ -51,7 +52,7 @@ async function tranferSavedRes(numSeats, table, date){
             var reservation = new Reservation(miscReservation)
             reservation.tableNo= table
             
-
+            //saves queued reservation to the reservations list
             reservation.save(function (error) {        
                 if (error) { console.log(error); }                          
             }); 
@@ -60,14 +61,15 @@ async function tranferSavedRes(numSeats, table, date){
             //send mail with defined transport object
             var mailInfo ={
                 from:'"Top Tier Ja" <toptiercuisineja@gmail.com>', // sender address
-                to: miscReservation.email, // list of receivers
+                to: reservation.email, 
                 subject: "Top Tier- Reservation Update", // Subject line
                 text: "Hello World", // plain text body
-                html: `<p>Hi ${miscReservation.name} <br/> Please Ensure you save this password.
+                html: `<p>Hi ${reservation.customerName}, <br/><br/>Please Ensure you save this password.
                 <br/>A table suitable for you saved Reservation has been made available. You are now officially Reserved.
-                <br/>Your password is ${miscReservation.password}.
-                <br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
-                <br/> Thank you.</p>` 
+                <br/><br/>Your password is ${reservation.password}.
+                <br/><br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
+                <br/><a href="url">link text</a>
+                <br/><br/> Thank you.</p>` 
             };
 
             transporter.sendMail(mailInfo, (error, info)=>{
@@ -78,7 +80,7 @@ async function tranferSavedRes(numSeats, table, date){
                     console.log("Message sent:" + info.response);
                 }
             }) 
-                    
+                  
         })  
 
         Reservemisc.deleteOne({password:savedRes}, function(error){      
@@ -94,14 +96,19 @@ async function delResUpTab(tabId, resPass, a, c){
     await Table.findOne({_id:tabId}, function(error, table){
 
         if (error) { console.error(error); }
-        
-        if(!table.occupied){
+       
+        //if table with specified id is not occupied (i.e. the person has left), check for a suitable queued reservation to fill its place
+        if(!table.occupied|| deleteRes==1){
 
             tranferSavedRes(a, tabId, c)
     
-            Reservation.deleteOne({password:resPass}, function(error){      
-                if (error) { console.error(error); }      
+            Reservation.deleteOne({"password":resPass}, function(error, reservation){      
+                if (error) { console.error(error); }    
+                var archiveRes = new ReservationArchive(reservation);  
                 
+                archiveRes.save(function (error) {        
+                    if (error) { console.log(error); }                          
+                }); 
             });  
 
              //finds all reservations reserved to the same table
@@ -160,9 +167,9 @@ router.post('/', async(req,res) => {
             to: reservation.email, // list of receivers
             subject: "Top Tier- Reservation Update", // Subject line
             text: "Hello World", // plain text body
-            html: `<p>Hi ${reservation.name} your password is ${reservation.password} <br/> Please Ensure you save this password.
+            html: `<p>Hi ${reservation.customerName},<br/> <br/> Your password is ${reservation.password} <br/><br/> Please Ensure you save this password.
             <br/>You are required to have it to validate your reservation upon your arrival at the restaurant
-            <br/> Thank you.</p>` // html body
+            <br/><br/>Thank you.</p>` // html body
         };
 
         transporter.sendMail(mailInfo, (error, info)=>{
@@ -205,7 +212,7 @@ router.post('/', async(req,res) => {
                 to: reservation.email, // list of receivers
                 subject: "Top Tier- Reservation Update", // Subject line
                 text: "Hello World",
-                html: `<p>Hi ${reservation.name} your password is ${reservation.password} <br/> Please Ensure you save this password.
+                html: `<p>Hi ${reservation.customerName} your password is ${reservation.password} <br/> Please Ensure you save this password.
                 <br/>You are required to have it to validate your reservation upon your arrival at the restaurant
                 <br/> Thank you.</p>`// html body
             }
@@ -235,6 +242,36 @@ router.post('/', async(req,res) => {
     
     
 }); 
+
+
+//fetch all reservations not yet served
+router.get('/', async(req, res) => {
+   
+    //each time kitchen page is reloaded check if the the date for any reservation has passed and the customer didnt show up
+    var dateCheck= new Date(Date.now()-120000)
+    console.log(dateCheck)
+    
+    var resOnTimeCheck= await Reservation.find({"dateReserved":{$lt:dateCheck}}) 
+    console.log(resOnTimeCheck)
+
+    if(resOnTimeCheck.length){
+        resOnTimeCheck.forEach((reserve)=>{
+
+            delResUpTab(reserve.tableNo, reserve.password, reserve.seatsReserved, reserve.dateReserved)            
+
+        })
+    }
+    await Reservation.find({served:false},(error, reservations) => {      
+                                      
+        if (error) { console.log(error); }      
+        res.json({        
+            reservations,      
+        });    
+    })       
+    .sort({dateReserved:1})      
+    .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
+    
+});
 
 //triggered when customer gets up from table (i.e. no motion detected)
 router.get('/checkpay/:tableId', async(req,res) => {
@@ -341,40 +378,11 @@ router.get('/seatNum/:seatNum/:date', async(req, res) => {
     
 }); 
 
-//fetch all reservations
-router.get('/', async(req, res) => {
-   
-    //each time kitchen page is reloaded check if the the date for any reservation has passed and the customer didnt show up
-    var dateCheck= new Date(Date.now()-120000)
-    console.log(dateCheck)
-    
-    var resOnTimeCheck= await Reservation.find({"dateReserved":{$lt:dateCheck}}) 
-    console.log(resOnTimeCheck)
-
-    if(resOnTimeCheck.length){
-        resOnTimeCheck.forEach((reserve)=>{
-
-            delResUpTab(reserve.tableNo, reserve.password, reserve.seatsReserved, reserve.dateReserved)            
-
-        })
-    }
-    await Reservation.find({served:false},(error, reservations) => {      
-                                      
-        if (error) { console.log(error); }      
-        res.json({        
-            reservations,      
-        });    
-    })       
-    .sort({dateReserved:1})      
-    .populate('tableNo', 'tableNum')//only returns number id of the table provided for customer
-    
-});
-
 //to display a customers reservation password for reservation modal
 router.get('/date/:date', async(req,res) => {
 
     var dateres=req.params.date;
-
+    
     var parseDate= new Date(dateres) //stores the formatted date mm/dd/yyyy 00:00...      
     console.log("The Date is:", parseDate);
 
@@ -415,6 +423,7 @@ router.get('/password/:password', async(req,res) => {
     console.log(order)
     
     if (order==null){
+
         res.status(409).end();
     }
     // let menuItems = await order.orders.map(async name => await Menu.findOne({name}));
@@ -527,6 +536,7 @@ router.put('/user/addtime/:password/:time',async(req, res) => {
             console.log("new Date is", newDateObj)
 
             reservation.orders = req.body.orders;
+            reservation.orderCost = req.body.cost;
 
             if(reservation.onSite==true){
                 reservation.dateReserved= newDateObj;
@@ -596,14 +606,17 @@ router.put('/payStat/:password', async(req, res) => {
 }); 
 
 //delete a reservation for a user if they decide to cancel because of circumstance
-router.delete('/user/:seatNo/:table/:password/:date', (req, res) => {  
+router.delete('/user/:seatNo/:table/:password', async(req, res) => {  
         
     var deletebyPass=req.params.password;
     var idTable=req.params.table
     var seatNum=req.params.seatNo
-    var dateRes= req.params.date
-
-    delResUpTab(idTable, deletebyPass, seatNum, dateRes)
+   
+    await Reservation.findOne({"password":deletebyPass},'dateReserved', function(error,date){
+        deleteRes+=1
+        delResUpTab(idTable, deletebyPass, seatNum, date.dateReserved)
+    })
+    
     
     res.send({ success: true }) 
    

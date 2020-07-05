@@ -13,7 +13,7 @@
                             <b-tag size="is-medium" rounded type="is-dark">{{order}}</b-tag>
                         </b-taglist>
 
-                        <b-button type="is-primary" @click="served(reservation._id)">
+                        <b-button type="is-primary" @click="served(reservation._id, reservation.password)">
                             Served   
                         </b-button>
                         
@@ -171,16 +171,16 @@ export default {
             });    
         },
 
-        served(obj){
+        served(resId, passcode){
             
             axios({        
                 method: 'put',                
-                url: `http://localhost:5000/reservation/served/${obj}`,      
+                url: `http://localhost:5000/reservation/served/${resId}`,      
 
             })        
             .then(() => { 
                 socket.emit('fromClient', 'true')      
-                    
+                socket.emit('foodUpdate', passcode)  
                 this.$swal(            
                     'Great!',            
                     'Reservation was successfully added!',            
