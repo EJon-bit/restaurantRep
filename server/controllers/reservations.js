@@ -67,8 +67,8 @@ async function tranferSavedRes(numSeats, table, date){
                 html: `<p>Hi ${reservation.customerName}, <br/><br/>Please Ensure you save this password.
                 <br/>A table suitable for you saved Reservation has been made available. You are now officially Reserved.
                 <br/><br/>Your password is ${reservation.password}.
-                <br/><br/>If you no longer have an interest in this keeping this reservation, PLEASE click the link below.
-                <br/><a href="url">link text</a>
+                <br/><br/>If you want to review/Edit your order or no longer have an interest in this keeping this reservation, PLEASE click the link below and enter the password given to do so.
+                <br/><a href="http://localhost:8081/Reservation/User">link text</a>
                 <br/><br/> Thank you.</p>` 
             };
 
@@ -426,7 +426,7 @@ router.get('/password/:password', async(req,res) => {
 
         res.status(409).end();
     }
-    // let menuItems = await order.orders.map(async name => await Menu.findOne({name}));
+    
     else{
 
         let menuItems = await Promise.all(order.orders.map((name) => Menu.findOne({name})));
@@ -473,7 +473,7 @@ router.put('/user/:password', async(req, res) => {
     var reservePass=req.params.password 
    
                
-    await Reservation.findOne({password:reservePass}, 'orders orderCost', function(error, reservation) {      
+    await Reservation.findOne({password:reservePass}, ' numOrders orders orderCost', function(error, reservation) {      
        
         var newCost=0
 
@@ -511,6 +511,7 @@ router.put('/user/:password', async(req, res) => {
 
         
         reservation.orders= newOrder
+        reservation.numOrders = newOrder.length
                 
         reservation.save(function (error, reservation) {        
             if (error) { console.log(error); }        
@@ -523,20 +524,53 @@ router.put('/user/:password', async(req, res) => {
 }); 
 
 //to addtime to reservation when customer arrives...based on the time taken to prepare meal
-router.put('/user/addtime/:password/:time',async(req, res) => {  
+router.put('/user/addtime/:password',async(req, res) => {  
     
     var reservePass=req.params.password 
-    var addtime=req.params.time;           
-    await Reservation.findOne({password:reservePass}, (error, reservation)=>{      
+    var orders=req.body.orders
+    console.log(orders)       
+    
+    var newCost=0
+
+    await Reservation.findOne({password:reservePass}, async(error, reservation)=>{      
             
             if (error) { console.error(error); }
+            // var oldOrder= reservation.orders
+            // console.log(oldOrder)
+
+            orders.forEach((order)=>{
+                reservation.orders.push(order)
+            })            
+            console.log(reservation.orders) 
+      
+
+            var menuItems = await Promise.all(reservation.orders.map((name) => Menu.findOne({name},'prepTime cost')));
+            console.log(menuItems)
+
+            menuItems.forEach((item)=>{
+               
+                newCost+=item.cost 
+                reservation.orderCost= newCost   
+                console.log("The total cost is:", newCost)
+                            
+            })          
+               
+           
+            var timePrep= menuItems.sort((a,b)=>(b.prepTime-a.prepTime))
+            console.log(timePrep)
+            var addTime= timePrep[0].prepTime
+            console.log(addTime)
+
             var olddate = reservation.dateReserved;
             console.log("Old date is", olddate)
-            var newDateObj = new Date((Date.now()-olddate.getTime()) + addtime*60000);
+
+            var dateCalc= olddate.getTime() + (addTime*60000)
+            console.log("calculated date is", dateCalc)
+          
+            var newDateObj = new Date(dateCalc);
             console.log("new Date is", newDateObj)
 
-            reservation.orders = req.body.orders;
-            reservation.orderCost = req.body.cost;
+            
 
             if(reservation.onSite==true){
                 reservation.dateReserved= newDateObj;

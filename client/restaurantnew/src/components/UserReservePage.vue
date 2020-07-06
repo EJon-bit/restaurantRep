@@ -24,8 +24,8 @@
                     <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
                             
                         <div id="good" class="box" :style="myStyle" v-if="reservation!=null"> 
-                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;" v-if="orders.length">Your Order will be ready In:</h1><br/>
-                            <div v-if="orders.length ">
+                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;" v-if="reservation.onSite && orders.length">Your Order will be ready In:</h1><br/>
+                            <div v-if="reservation.onSite && orders.length">
                                 <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
                             </div>  
 
@@ -188,25 +188,24 @@ var ModalForm = {
     props: ['orders', 'cost', 'defaultPass', 'sessionPass', 'pass'],
 
     created(){
-        if (this.defaultPass=="" && this.sessionPass==""){
+        if (this.defaultPass=="" && this.sessionPass==null){
             this.defaultPass=this.pass;
         }
-        else if(this.defaultPass=="" && this.sessionPass!=null){
+        else if(this.sessionPass!=null){
             this.defaultPass=this.sessionPass
         }
     },
 
     methods: {    
         async updateOrder(){
-            var timePrep= this.orders.sort((a,b)=>(b.prepTime-a.prepTime))
-            console.log("Time to prepare meal is", timePrep[0].prepTime)
-            await axios({        
+            
+            axios({        
                 method: 'put',  
                 data:{
                     orders: this.orders,
                     cost: this.cost
                 },           
-                url: `http://localhost:5000/reservation/user/addtime/${this.defaultPass}/${timePrep[0].prepTime}`,      
+                url: `http://localhost:5000/reservation/user/addtime/${this.defaultPass}`,      
 
             })       
             
@@ -274,10 +273,10 @@ var DeleteItem={
     props: ['checkboxOrders', 'defaultPass', 'sessionPass', 'pass'], 
 
     created(){
-        if (this.defaultPass=="" && this.sessionPass==""){
+        if (this.defaultPass=="" && this.sessionPass==null){
             this.defaultPass=this.pass;
         }
-        else if(this.defaultPass=="" && this.sessionPass!=null){
+        else if(this.sessionPass!=null){
             this.defaultPass=this.sessionPass
         }
     },

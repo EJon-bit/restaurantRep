@@ -75,7 +75,7 @@ var resArchiveSchema = new Schema({
        
 });
 
-reservationSchema.plugin(mongooseDateFormat);
+resArchiveSchema.plugin(mongooseDateFormat);
 
 module.exports = mongoose.model('ReservationArchive', resArchiveSchema);
  //makes reservation model accessable from anywhere else
