@@ -2,8 +2,8 @@
 <template>
     <div id="reserve">
         <div class="container is-fullscreen">
-            <div class="column" v-if="reservations.length" style="margin:auto">            
-                <div v-for="reservation in sortReserve" :key="reservation._id" style="margin-top:50px">
+            <div id="reserveCol" class="column" v-if="reservations.length">            
+                <div id="resSubdiv" v-for="reservation in sortReserve" :key="reservation._id">
                     
                     <b-message :title="getTitle(reservation.tableNo.tableNum)" type="is-success" aria-close-label="Close message">                    
                         <strong>No. of Orders: <b-tag rounded type="is-dark">{{reservation.numOrders}}</b-tag></strong>
@@ -17,7 +17,7 @@
                             Served   
                         </b-button>
                         
-                        <hr class="featurette-divider" style="margin-top:5px;margin-top:0px">
+                        <hr class="featurette-divider">
                         <div>
                             <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
                         </div>
@@ -25,7 +25,7 @@
                     </b-message>                
                 </div>
             </div>
-            <div class="column" v-if="!reservations.length" style="margin:auto;">
+            <div id="noResNotice" class="column" v-if="!reservations.length">
                 <b-notification type="is-dark">
                    No Reservations have been made yet.
                 </b-notification>
@@ -216,7 +216,6 @@ export default {
 </script>
 <style scoped>
 
-
-
+    @import '../css/reserveList.css';
 
 </style>

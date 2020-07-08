@@ -2,7 +2,7 @@
 <template> 
     <div>
         <div id="heading">
-            <h1 class="title is-4" style="font-family:Gabriola;color:gold;font-size:30px;">Enter Reservation Details Here</h1><br/>
+            <h1 class="title is-4">Enter Reservation Details Here</h1><br/>
         </div>
         <div class="container">                  
             
@@ -13,7 +13,7 @@
                     :message="nameLabelMessage"
                     label="Name">
                     
-                <b-input placeholder="John Doe" :style="myStyle" v-model="customerName" ></b-input>
+                <b-input id="nameField" placeholder="John Doe" v-model="customerName" ></b-input>
                 
             </b-field>
             <br/>
@@ -24,7 +24,7 @@
                     :message="emailLabelMessage"
                     label="Email">
                     
-                <b-input placeholder="johndoe@gmail.com" :style="myStyle" v-model="customerEmail" ></b-input>
+                <b-input id="emailField" placeholder="johndoe@gmail.com" v-model="customerEmail" ></b-input>
                 
             </b-field><br/>  
 
@@ -305,12 +305,7 @@
                 datetime:new Date(),
                
                 
-                myStyle:{
-
-                    backgroundColor: 'rgba(37,37,37,.95)'                
-                },
-
-                               
+                                               
             }
         }, 
         created:()=>{
@@ -498,14 +493,7 @@
 </script>
 
 <style scoped>
-.container{
-     text-align: left;
-}
-#heading{
-     text-align: center;
-}
-#button{
-     text-align: center;
-}
+
+    @import '../css/reserveAdd.css';
 
 </style>

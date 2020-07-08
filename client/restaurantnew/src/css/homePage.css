@@ -1,3 +1,19 @@
+#bodyContent{
+  margin-top:-10px; 
+  overflow: hidden;
+}
+
+#plate>div#text{
+  font-family:Segoe Script;
+  font-weight:bold;
+  font-size:30px;
+  color:#363101
+}
+
+#hex>div#secondHex{
+  margin-top:7px;
+}
+
 .carousel {
     box-shadow: 0px 0px 10px 8px #3a403f;
 }
@@ -72,6 +88,33 @@ max-height: 150vh;
     font-weight:bolder;
     color:#FFF2CC;
   }
+
+  #headings{
+    background-image : url('../pics/stroke.png'); 
+    background-repeat :no-repeat;
+    background-position: center top;
+    background-size: 100% 80%;
+    height: 150px;
+    
+  }
+ 
+  #headings>p.subtitle{
+    font-family: Courier New;
+    font-size:20px;
+    font-weight:bolder;
+    color:#FFF2CC;
+  }
+  #headings>p.title{
+    font-family: Segoe Script;
+    color:gold;
+    font-size:20px;
+    font-weight:bolder;
+    
+  }
+  hr.featurette-divider{
+    margin-top:20px;
+  }
+
   @media screen and (min-width: 769px), print {
     img{
       position: relative;
@@ -119,7 +162,7 @@ max-height: 150vh;
     
   }
   
-  @media screen and (max-width: 768px), print {
+  @media screen and (max-width: 768px), print { 
     img{
       position: relative;
       top: 0;
@@ -164,7 +207,14 @@ max-height: 150vh;
     
     
   }
+
+  
+
   #plate {
+    font-family:Segoe Script;
+    font-weight:bold;
+    font-size:34px;
+    color:#363101;
     background-image : url('../pics/plate.png');  
     background-position: center ;
     background-size: 100% 100%;

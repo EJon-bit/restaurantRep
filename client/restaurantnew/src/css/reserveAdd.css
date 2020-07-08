@@ -1,0 +1,20 @@
+#heading>h1.title{
+    font-family:Gabriola;
+    color:gold;
+    font-size:30px;
+}
+
+#nameField,
+#emailField{
+    background-color: rgba(37,37,37,.95) 
+}
+
+.container{
+    text-align: left;
+}
+#heading{
+    text-align: center;
+}
+#button{
+    text-align: center;
+}

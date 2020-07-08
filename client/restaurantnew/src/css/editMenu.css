@@ -1,0 +1,19 @@
+#spacing{
+    margin-top:85px;
+
+}
+#spacing>div.box{
+    
+    background-color: rgba(63,63,63,.95);
+    font-family:Gabriola;
+    font-weight:bold; 
+    color:gold;      
+   
+}
+table.box{    
+    background-color:#a9d3cd   
+}
+
+#editMenu{
+    background-color: rgba(63,63,63,.95);
+}

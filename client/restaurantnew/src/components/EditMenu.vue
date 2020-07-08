@@ -2,9 +2,9 @@
  <div>   
     <div class="container is-fullscreen" >        
         <br/> 
-        <div style="margin-top:85px">
-            <div class="box" :style="myStyle"> 
-                <p class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Edit Menu</p>             
+        <div id="spacing">
+            <div class="box"> 
+                <p class="title is-4">Edit Menu</p>             
             </div>
         </div>
         <br/>
@@ -14,7 +14,7 @@
                 :columns="columns" 
                 :checked-rows.sync="checkedRows"                   
                 checkable
-                :checkbox-position="checkboxPosition" :style="cardStyle">
+                :checkbox-position="checkboxPosition">
                 
                 
                 <template slot="bottom-left">
@@ -22,7 +22,7 @@
                 </template>
                    
             </b-table>       
-        <div class="box" :style="myStyle">    
+        <div id="editMenu" class="box">    
             <button class="button field is-danger" @click="deleteItems=true" >
                 <b-icon icon="delete"></b-icon>
                 <span>Delete</span>
@@ -354,24 +354,7 @@ export default {
             isComponentModalActive: false,
             isComponentModTwoActive:false,
             deleteItems:false,
-
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-                
-            },
-            cardStyle:{
-                backgroundColor:"#a9d3cd"
-            },
             
-            // input: {
-            //     name: "",
-            //     category:"", 
-            //     description:"",           
-            //     cost:'',                
-            //     image_url:"",
-            // },
-
             menus:[],
 
             checkboxPosition: 'left',
@@ -416,6 +399,5 @@ export default {
 </script>
 
 <style scoped>
-
-
+    @import '../css/editMenu.css';
 </style>

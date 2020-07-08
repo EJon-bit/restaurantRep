@@ -3,8 +3,8 @@
     
     <div>       
         <br/> 
-        <div class="box" :style="myStyle"> 
-            <p class="title is-4" style="font-family:Gabriola; font-weight:bold; color:gold; font-size:35px;">Available Tables</p>             
+        <div id="heading" class="box"> 
+            <p class="title is-4">Available Tables</p>             
         </div>
         <br/>          
         
@@ -14,9 +14,9 @@
             :columns="columns"
             :checked-rows.sync="checkedRows"  
             checkable
-            :checkbox-position="checkboxPosition" :style="cardStyle">                      
+            :checkbox-position="checkboxPosition">                      
         </b-table>     
-        <div class="box" :style="myStyle">    
+        <div id="editTables" class="box">    
             
             <button class="button field is-warning" @click="isComponentModalActive = true">                    
                 <b-icon icon="plus"></b-icon>
@@ -70,8 +70,8 @@ var ModalForm = {
             })
             .catch(() => {
                 this.$swal(            
-                    'Sorry! Table could not be be Added',          
-                                
+                    'Sorry!',
+                    'Table could not be be Added',                        
                     'error',          
                 ); 
             });      
@@ -79,7 +79,7 @@ var ModalForm = {
     },
 
     template: 
-`        <form action="">
+    `   <form action="">
             <div class="modal-card" style="width: auto">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Make Reservation</p>
@@ -125,11 +125,7 @@ export default {
         
         return {
             isComponentModalActive: false,
-
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-            },
+            
             cardStyle:{
                 backgroundColor:"#a9d3cd"
             },
@@ -171,5 +167,5 @@ export default {
 </script>
 
 <style scoped>
-
+    @import '../css/editTables.css';
 </style>

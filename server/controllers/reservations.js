@@ -542,7 +542,7 @@ router.put('/user/addtime/:password',async(req, res) => {
                 reservation.orders.push(order)
             })            
             console.log(reservation.orders) 
-      
+            reservation.numOrders= reservation.orders.length
 
             var menuItems = await Promise.all(reservation.orders.map((name) => Menu.findOne({name},'prepTime cost')));
             console.log(menuItems)

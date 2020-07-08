@@ -6,6 +6,7 @@
 .card.box{
     border-radius: 10px 10px 6px 6px;
     padding: 0.75rem;
+    background-color:#a9d3cd
 }
 .card{
     width: 100%;
@@ -27,4 +28,19 @@
 
     opacity: 1;
 
+}
+
+#cost{
+    margin-bottom: 25px; 
+    margin-top:25px;
+}
+
+#checkBox{
+    margin-bottom: 30px;
+    font-weight:bold;
+}
+
+#cardText{
+    margin-top: 10px;
+    margin-bottom:50px;
 }

@@ -51,12 +51,12 @@
             </b-carousel-item>
         </b-carousel> 
         
-        <div class="container is-fullscreen" style="margin-top:-10px; overflow: hidden;"> 
+        <div id="bodyContent" class="container is-fullscreen"> 
           <!-- <div id="lights"/>           -->
           <div class="columns is-multiline is-variable is-8-widescreen">
             <div class="column is-variable is-one-third-widescreen is-two-thirds-tablet">
               <div class="container is-fullscreen" id="woodback">
-                <div class="container is-fullscreen" id="plate" style="font-family:Segoe Script;font-weight:bold;font-size:34px;color:#363101;"><br/><br/>
+                <div class="container is-fullscreen" id="plate"><br/><br/>
                    The <br> Food                 
                 </div>
                 
@@ -66,30 +66,32 @@
               </div>
             </div><br/>
             <div id="stuffs" class="column is-variable is-7-widescreen is-two-thirds-tablet">
-                <div class="box" style="background-color: #024047;opacity:0.9">                  
-                  <p class="title is-4" style="font-family:Segoe Script;color:gold;">Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!...</p>
-                  <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> You Name It! </p>         
+                <div id="headings">                  
+                  <p class="title is-4"><br/>Beens! Greens! Potatoes! Tomatoes! Chicken! Lamb!</p>
+                  <p class="subtitle"> You Name It! </p>         
                 </div>
                 <div id="food" class="box" />                
 
             </div> 
-            <hr class="featurette-divider" style="margin-top:10px;">
+            <hr class="featurette-divider">
             <div class="column is-variable is-7-widescreen is-two-thirds-tablet">
-                <div class="box" style="background-color: #024047;opacity:0.9">                  
-                  <p class="title is-4" style="font-family:Segoe Script;color:gold;">Laugh! Unwind! Dine! Rejuvinate!...</p>
-                  <p class="subtitle" style="font-family:Segoe Script;color:gold;margin-top:10px;"> A Sensory Expedition! </p>         
+                <div id="headings">                  
+                  <p class="title is-4"><br/>Laugh! Unwind! Dine! Rejuvinate!</p>
+                  <p class="subtitle"> A Sensory Expedition! </p>         
                 </div>
                 <div id="box" class="box" />
             </div> 
             <div class="column is-variable is-one-third-widescreen is-two-thirds-tablet">
               <div class="container is-fullscreen" id="woodbackthing">
                 <div class="container is-fullscreen" id="plate">   
-                  <div id=text style="font-family:Segoe Script;font-weight:bold;font-size:30px;color:#363101"><br/><br/>            
+                  <div id=text><br/><br/>            
                    The <br/>Experience
                   </div>
                 </div>
-                <div class="container is-fullscreen" id="hex" style="margin-top:7px;"><br/>
-                    Ambiance
+                <div class="container is-fullscreen" id="hex"><br/>
+                  <div id="secondHex">
+                    An ambiance like <br/> no other. No service complications or kinks.<br/>Stop by, Relax, Catch Up <br/> with friends, family,<br/> associates, or just<br/> have a drink.  
+                  </div>
                 </div>                                 
               </div>
             </div> 

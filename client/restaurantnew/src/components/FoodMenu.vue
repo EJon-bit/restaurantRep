@@ -14,24 +14,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                       
                         class="box" id="cardOpacity">
                         
                         <p class="title is-4">{{menu.name}}</p>
 
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px;margin-bottom:50px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                                   
                                                                                     
@@ -59,24 +58,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                       
                         class="box">
                         
                         <p class="title is-4">{{menu.name}}</p>
                         
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top:10px;margin-bottom:50px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                        
                     </b-card>
@@ -103,24 +101,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                       
                         class="box">
                         
                         <p class="title is-4">{{menu.name}}</p>
                         
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                     
                     </b-card>
@@ -148,24 +145,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                       
                         class="box">
                         
                         <p class="title is-4">{{menu.name}}</p>
                         
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                         
                     </b-card>
@@ -192,24 +188,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                       
                         class="box">
                         
                         <p class="title is-4">{{menu.name}}</p>
                         
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                          
                     </b-card>
@@ -236,24 +231,23 @@
                         :img-src="menu.image_url"
                         img-alt="Image"
                         img-top
-                        tag="article"
-                        :style="cardStyle"
+                        tag="article"                        
                         class="box">
                         
                         <p class="title is-4">{{menu.name}}</p>
                         
-                        <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{menu.cost}}</p>
+                        <p id="cost" class="title is-6"> Cost: ${{menu.cost}}</p>
                         
-                        <div class="field" style="margin-bottom: 30px">
+                        <div id="checkBox" class="field">
                             <b-checkbox  type="is-warning" size="is-large" v-model="checkboxGroup" :native-value="checktheBox(menu.name, menu.cost)"></b-checkbox><br/>
-                            <p style="font-weight:bold">Check to Add</p>
+                            <p>Check to Add</p>
                         </div>
                         <div class="field" v-if="checkBox(menu.name)">
                             <b-field>
                                 <b-numberinput type="is-dark" min="1" v-model="menu.qty" controls-position="compact"></b-numberinput>
                             </b-field>
                         </div>
-                        <b-card-text style="margin-top: 10px">
+                        <b-card-text id="cardText">
                             {{menu.description}} <br/>                                            
                         </b-card-text>                           
                     </b-card>
@@ -275,14 +269,11 @@
 
 <script> 
 import axios from 'axios';
-//import AddReserve from'./AddReserve';
+
 
 export default {  
     name: 'Menu',  
 
-    // components:{
-    //     'addreserve':AddReserve
-    // },
     data() {    
         return {
             windowWidth:0,
@@ -313,9 +304,7 @@ export default {
                 "beverages":1,
                 "dessert":1,
             },
-            cardStyle:{
-                backgroundColor:"#a9d3cd"
-            },
+            
             
         };
     },
