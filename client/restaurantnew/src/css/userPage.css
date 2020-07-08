@@ -16,11 +16,12 @@
     color:gold; 
     font-size:35px;
 }
-#good>p.title{
+#good>p.title{ 
     color:gold;
     font-size:20px;
 }
 #best{
+    background-color: rgba(63,63,63,.95);
     margin:auto;
     margin-top:200px;
     width:100%;

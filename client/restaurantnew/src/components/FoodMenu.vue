@@ -11,7 +11,7 @@
             <div class="columns is-multiline is-variable is-2-mobile is-1-tablet is-2-desktop is-2-widescreen" >  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-full-tablet is-full-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                     <b-card
-                        :img-src="menu.image_url"
+                        :img-src="findImage(menu.image_url)"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -419,7 +419,13 @@ export default {
                 return false
             }
             
-        }      
+        } ,  
+        
+        findImage(directoryPath){
+            var fullPath= '../menuPics/' + directoryPath;
+            console.log(fullPath);
+            return fullPath;
+        }
     },
     
     computed:{

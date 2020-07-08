@@ -10,6 +10,7 @@ var Table = require('../models/Table')
 var Reservemisc = require('../models/ReserveMisc')
 var nodemailer = require("nodemailer");
 var deleteRes=0;
+
 //defines acc used to send email
 var transporter = nodemailer.createTransport({
     service: 'gmail',                
