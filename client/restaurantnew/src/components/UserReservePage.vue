@@ -2,16 +2,16 @@
 <template>
     <div id="userPage">           
         <template>
-            <div class="column is-variable is-6-widescreen is-10-desktop" style="margin:auto"> 
+            <div id="margin" class="column is-variable is-6-widescreen is-10-desktop"> 
                 <div id="best" class="box" :style="myStyle" v-if="(password.length!=6 & pass.length!=6 && sessionReload==null)|| reservation==null"> 
-                    <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold;font-size:35px;margin-top:10px">Enter Password Here</h1>
+                    <h1 class="title is-4">Enter Password Here</h1>
                     
-                    <b-field ref="form"                 
+                    <b-field id="passField" 
+                        ref="form"                 
                         label="Password"    
                         name=password                              
                         custom-class="is-small has-text-warning" 
-                        type="is-primary" 
-                        style="margin-bottom:50px">
+                        type="is-primary">
                         <b-input v-model="password"/>  
                                         
                     </b-field>                    
@@ -19,25 +19,25 @@
             </div>
         </template>
         <template>
-            <div class="container is-fullscreen" style="margin-bottom:20px"> 
-                <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen" style="margin-top:0px" >  
-                    <div class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile" style="margin:auto;margin-top:85px">                 
+            <div id="customContent" class="container is-fullscreen"> 
+                <div id="subContent" class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
+                    <div id="contentOfSub" class="column is-variable is-one-third-desktop is-12-tablet is-10-mobile">                 
                             
-                        <div id="good" class="box" :style="myStyle" v-if="reservation!=null"> 
-                            <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;" v-if="reservation.onSite && orders.length">Your Order will be ready In:</h1><br/>
+                        <div id="good" class="box" v-if="reservation!=null"> 
+                            <h1 class="title is-4" v-if="reservation.onSite && orders.length">Your Order will be ready In:</h1><br/>
                             <div v-if="reservation.onSite && orders.length">
                                 <flip-countdown :deadline="reservation.dateReserved"></flip-countdown>
                             </div>  
 
-                            <p class="title is-4" style="color:orange;font-size:20px;" v-if="orders.length">Bill Total: ${{reservation.orderCost}}</p>
+                            <p class="title is-4" v-if="orders.length">Bill Total: ${{reservation.orderCost}}</p>
                             
-                            <div v-if="callWaiter" style="margin-bottom:40px">                            
+                            <div id="waiterNotice" v-if="callWaiter">                            
                                 <b-notification type="is-info" aria-close-label="Close notification">
                                     A Waiter will be arriving shortly
                                 </b-notification>
                             </div>
 
-                            <div v-if="foodUpdateMessage" style="margin-bottom:40px">                            
+                            <div id="customerNotice" v-if="foodUpdateMessage">                            
                                 <b-notification type="is-info" aria-close-label="Close notification">
                                     Your Order has been prepared and is on its way to your Table
                                 </b-notification>
@@ -85,16 +85,16 @@
                             
                         </div>                 
                     </div>
-                    <div class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile" style="margin-top:65px">
+                    <div id="menuContainer" class="column is-variable is-two-thirds-desktop is-12-tablet is-12-mobile">
                         <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen is-centered">
-                            <div id="seeMenu" class="column is-variable is-11-desktop is-full-touch is-full-tablet is-full-mobile" style="margin-left:20px">
-                                <div class="box" :style="myStyle" v-if="(pass.length==6||password.length==6||sessionReload!=null) && !orders.length && reservation!=null" style="margin-top:20px">
-                                        <p class="title is-4" style="color:orange;font-size:20px;">No Orders have been Made yet....Add order now!</p>
+                            <div id="seeMenu" class="column is-variable is-11-desktop is-full-touch is-full-tablet is-full-mobile">
+                                <div id="menuBox" class="box" v-if="(pass.length==6||password.length==6||sessionReload!=null) && !orders.length && reservation!=null" style="margin-top:20px">
+                                        <p class="title is-4">No Orders have been Made yet....Add order now!</p>
                                 </div>
-                                <div class="box" :style="tabStyle" v-if="(pass.length==6||password.length==6||sessionReload!=null) && (!orders.length||orderAdd) && reservation!=null" style="margin-top:20px"> 
+                                <div id="tabBox" class="box" v-if="(pass.length==6||password.length==6||sessionReload!=null) && (!orders.length||orderAdd) && reservation!=null" style="margin-top:20px"> 
 
-                                    <div class="box" v-if="orderAdd" :style="myStyle">
-                                        <p class="title is-4" style="color:orange;font-size:20px;">Select additional items for your order!</p>
+                                    <div class="box" v-if="orderAdd">
+                                        <p id="addOrders" class="title is-4">Select additional items for your order!</p>
                                     </div>
                                     <foodmenu @changed="onChange"></foodmenu> 
                                     <button class="button field is-warning" v-if="orderAdd" @click="orderAdd = false">                                    
@@ -103,32 +103,31 @@
                                 </div>                     
                             </div>  <br/>   
 
-                            <div class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length" style="margin-left:20px"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                            <div id="orders" class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
                                 
-                                <div class="box" :style="myStyle">
-                                    <p class="title is-4" style="font-family:Gabriola;color:gold;font-size:35px;">Your Order</p>
+                                <div class="box">
+                                    <p class="title is-4">Your Order</p>
                                 </div>
-                                <div id="nice" class="box" style="margin-top:15px" :style="tabStyle">                         
+                                <div id="nice" class="box">                         
                                     <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">
                                         <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-full-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
                                                 :img-src="order.image_url"
                                                 img-alt="Image"
                                                 img-top
-                                                tag="article"
-                                                :style="cardStyle"                                   
+                                                tag="article"                                                                                   
                                                 class="box">
                                                 
                                                 <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
 
-                                                <p class="title is-6" style="margin-bottom: 25px; margin-top:25px"> Cost: ${{order.cost}}</p>
+                                                <p class="title is-6"> Cost: ${{order.cost}}</p>
 
-                                                <div class="field" style="margin-bottom: 30px">
+                                                <div id="checkBox" class="field">
                                                     <b-checkbox size="is-large" v-model="checkboxOrders" :native-value="order.name"></b-checkbox><br/>
-                                                    <p style="font-weight:bold">Check to Delete</p>
+                                                    <p>Check to Delete</p>
                                                 </div>
                                                 
-                                                <b-card-text name="description" style="margin-top: 10px">
+                                                <b-card-text id="text" name="description">
                                                     {{order.description}} <br/>                                            
                                                 </b-card-text>                                                                                
                                             </b-card>
@@ -428,18 +427,8 @@ export default {
             table: 0,
             current:1,
             perPage: 3,
-            total:null,
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-            },
+            total:null,                      
             
-            cardStyle:{
-                backgroundColor:"#a9d3cd"
-            },
-            tabStyle:{
-                backgroundColor: 'rgba(52,103,96,.89)'
-            },
         };  
     }, 
     created(){            
@@ -585,9 +574,7 @@ export default {
                 }                    
             });           
         },
-        
-        
-       
+     
     },
     computed:{
         paginatedOrders(){
@@ -605,46 +592,6 @@ export default {
 </script>
 <style scoped>
    
-    #great{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    #good{
-        width: 100%;
-        height: 30%;
-        object-fit: cover;
-    }
-    #best{
-        margin:auto;
-        margin-top:200px;
-        width:100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    #nice{
-        width: 100%;
-        height: 85%;
-        object-fit: cover;
-    }
-    #nice>div>div>.card>img{
-        border-radius: 10px 10px 0px 0px;
-    }
-    
-    #nice>div>div>.card{
-        border-radius: 10px 10px 6px 6px;
-        padding: 0.75rem;
-        width: 100%;
-        height: 100%;
-        /* object-fit: cover; */
-    }
-    #nice>div>div>.card-img-top {
-        width: 100%;
-        height: 35%;
-        /* object-fit: cover; */
-    }
-    
-        
-    
+    @import '../css/userPage.css';    
 
 </style>

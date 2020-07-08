@@ -38,7 +38,7 @@ a {
 }
 .navbar.is-dark .navbar-brand .navbar-link::after {
     border-color: #e6db10;
-}
+} 
 
 .navbar-item,
   .navbar-link {
@@ -146,45 +146,58 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
       bottom: 0;
       width: 100%;   
     }
+
+    #footer>a#footerAtt{
+      vertical-align: middle;
+    }
+    #footer>i{
+      vertical-align: middle;
+    }
   }
 @media screen and (max-width: 768px), print {
-#wrapContent{
-    padding-bottom: 20rem;    /* Footer height */
-}
+  #wrapContent{
+      padding-bottom: 20rem;    /* Footer height */
+  }
 
-#app {
-    
-    /* font-family: Florence, cursive; */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;  
-    /* margin: 0;
-    padding: 0; */
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    min-height: 100vh; 
-    background-image : url('../pics/websitewall2.jpg');  
-    background-position: center ;
-    background-size: 120% 50% cover;   
-    
-}
-#logo{
-    font-family:Segoe Script;
-    font-size:12px;
-    font-weight:bold;
-    color:gold;
-}
-#links{
-    font-family:Gabriola;
-    font-size:22px;
-}
-#footer {  
-    background-color: #bde6ded7;
-    color: #19190b;     
-    padding: 1rem 1.5rem 1rem;
-    position: absolute;
-    bottom: 0;
-    width: 100%;   
-}
+  #app {
+      
+      /* font-family: Florence, cursive; */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;  
+      /* margin: 0;
+      padding: 0; */
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      min-height: 100vh; 
+      background-image : url('../pics/websitewall2.jpg');  
+      background-position: center ;
+      background-size: 120% 50% cover;   
+      
+  }
+  #logo{
+      font-family:Segoe Script;
+      font-size:12px;
+      font-weight:bold;
+      color:gold;
+  }
+  #links{
+      font-family:Gabriola;
+      font-size:22px;
+  }
+  #footer {  
+      background-color: #bde6ded7;
+      color: #19190b;     
+      padding: 1rem 1.5rem 1rem;
+      position: absolute;
+      bottom: 0;
+      width: 100%;   
+  }
+  #footer>a#footerAtt{
+    vertical-align: middle;
+  }
+  #footer>i{
+    vertical-align: middle;
+  }
 }

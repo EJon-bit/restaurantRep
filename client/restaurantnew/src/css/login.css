@@ -1,0 +1,31 @@
+#best{
+    background-color: rgba(63,63,63,.95);
+    margin:auto;   
+    margin-top:10%;
+    width:50%;
+    height: 100%;    
+}  
+
+#payBox{
+    margin-top:50px;
+
+}
+
+table{
+    background-color:#a9d3cd;
+}
+
+#beforeBest{
+    margin:auto;
+
+}
+#best>h1.title{
+    font-family:Gabriola;
+    font-weight:bold; 
+    color:gold; 
+   
+}
+
+#message{
+    margin-top:50px;
+}

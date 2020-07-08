@@ -1,0 +1,14 @@
+#menuContainer{
+    margin-left:5px;
+    margin-right:5px;
+    margin-top:60px;
+}
+
+#boxPad{
+    background-color: rgba(52,103,96,.89);
+    padding: 20px 10px 10px 10px;
+}
+
+#reserveBox{
+    background-color: rgba(63,63,63,.95);
+}

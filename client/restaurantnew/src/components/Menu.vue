@@ -3,14 +3,14 @@
     <div >
         <br/>
         <div class="container is-fullscreen">
-            <div class="columns is-variable is-6-widescreen" style="margin-left:5px;margin-right:5px;margin-top:60px">        
+            <div id="menuContainer" class="columns is-variable is-6-widescreen">        
                 <div class="column is-variable is-three-quarters-widescreen is-two-thirds-tablet is-12-mobile">
-                    <div id="boxPad" class="box" :style="tabStyle">                
+                    <div id="boxPad" class="box">                
                         <foodmenu @changed="onChange"></foodmenu>
                     </div>
                 </div>
                 <div class="column is-variable is-one-quarter-widescreen is-one-third-tablet is-12-mobile">
-                    <div class="box" :style="myStyle">                 
+                    <div id="reserveBox" class="box">                 
                     
                         <addreserve :cost="checkCosts" :msg="checkItem"></addreserve>
                     </div>
@@ -41,19 +41,8 @@ export default {
             
             checkItem:[],
             checkCosts:0,
-                       
-
-            myStyle:{
-                backgroundColor: 'rgba(63,63,63,.95)'
-                
-            },
+           
             
-            tabStyle:{
-                backgroundColor: 'rgba(52,103,96,.89)'
-            },
-            
-
-
         };
     },
     methods: {
@@ -74,15 +63,5 @@ export default {
 </script> 
 
 <style scoped>
-@media screen and (max-width: 768px), print {
-    #boxPad{
-        padding:20px 10px 10px 10px ;
-    }
-}
-
-#app{
-    background-size: 150% 100%;
-}
-   
-    
+    @import '../css/menuTwo.css';    
 </style>

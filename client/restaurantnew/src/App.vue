@@ -28,10 +28,10 @@
     <footer id="footer">
       <div class="columns is-variable is-0-desktop"> 
         <div class="column is-variable is-one-third-desktop" align="left">        
-          <i style="vertical-align: middle;">
+          <i>
             <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Coat_of_arms_of_the_University_of_the_West_Indies.png/220px-Coat_of_arms_of_the_University_of_the_West_Indies.png" style="width:7%">
           </i>
-          <a style="vertical-align: middle;">
+          <a id="footerAtt">
             UWI Final Year Project.
           </a>
         </div>

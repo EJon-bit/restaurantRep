@@ -1,0 +1,140 @@
+#great{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+#good{
+    background-color: rgba(63,63,63,.95);
+    width: 100%;
+    height: 30%;
+    object-fit: cover;
+}
+
+#good>h1.title{
+    font-family:Gabriola;
+    font-weight:bold; 
+    color:gold; 
+    font-size:35px;
+}
+#good>p.title{
+    color:gold;
+    font-size:20px;
+}
+#best{
+    margin:auto;
+    margin-top:200px;
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+}
+#nice{
+    margin-top:15px;
+    width: 100%;
+    height: 85%;
+    object-fit: cover;
+    background-color: rgba(52,103,96,.89);
+}
+#nice>div>div>.card>img{
+    border-radius: 10px 10px 0px 0px;
+}
+
+#nice>div>div>.card{
+    background-color:#a9d3cd;
+    border-radius: 10px 10px 6px 6px;
+    padding: 0.75rem;
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+}
+#nice>div>div>.card>p.title{
+    margin-bottom: 25px; 
+    margin-top:25px;
+}
+#nice>div>div>.card-img-top {
+    width: 100%;
+    height: 35%;
+    /* object-fit: cover; */
+}
+
+#margin{
+    margin:auto;
+}
+#best>h1.title{
+    font-family:Gabriola;
+    font-weight:bold; 
+    color:gold;    
+    margin-top:10px;
+}
+
+#passField{
+    margin-bottom:50px;
+}
+
+#customContent{
+    margin-bottom:20px;
+}
+
+#subContent{
+    margin-top:0px;
+}
+
+#contentOfSub{
+    margin:auto;
+    margin-top:85px;
+}
+
+#waiterNotice{
+    margin-bottom:40px;
+}
+
+#customerNotice{
+    margin-bottom:40px;
+}
+
+#menuContainer{
+    margin-top:65px;
+}
+
+#seeMenu{
+    margin-left:20px;
+}
+#menuBox{
+    background-color: rgba(63,63,63,.95);
+}
+#menuBox>p.title{
+    color:gold;
+    font-size:20px;
+}
+#tabBox{
+    background-color: rgba(52,103,96,.89);
+}
+
+#tabBox>div.box{
+    background-color: rgba(63,63,63,.95);
+}
+#addOrders{
+    color:gold;
+    font-size:20px;
+}
+#orders{
+    margin-left:20px;
+}
+#orders>div.box{
+    background-color: rgba(63,63,63,.95);
+}
+
+#orders>div.box>p.title{
+    font-family:Gabriola;
+    color:gold;
+    font-size:35px;
+}
+#checkBox{
+    margin-bottom: 30px;
+}
+#checkBox>p{
+    font-weight:bold;
+}
+
+#text{
+    margin-top: 10px;
+}

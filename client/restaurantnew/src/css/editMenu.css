@@ -5,10 +5,13 @@
 #spacing>div.box{
     
     background-color: rgba(63,63,63,.95);
+       
+   
+}
+#spacing>div.box>p.title{
     font-family:Gabriola;
     font-weight:bold; 
-    color:gold;      
-   
+    color:gold;   
 }
 table.box{    
     background-color:#a9d3cd   

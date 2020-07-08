@@ -101,14 +101,17 @@ async function delResUpTab(tabId, resPass, a, c){
         if(!table.occupied|| deleteRes==1){
 
             tranferSavedRes(a, tabId, c)
-    
-            Reservation.deleteOne({"password":resPass}, function(error, reservation){      
+            Reservation.findOne({"password":resPass}, function(error, reservation){      
                 if (error) { console.error(error); }    
                 var archiveRes = new ReservationArchive(reservation);  
                 
                 archiveRes.save(function (error) {        
                     if (error) { console.log(error); }                          
                 }); 
+            });  
+
+            Reservation.deleteOne({"password":resPass}, function(error){      
+                if (error) { console.error(error); }                    
             });  
 
              //finds all reservations reserved to the same table

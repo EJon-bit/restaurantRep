@@ -1,36 +1,37 @@
 
 <template>
-    
-    <div>       
-        <br/> 
-        <div id="heading" class="box"> 
-            <p class="title is-4">Available Tables</p>             
-        </div>
-        <br/>          
-        
-        <b-table
-            class="box"
-            :data="tables"
-            :columns="columns"
-            :checked-rows.sync="checkedRows"  
-            checkable
-            :checkbox-position="checkboxPosition">                      
-        </b-table>     
-        <div id="editTables" class="box">    
+    <div>
+        <div class="container is-fullscreen" >       
+            <br/> 
+            <div id="heading" class="box"> 
+                <p class="title is-4">Available Tables</p>             
+            </div>
+            <br/>          
             
-            <button class="button field is-warning" @click="isComponentModalActive = true">                    
-                <b-icon icon="plus"></b-icon>
-                <span>Add Table</span>
-            </button>       
-            <b-modal :active.sync="isComponentModalActive"
-                has-modal-card
-                trap-focus
-                aria-role="dialog"
-                aria-modal>
-                <modal-form></modal-form>
-            </b-modal>  
+            <b-table
+                class="box"
+                :data="tables" 
+                :columns="columns"
+                :checked-rows.sync="checkedRows"  
+                checkable
+                :checkbox-position="checkboxPosition">                      
+            </b-table>     
+            <div id="editTables" class="box">    
+                
+                <button class="button field is-warning" @click="isComponentModalActive = true">                    
+                    <b-icon icon="plus"></b-icon>
+                    <span>Add Table</span>
+                </button>       
+                <b-modal :active.sync="isComponentModalActive"
+                    has-modal-card
+                    trap-focus
+                    aria-role="dialog"
+                    aria-modal>
+                    <modal-form></modal-form>
+                </b-modal>  
+            </div>
         </div>
-          
+        <br/><br/>  
     </div>
 </template>
 

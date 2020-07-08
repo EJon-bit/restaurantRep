@@ -1,6 +1,6 @@
 <template>
  <div>   
-    <div class="container is-fullscreen" >        
+    <div class="container is-fullscreen">        
         <br/> 
         <div id="spacing">
             <div class="box"> 
@@ -11,7 +11,7 @@
             <b-table 
                 class="box"
                 :data="menus"
-                :columns="columns" 
+                :columns="columns"  
                 :checked-rows.sync="checkedRows"                   
                 checkable
                 :checkbox-position="checkboxPosition">

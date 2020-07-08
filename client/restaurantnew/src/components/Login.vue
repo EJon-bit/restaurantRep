@@ -2,7 +2,7 @@
 <template>
     <div class="container is-fullscreen">   
         <div class="columns is-1"> 
-            <div class="column is-one-quarter" v-if="exitList.length" style="margin-top:50px"> 
+            <div id="payBox" class="column is-one-quarter" v-if="exitList.length"> 
                 <div>    
                     <button class="button field is-danger" @click="paystatUpdate" >
                         Paid
@@ -15,14 +15,13 @@
                     :columns="columns"
                     :checked-rows.sync="checkedRow"                   
                     checkable
-                    :checkbox-position="checkboxPosition"
-                    :style="cardStyle">
+                    :checkbox-position="checkboxPosition">
                 </b-table>
                 
             </div>    
-            <div class="column is-half" style="margin:auto">
+            <div id="beforeBest" class="column is-half">
                 <div id="best" class="box">   
-                    <h1 class="title is-4" style="font-family:Gabriola;font-weight:bold; color:gold; font-size:35px;">Enter Password Here</h1><br/>
+                    <h1 class="title is-4">Enter Password Here</h1><br/>
                     <div class="container">
                         <b-field name="pass" label="Password" custom-class="is-small has-text-warning" type="is-primary">
                             <b-input v-model="password" :message="loginLabelMessage">  
@@ -35,22 +34,22 @@
                     </div>
                 </div>
             </div>
-            <div  class="column is-one-quarter" v-if="payMessage" style="margin-top:50px">                            
+            <div id="message" class="column is-one-quarter" v-if="payMessage">                            
                 <b-notification type="is-warning" aria-close-label="Close notification">
                     A Customer is trying to leave without pay
                 </b-notification>
             </div>
-            <div  class="column is-one-quarter" v-if="bothNotice" style="margin-top:50px">                            
+            <div id="message" class="column is-one-quarter" v-if="bothNotice">                            
                 <b-notification type="is-warning" aria-close-label="Close notification">
                     A Customer is leaving without pay while another is enterring unauthorized 
                 </b-notification>
             </div>
-            <div  class="column is-one-quarter" v-if="entryNotice" style="margin-top:50px">                            
+            <div id="message" class="column is-one-quarter" v-if="entryNotice">                            
                 <b-notification type="is-warning" aria-close-label="Close notification">
                     A Customer is trying to enter without being validated
                 </b-notification>
             </div>
-            <div  class="column is-one-quarter" v-if="tableNotice" style="margin-top:50px">                            
+            <div id="message" class="column is-one-quarter" v-if="tableNotice">                            
                 <b-notification type="is-danger" aria-close-label="Close notification">
                     A customer is at the Wrong seat. Or may have entered without being validated
                 </b-notification>
@@ -98,9 +97,7 @@ export default {
                     label: 'Paid',                   
                 },            
             ],
-            cardStyle:{
-                backgroundColor:"#a9d3cd"
-            },
+            
         }
     },
     created:function(){
@@ -247,14 +244,6 @@ export default {
    
 </script>
 <style scoped>
-
-#best{
-    background-color: rgba(63,63,63,.95);
-    margin:auto;   
-    margin-top:10%;
-    width:50%;
-    height: 100%;    
-}  
-    
+    @import '../css/login.css';    
 
 </style>
