@@ -210,7 +210,7 @@ var UpdateMenuForm = {
                     'success',          
                 );               
                         
-                //this.$refs.form.reset();          
+                        
             })
             .catch(() => {
 

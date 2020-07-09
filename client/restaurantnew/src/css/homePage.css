@@ -59,58 +59,7 @@ max-height: 150vh;
     border: 1px solid transparent;    
 }
 
-
-.overlay {
-    position: absolute;
-    bottom: 50px;
-    
-    background-image : url('../pics/stroke.png');
-    background-repeat :no-repeat;
-    background-position: center center;
-    background-size: 90% 150%;/* Black see-through */
-    color: gold;
-    width: 100%;
-    transition: .5s ease;
-    opacity:0;
-    color: gold;
-    font-family:Segoe Script;
-    font-weight:bold;
-    font-size: 25px;
-    padding: 20px;
-    text-align: center;
-  }
-  span:hover .overlay {
-    opacity: 0.8;
-  }
-  #carouselDescrip{
-    font-family: Courier New;
-    font-size:20px;
-    font-weight:bolder;
-    color:#FFF2CC;
-  }
-
-  #headings{
-    background-image : url('../pics/stroke.png'); 
-    background-repeat :no-repeat;
-    background-position: center top;
-    background-size: 100% 80%;
-    height: 150px;
-    
-  }
  
-  #headings>p.subtitle{
-    font-family: Courier New;
-    font-size:20px;
-    font-weight:bolder;
-    color:#FFF2CC;
-  }
-  #headings>p.title{
-    font-family: Segoe Script;
-    color:gold;
-    font-size:20px;
-    font-weight:bolder;
-    
-  }
   hr.featurette-divider{
     margin-top:20px;
   }
@@ -159,6 +108,57 @@ max-height: 150vh;
       /* width: 250px; */
   
     }
+
+    .overlay {
+      position: absolute;
+      bottom: 50px;
+      
+      background-image : url('../pics/stroke.png');
+      background-repeat :no-repeat;
+      background-position: center center;
+      background-size: 90% 150%;/* Black see-through */
+      color: gold;
+      width: 100%;
+      transition: .5s ease;
+      opacity:0;
+      color: gold;
+      font-family:Segoe Script;
+      font-weight:bold;
+      font-size: 25px;
+      padding: 20px;
+      text-align: center;
+    }
+    span:hover .overlay {
+      opacity: 0.8;
+    }
+    #carouselDescrip{
+      font-family: Courier New;
+      font-size:20px;
+      font-weight:bolder;
+      color:#FFF2CC;
+    }
+
+    #headings{
+      background-image : url('../pics/stroke.png'); 
+      background-repeat :no-repeat;
+      background-position: center top;
+      background-size: 100% 80%;
+      height: 150px;
+      
+    }
+    #headings>p.subtitle{
+      font-family: Courier New;
+      font-size:20px;
+      font-weight:bolder;
+      color:#FFF2CC;
+    }
+    #headings>p.title{
+      font-family: Segoe Script;
+      color:gold;
+      font-size:20px;
+      font-weight:bolder;
+      
+    }
     
   }
   
@@ -204,7 +204,58 @@ max-height: 150vh;
       height: 300px;
       /* width: 250px; */
     }
-    
+
+    .overlay {
+      position: absolute;
+      bottom: 18px;
+      
+      background-image : url('../pics/stroke.png');
+      background-repeat :no-repeat;
+      background-position: center center;
+      background-size: 120% 100%;/* Black see-through */
+      color: gold;
+      width: 100%;
+      transition: .5s ease;
+      opacity:0;
+      color: gold;
+      font-family:Segoe Script;
+      font-weight:bold;
+      font-size: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+    span:hover .overlay {
+      opacity: 0.8;
+    }
+    #carouselDescrip{
+      font-family: Courier New;
+      font-size:15px;
+      font-weight:bolder;
+      color:#FFF2CC;
+    }
+    #headings{
+      background-image : url('../pics/stroke.png'); 
+      background-repeat :no-repeat;
+      background-position: center top;
+      background-size: 115% 100%;
+      height: 100px;
+      width:100%
+      
+    }
+
+    #headings>p.subtitle{
+      font-family: Courier New;
+      font-size:15px;
+      font-weight:bolder;
+      color:#FFF2CC;
+    }
+    #headings>p.title{
+      font-family: Segoe Script;
+      color:gold;
+      font-size:15px;
+      font-weight:bolder;
+      
+    }
     
   }
 

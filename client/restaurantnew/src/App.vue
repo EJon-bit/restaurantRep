@@ -5,7 +5,7 @@
       <b-navbar class="navbar is-dark is-fixed-top" v-if="($route.name!='ReserveList')&&($route.name!='Login')&&($route.name!='UserReservePage')">
         <template slot="brand">
             <b-navbar-item  id="logo" tag="router-link" :to="{ path: '/' }" >
-                <img src="https://cdn0.iconfinder.com/data/icons/building-and-location-filled-outline-1/64/Location-map-pin-marker-food-512.png">Top Tier Cuisine JA
+                <img src="static/img/logo.png">Top Tier Cuisine JA
             </b-navbar-item>
         </template>
         
@@ -29,7 +29,7 @@
       <div class="columns is-variable is-0-desktop"> 
         <div class="column is-variable is-one-third-desktop" align="left">        
           <i>
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/01/Coat_of_arms_of_the_University_of_the_West_Indies.png/220px-Coat_of_arms_of_the_University_of_the_West_Indies.png" style="width:7%">
+            <img src="static/img/uwiLogo.png" style="width:7%">
           </i>
           <a id="footerAtt">
             UWI Final Year Project.

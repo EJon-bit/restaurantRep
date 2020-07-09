@@ -49,14 +49,14 @@ var ModalForm = {
 
     methods: {                         
         addTable() {      
-            return axios({        
+            axios({        
                 method: 'post',
                 data: {            
                         tableNum: this.tableNum,            
                         seatNum: this.seatNum, 
                                 
                 },          
-                url: 'http://localhost:5000/table/addTable',      
+                url: 'http://localhost:5000/table/addTable',       
             })        
             .then((response) => {          
                 
