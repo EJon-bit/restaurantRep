@@ -94,7 +94,7 @@ async function tranferSavedRes(numSeats, table, date){
 }
 
 async function delResUpTab(tabId, resPass, a, c){
-    await Table.findOne({_id:tabId}, function(error, table){
+    await Table.findOne({_id:tabId}, async function(error, table){
 
         if (error) { console.error(error); }
        
@@ -102,7 +102,7 @@ async function delResUpTab(tabId, resPass, a, c){
         if(!table.occupied|| deleteRes==1){
 
             tranferSavedRes(a, tabId, c)
-            Reservation.findOne({"password":resPass}, function(error, reservation){      
+            await Reservation.findOne({"password":resPass}, function(error, reservation){      
                 if (error) { console.error(error); }    
                 var archiveRes = new ReservationArchive(reservation);  
                 
@@ -111,12 +111,12 @@ async function delResUpTab(tabId, resPass, a, c){
                 }); 
             });  
 
-            Reservation.deleteOne({"password":resPass}, function(error){      
+            await Reservation.deleteOne({"password":resPass}, function(error){      
                 if (error) { console.error(error); }                    
             });  
 
              //finds all reservations reserved to the same table
-            var sameTable= Reservation.find({tableNo:tabId})
+            var sameTable= await Reservation.find({tableNo:tabId})
 
             //change table reserved field to false if there are no other reservations related to that table
             if(!sameTable.length){
