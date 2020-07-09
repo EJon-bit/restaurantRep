@@ -112,10 +112,10 @@
                                     <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">
                                         <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-full-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
-                                                :img-src="order.image_url"
+                                                :img-src="`static/img/${menu.image_url}`"
                                                 img-alt="Image"
                                                 img-top
-                                                tag="article"                                                                                   
+                                                tag="article"                                                                                    
                                                 class="box">
                                                 
                                                 <b-card-text  name="name" class="title is-4">{{order.name}}</b-card-text>
