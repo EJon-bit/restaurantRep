@@ -180,7 +180,7 @@ import FlipCountdown from 'vue2-flip-countdown'
 import _ from 'lodash'
 import FoodMenu from './FoodMenu.vue';
 import openSocket from "socket.io-client";
-var socket = openSocket("http://localhost:5000");
+var socket = openSocket("http://192.168.0.13:5000");
 
 
 var ModalForm = {
@@ -204,7 +204,7 @@ var ModalForm = {
                     orders: this.orders,
                     cost: this.cost
                 },           
-                url: `http://localhost:5000/reservation/user/addtime/${this.defaultPass}`,      
+                url: `http://192.168.0.13:5000/reservation/user/addtime/${this.defaultPass}`,      
 
             })       
             
@@ -289,7 +289,7 @@ var DeleteItem={
                 data:{
                     orders: this.checkboxOrders,
                 },           
-                url: `http://localhost:5000/reservation/user/${this.defaultPass}`,      
+                url: `http://192.168.0.13:5000/reservation/user/${this.defaultPass}`,      
 
             })   
             .then(() => { 
@@ -346,7 +346,7 @@ var DeleteRes={
             axios({
                 method: 'delete',          
                    
-                url: `http://localhost:5000/reservation/user/${this.seat}/${this.table}/${this.password}`          
+                url: `http://192.168.0.13:5000/reservation/user/${this.seat}/${this.table}/${this.password}`          
                 
             })          
             .then(() => { 
@@ -552,7 +552,7 @@ export default {
             }
             axios({        
                 method: 'get',
-                url: `http://localhost:5000/reservation/password/${object}`,      
+                url: `http://192.168.0.13:5000/reservation/password/${object}`,      
             })        
             .then((response)=>{ 
                                  

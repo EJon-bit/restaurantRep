@@ -396,7 +396,7 @@ export default {
         async fetchMenu() {      
             return axios({        
                 method: 'get',
-                url: 'http://localhost:5000/menu',      
+                url: 'http://192.168.0.13:5000/menu',      
             })        
             .then((response) => {          
                 this.menus = response.data.menus;        
