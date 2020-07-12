@@ -160,7 +160,7 @@ router.post('/', async(req,res) => {
         try{
             await tableNo.save();
         }
-        catch{
+        catch(e){
             console.log("Error!!!!")
         }
         reservation.paid= false;
