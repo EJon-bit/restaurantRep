@@ -155,8 +155,14 @@ router.post('/', async(req,res) => {
     //if a suitable table is found... save reservation and send an email to the customer of their ID required for entry into restaurant
     if(tableNo){
         console.log("Table", tableNo);
+      
         tableNo.reserved= true;
-        await tableNo.save();
+        try{
+            await tableNo.save();
+        }
+        catch{
+            console.log("Error!!!!")
+        }
         reservation.paid= false;
         reservation.served=false;
         reservation.tableNo = tableNo._id;
