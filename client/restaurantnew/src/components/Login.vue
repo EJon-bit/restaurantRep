@@ -61,7 +61,7 @@
 <script>
 import axios from 'axios'
 import openSocket from "socket.io-client";
-var socket = openSocket("http://192.168.0.13:5000");
+var socket = openSocket("http://localhost:5000");
 var check=0;
 
 export default {
@@ -154,7 +154,7 @@ export default {
         getTable(){
             axios({        
                 method: 'get',
-                url: 'http://192.168.0.13:5000/reservation/payStat',      
+                url: 'http://localhost:5000/reservation/payStat',      
             })        
             .then((response) => {          
                 this.exitList = response.data.reservations;        
@@ -166,7 +166,7 @@ export default {
             axios({        
                 method: 'put',
                 
-                url: `http://192.168.0.13:5000/reservation/user/password/${this.password}`,      
+                url: `http://localhost:5000/reservation/user/password/${this.password}`,      
 
             })        
             .then((response) => {       
@@ -195,7 +195,7 @@ export default {
         paystatUpdate(){
             axios({        
                 method: 'put',                
-                url: `http://192.168.0.13:5000/reservation/payStat/${this.checkedRow[0].password}`,      
+                url: `http://localhost:5000/reservation/payStat/${this.checkedRow[0].password}`,      
 
             })        
             .then((response) => {       

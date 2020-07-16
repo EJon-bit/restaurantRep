@@ -114,7 +114,7 @@
 <script>  
     import axios from 'axios';
     import openSocket from 'socket.io-client';
-    const socket = openSocket('http://192.168.0.13:5000');
+    const socket = openSocket('http://localhost:5000');
     var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var ModalForm = {
         props: ['date', 'seatNo', 'customerName', 'numOrders', 'orders', 'email'],
@@ -145,7 +145,7 @@
                         dateReserved:this.checkboxGroup[0],  
                         email:this.email        
                     },          
-                    url: 'http://192.168.0.13:5000/reservation',          
+                    url: 'http://localhost:5000/reservation',          
                           
                 })          
                 .then(() => { 
@@ -177,7 +177,7 @@
             fetchAvailDates() {      
                 return axios({        
                     method: 'get',
-                    url: `http://192.168.0.13:5000/reservation/seatNum/${this.seatNo}/${this.date}`,      
+                    url: `http://localhost:5000/reservation/seatNum/${this.seatNo}/${this.date}`,      
                 })        
                 .then((response) => {          
                     this.availableDates = response.data.availableDates;        
@@ -197,7 +197,7 @@
                     
                     <div>
                         <b-notification v-for="date in availableDates" :key="date.rawDate" type="is-dark" style="color:gold;font-size:25px; opacity:0.85" aria-close-label="Close notification">
-                            <b-checkbox size="is-medium" v-model="checkboxGroup" :native-value="date.rawDate"></b-checkbox>
+                            <b-checkbox v-if="typeof date.dateReserved!='string'" size="is-medium" v-model="checkboxGroup" :native-value="date.rawDate"></b-checkbox>
                             {{date.dateReserved}}
                         </b-notification>
 
@@ -206,7 +206,7 @@
                 </section>
                 <footer class="modal-card-foot">
                     <button class="button" type="button" @click="$parent.close()">Close</button>
-                    <button v-if= "checkboxGroup" class="button is-primary" @click="subDateNew">Submit Date</button>
+                    <button v-if= "checkboxGroup.length" class="button is-primary" @click="subDateNew">Submit Date</button>
                 </footer>
             </div>            
         `
@@ -335,12 +335,12 @@
                         dateReserved:this.datetime,  
                         email:this.customerEmail        
                     },          
-                    url: 'http://192.168.0.13:5000/reservation',          
+                    url: 'http://localhost:5000/reservation',          
                         
                 })          
                 .then((response) => { 
                     
-                    socket.emit('fromClient', 'true')
+                    socket.emit('fromClient', true)
                     console.log(response);                   
                     this.getRes();                    
                     
@@ -372,7 +372,7 @@
                         dateReserved:this.datetime,
                         email:this.customerEmail         
                     },          
-                    url: 'http://192.168.0.13:5000/misc/queued',          
+                    url: 'http://localhost:5000/misc/queued',          
                           
                 })          
                 .then(() => { 
@@ -399,7 +399,7 @@
             async getRes(){                
                 axios({        
                     method: 'get',
-                    url: `http://192.168.0.13:5000/reservation/date/${this.datetime}`,      
+                    url: `http://localhost:5000/reservation/date/${this.datetime}`,      
                 })        
                 .then((response) => {          
                     this.reservation = response.data;        

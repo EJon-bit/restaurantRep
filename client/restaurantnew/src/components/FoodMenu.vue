@@ -13,7 +13,7 @@
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-full-tablet is-full-mobile" v-for="menu in paginatedItems" :key="menu.name">                                    
                    
                     <b-card
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -57,7 +57,7 @@
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-full-tablet is-full-mobile" v-for="menu in paginatedItems_one" :key="menu.name">
                     <b-card
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -100,7 +100,7 @@
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_two" :key="menu.name">
                     <b-card 
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -144,7 +144,7 @@
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_three" :key="menu.name">
                     <b-card
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -187,7 +187,7 @@
             <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_four" :key="menu.name">
                     <b-card
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                       
@@ -230,7 +230,7 @@
             <div class="columns is-multiline is-variable is-0-mobile is-2-tablet is-2-desktop is-2-widescreen">  
                 <div class="column is-variable is-one-third-widescreen is-half-desktop is-full-touch is-12-tablet is-12-mobile" v-for="menu in paginatedItems_five" :key="menu.name">
                     <b-card
-                        :img-src="`static/img/${menu.image_url}`"
+                        :img-src="`../../static/img/${menu.image_url}`"
                         img-alt="Image"
                         img-top
                         tag="article"                        
@@ -396,7 +396,7 @@ export default {
         async fetchMenu() {      
             return axios({        
                 method: 'get',
-                url: 'http://192.168.0.13:5000/menu',      
+                url: 'http://localhost:5000/menu',      
             })        
             .then((response) => {          
                 this.menus = response.data.menus;        

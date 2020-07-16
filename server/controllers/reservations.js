@@ -102,12 +102,14 @@ async function delResUpTab(tabId, resPass, a, c){
         if(!table.occupied|| deleteRes==1){
 
             tranferSavedRes(a, tabId, c)
-            await Reservation.findOne({"password":resPass}, function(error, reservation){      
+
+            await Reservation.findOne({password: resPass}, async function(error, reservation){      
+                
                 if (error) { console.error(error); }    
                 var archiveRes = new ReservationArchive(reservation);  
                 
-                archiveRes.save(function (error) {        
-                    if (error) { console.log(error); }                          
+                await archiveRes.save(function(error){
+                    if (error) { console.error(error);}
                 }); 
             });  
 
@@ -157,19 +159,22 @@ router.post('/', async(req,res) => {
         console.log("Table", tableNo);
       
         tableNo.reserved= true;
-        try{
-            await tableNo.save();
-        }
-        catch(e){
-            console.log("Error!!!!")
-        }
+
+        await tableNo.save(function(error) {        
+            if (error) { console.log(error); }           
+        });    
+       
         reservation.paid= false;
         reservation.served=false;
         reservation.tableNo = tableNo._id;
         reservation.password = passCode;
         reservation.onSite=false;
 
-        await reservation.save();
+        await reservation.save(function (error) {        
+            if (error) { console.log(error); }          
+        });    
+
+
         // sends email to customer when table becomes available 
         // send mail with defined transport object
         var mailInfo ={
@@ -213,7 +218,9 @@ router.post('/', async(req,res) => {
             reservation.password = passCode;
             reservation.onSite=false;
 
-            await reservation.save(); 
+            await reservation.save(function (error) {        
+                if (error) { console.log(error); }               
+            });     
 
             // sends email to customer when table becomes available 
             // send mail with defined transport object

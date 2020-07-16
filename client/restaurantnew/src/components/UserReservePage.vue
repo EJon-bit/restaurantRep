@@ -3,7 +3,7 @@
     <div id="userPage">           
         <template>
             <div id="margin" class="column is-variable is-6-widescreen is-10-desktop"> 
-                <div id="best" class="box" :style="myStyle" v-if="(password.length!=6 & pass.length!=6 && sessionReload==null)|| reservation==null"> 
+                <div id="best" class="box" v-if="(password.length!=6 & pass.length!=6 && sessionReload==null)|| reservation==null"> 
                     <h1 class="title is-4">Enter Password Here</h1>
                     
                     <b-field id="passField" 
@@ -103,7 +103,7 @@
                                 </div>                     
                             </div>  <br/>   
 
-                            <div id="orders" class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length"> <!--v-for="menu in paginatedItems" :key="menu.name"-->                                     
+                            <div id="orders" class="column is-variable is-11-desktop is-12-tablet is-10-mobile" v-if="orders.length">         
                                 
                                 <div class="box">
                                     <p class="title is-4">Your Order</p>
@@ -112,7 +112,7 @@
                                     <div class="columns is-multiline is-variable is-2-mobile is-2-tablet is-2-desktop is-2-widescreen">
                                         <div class="column is-variable is-one-third-widescreen is-half-desktop is-half-tablet is-full-mobile" v-for="order in paginatedOrders" :key="order.name">   
                                             <b-card                                     
-                                                :img-src="`static/img/${menu.image_url}`"
+                                                :img-src="`../../static/img/${order.image_url}`"
                                                 img-alt="Image"
                                                 img-top
                                                 tag="article"                                                                                    
@@ -180,7 +180,7 @@ import FlipCountdown from 'vue2-flip-countdown'
 import _ from 'lodash'
 import FoodMenu from './FoodMenu.vue';
 import openSocket from "socket.io-client";
-var socket = openSocket("http://192.168.0.13:5000");
+var socket = openSocket("http://localhost:5000");
 
 
 var ModalForm = {
@@ -204,7 +204,7 @@ var ModalForm = {
                     orders: this.orders,
                     cost: this.cost
                 },           
-                url: `http://192.168.0.13:5000/reservation/user/addtime/${this.defaultPass}`,      
+                url: `http://localhost:5000/reservation/user/addtime/${this.defaultPass}`,      
 
             })       
             
@@ -289,7 +289,7 @@ var DeleteItem={
                 data:{
                     orders: this.checkboxOrders,
                 },           
-                url: `http://192.168.0.13:5000/reservation/user/${this.defaultPass}`,      
+                url: `http://localhost:5000/reservation/user/${this.defaultPass}`,      
 
             })   
             .then(() => { 
@@ -346,7 +346,7 @@ var DeleteRes={
             axios({
                 method: 'delete',          
                    
-                url: `http://192.168.0.13:5000/reservation/user/${this.seat}/${this.table}/${this.password}`          
+                url: `http://localhost:5000/reservation/user/${this.seat}/${this.table}/${this.password}`          
                 
             })          
             .then(() => { 
@@ -552,7 +552,7 @@ export default {
             }
             axios({        
                 method: 'get',
-                url: `http://192.168.0.13:5000/reservation/password/${object}`,      
+                url: `http://localhost:5000/reservation/password/${object}`,      
             })        
             .then((response)=>{ 
                                  
@@ -564,7 +564,7 @@ export default {
             })        
             .catch((error) => {
                 //if user enters wrong passcode
-                if (error.response) {
+                if (error.response){                    
                     this.$swal(            
                     'Sorry', 
                     'Passcode incorrect!',  

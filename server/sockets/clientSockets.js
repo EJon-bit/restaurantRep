@@ -3,7 +3,7 @@ function frontSockets(socket){
     socket.on('fromClient', function(data){
         console.log('The data is', data)
         
-        if(data=='true'){
+        if(data==true){
             console.log("Reserve has been updated");
             socket.emit("newReserveList", data);
             

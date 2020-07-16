@@ -42,7 +42,7 @@ import FlipCountdown from 'vue2-flip-countdown'
 
 import Speech from 'speak-tts'
 import openSocket from 'socket.io-client';
-const socket = openSocket('http://192.168.0.13:5000');
+const socket = openSocket('http://localhost:5000');
 const speech = new Speech();
 
 export default {
@@ -84,7 +84,7 @@ export default {
                         
         socket.on("newReserveList", (data)=>{
             console.log(data);
-            if(data=='true'){
+            if(data==true){
                 console.log('The new Data is', data)
                 this.fetchReservations();
             }            
@@ -161,7 +161,7 @@ export default {
         async fetchReservations() {      
             return axios({        
                 method: 'get',
-                url: 'http://192.168.0.13:5000/reservation',      
+                url: 'http://localhost:5000/reservation',      
             })        
             .then((response) => {          
                 this.reservations = response.data.reservations;        
@@ -175,7 +175,7 @@ export default {
             
             axios({        
                 method: 'put',                
-                url: `http://192.168.0.13:5000/reservation/served/${resId}`,      
+                url: `http://localhost:5000/reservation/served/${resId}`,      
 
             })        
             .then(() => { 
