@@ -161,10 +161,10 @@ router.post('/', async(req,res) => {
         tableNo.reserved= true;
 
         try{
-            tableNo.save();
+            await tableNo.save();
         }
         catch(e){
-            console.log(e)
+            console.log("Error!!")
         }
        
         reservation.paid= false;
@@ -173,9 +173,7 @@ router.post('/', async(req,res) => {
         reservation.password = passCode;
         reservation.onSite=false;
 
-        await reservation.save(function (error) {        
-            if (error) { console.log(error); }          
-        });    
+        await reservation.save();    
 
 
         // sends email to customer when table becomes available 
@@ -221,9 +219,7 @@ router.post('/', async(req,res) => {
             reservation.password = passCode;
             reservation.onSite=false;
 
-            await reservation.save(function (error) {        
-                if (error) { console.log(error); }               
-            });     
+            await reservation.save();     
 
             // sends email to customer when table becomes available 
             // send mail with defined transport object
