@@ -114,7 +114,7 @@
 <script>  
     import axios from 'axios';
     import openSocket from 'socket.io-client';
-    const socket = openSocket('http://localhost:5000');
+    const socket = openSocket('http://192.168.1.178:5000');
     var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     var ModalForm = {
         props: ['date', 'seatNo', 'customerName', 'numOrders', 'orders', 'email'],
@@ -145,7 +145,7 @@
                         dateReserved:this.checkboxGroup[0],  
                         email:this.email        
                     },          
-                    url: 'http://localhost:5000/reservation',          
+                    url: 'http:/192.168.1.178:5000/reservation',          
                           
                 })          
                 .then(() => { 
@@ -177,7 +177,7 @@
             fetchAvailDates() {      
                 return axios({        
                     method: 'get',
-                    url: `http://localhost:5000/reservation/seatNum/${this.seatNo}/${this.date}`,      
+                    url: `http://192.168.1.178:5000/reservation/seatNum/${this.seatNo}/${this.date}`,      
                 })        
                 .then((response) => {          
                     this.availableDates = response.data.availableDates;        
@@ -335,7 +335,7 @@
                         dateReserved:this.datetime,  
                         email:this.customerEmail        
                     },          
-                    url: 'http://localhost:5000/reservation',          
+                    url: 'http://192.168.1.178:5000/reservation',          
                         
                 })          
                 .then((response) => { 
@@ -372,7 +372,7 @@
                         dateReserved:this.datetime,
                         email:this.customerEmail         
                     },          
-                    url: 'http://localhost:5000/misc/queued',          
+                    url: 'http://192.168.1.178:5000/misc/queued',          
                           
                 })          
                 .then(() => { 
@@ -399,7 +399,7 @@
             async getRes(){                
                 axios({        
                     method: 'get',
-                    url: `http://localhost:5000/reservation/date/${this.datetime}`,      
+                    url: `http://192.168.1.178:5000/reservation/date/${this.datetime}`,      
                 })        
                 .then((response) => {          
                     this.reservation = response.data;        

@@ -56,7 +56,7 @@ var ModalForm = {
                         seatNum: this.seatNum, 
                                 
                 },          
-                url: 'http://192.168.0.13:5000/table/addTable',       
+                url: 'http://192.168.1.178:5000/table/addTable',       
             })        
             .then((response) => {          
                 
@@ -153,7 +153,7 @@ export default {
     created: function () {
         axios({        
             method: 'get',
-            url: 'http://192.168.0.13:5000/table',      
+            url: 'http://192.168.1.178:5000/table',      
         })        
         .then((response) => {          
             this.tables = response.data.tables;        

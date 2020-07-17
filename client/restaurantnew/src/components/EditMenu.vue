@@ -93,7 +93,7 @@ var AddMenuForm = {
                     description:this.description,
                     image_url:this.image_url  
                 },          
-                url: 'http://localhost:5000/menu/editmenu/add'          
+                url: 'http://192.168.1.178:5000/menu/editmenu/add'          
             // headers: {            
             //     'Content-Type': 'application/json',          
             // },        
@@ -194,7 +194,7 @@ var UpdateMenuForm = {
                     description:this.formData[0].description,
                     image_url:this.formData[0].image_url  
                 },          
-                url: `http://localhost:5000/menu/editmenu/update/${this.formData[0]._id}`          
+                url: `http://192.168.1.178:5000/menu/editmenu/update/${this.formData[0]._id}`          
                 
             })          
             .then(() => { 
@@ -290,7 +290,7 @@ var DeleteMenu = {
                 data: {            
                     itemsforDelete: this.dataDelete
                 },          
-                url: `http://localhost:5000/menu/deleteItems`          
+                url: `http://192.168.1.178:5000/menu/deleteItems`          
                 
             })          
             .then(() => { 
@@ -379,7 +379,7 @@ export default {
     created: function () {
         axios({        
                 method: 'get',
-                url: 'http://localhost:5000/menu',      
+                url: 'http://192.168.1.178:5000/menu',      
             })        
             .then((response) => {          
                 this.menus = response.data.menus;        
