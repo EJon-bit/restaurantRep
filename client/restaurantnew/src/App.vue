@@ -22,15 +22,15 @@
               <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
             </b-navbar-item>  
 
-            <b-navbar-item id="links" tag="router-link" :to="{ path: '/Login' }"> Entry Verification
+            <b-navbar-item id="fakelink" tag="router-link" :to="{ path: '/Login' }"> Entry Verification
               <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
             </b-navbar-item> 
 
-            <b-navbar-item id="links" tag="router-link" :to="{ path: '/EditTables' }"> Edit Tables
+            <b-navbar-item id="fakelink" tag="router-link" :to="{ path: '/EditTables' }"> Edit Tables
               <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
             </b-navbar-item> 
 
-            <b-navbar-item id="links" tag="router-link" :to="{ path: '/EditMenu' }"> Edit Menu
+            <b-navbar-item id="fakelink" tag="router-link" :to="{ path: '/EditMenu' }"> Edit Menu
               <!-- <router-link to="/Reservation/User" class="nav-link">Edit Reservation</router-link> -->
             </b-navbar-item>                
         </template>            

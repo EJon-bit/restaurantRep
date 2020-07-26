@@ -138,6 +138,12 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
       font-family:Gabriola;
       font-size:32px;
     }
+
+    #fakelink{
+      font-family:Gabriola;
+      font-size:32px;
+      color:red;
+    }
     #footer {  
       background-color: #bde6ded7;
       color: #19190b;     
