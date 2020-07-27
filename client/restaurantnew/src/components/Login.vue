@@ -118,7 +118,7 @@ export default {
             
         });
 
-        //listens for event to trigger alert message notifying front desk  of unauthorized entries
+        //listens for event to trigger alert message notifying front desk of unauthorized entries
         socket.on("entryUnauth", (data)=>{
             console.log(data);
             if(data=='true'){
@@ -130,7 +130,7 @@ export default {
         });
 
         //to reload front desk webpage when customer paid status is updated
-        socket.on("reloadTable", (data)=>{
+        socket.on("reloadFrontDesk", (data)=>{
             console.log(data);
             if(data=='true'){
                 this.getTable();
@@ -179,6 +179,7 @@ export default {
                     this.reservation = response.data.reservation;
                     check=1
                     socket.emit('approveEntry', check)//to send notify front desk to prevent false alarms on customer entry
+                    socket.emit('deskReload', 'true')
                     socket.emit('reloadRes', {onSite:'true', table: this.reservation.tableNo.tableNum})  
                     socket.emit('rgbTrigger', this.reservation.tableNo._id )  
                     socket.emit('openCustomer', {table: this.reservation.tableNo.tableNum, password: this.password})         
@@ -207,7 +208,7 @@ export default {
                     ); 
                    
                     
-                    socket.emit('tableReload', 'true')
+                    socket.emit('deskReload', 'true')
                             
             })
             .catch(() => {

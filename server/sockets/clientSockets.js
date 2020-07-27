@@ -17,7 +17,7 @@ function frontSockets(socket){
     }); 
 
     
-    socket.on('callWaiter', function(data){
+    socket.on('callWaiter', function(data){ 
         console.log('The data is', data)
         
         if(data.status=='true'){
@@ -42,6 +42,13 @@ function frontSockets(socket){
             console.log("Customer records has been updated");
             socket.broadcast.emit("customerReload", data);
         }
+    }); 
+
+    socket.on('deskReload',function(data){
+        console.log('The data is', data)             
+          
+        socket.emit("reloadFrontDesk", data);
+        
     }); 
 
 
