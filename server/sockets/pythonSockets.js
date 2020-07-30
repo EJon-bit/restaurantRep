@@ -44,6 +44,13 @@ function pySockets(socket){
         socket.emit("reloadTable", data);
         
     }); 
+
+    socket.on('tableOcc',function(data){
+        console.log('The data is', data)             
+          
+        socket.emit("occTable", data);
+        
+    }); 
     
 
 }

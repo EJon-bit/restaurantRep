@@ -39,17 +39,17 @@
                     A Customer is trying to leave without pay
                 </b-notification>
             </div>
-            <div id="message" class="column is-one-quarter" v-if="bothNotice">                            
+            <div id="message" class="column is-one-quarter" v-if="bothNotice=true">                            
                 <b-notification type="is-warning" aria-close-label="Close notification">
                     A Customer is leaving without pay while another is enterring unauthorized 
                 </b-notification>
             </div>
-            <div id="message" class="column is-one-quarter" v-if="entryNotice">                            
+            <div id="message" class="column is-one-quarter" v-if="entryNotice=true">                            
                 <b-notification type="is-warning" aria-close-label="Close notification">
                     A Customer is trying to enter without being validated
                 </b-notification>
             </div>
-            <div id="message" class="column is-one-quarter" v-if="tableNotice">                            
+            <div id="message" class="column is-one-quarter" v-if="tableNotice=true">                            
                 <b-notification type="is-danger" aria-close-label="Close notification">
                     A customer is at the Wrong seat. Or may have entered without being validated
                 </b-notification>
