@@ -5,14 +5,14 @@ function frontSockets(socket){
         
         if(data==true){
             console.log("Reserve has been updated");
-            socket.emit("newReserveList", data);
+            socket.broadcast.emit("newReserveList", data);
             
         }
     }); 
 
     socket.on('foodUpdate', function(data){
         console.log('The data is', data)               
-        socket.emit("customerFoodUpdate", data)
+        socket.broadcast.emit("customerFoodUpdate", data)
         
     }); 
 
@@ -47,7 +47,7 @@ function frontSockets(socket){
     socket.on('deskReload',function(data){
         console.log('The data is', data)             
           
-        socket.emit("reloadFrontDesk", data);
+        socket.broadcast.emit("reloadFrontDesk", data);
         
     }); 
 
